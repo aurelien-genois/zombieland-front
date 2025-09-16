@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Plugins */
+@plugin "@tailwindcss/forms";
+
 @theme {
   --color-red-text: #d90e0e;
   --color-green-text: #72e399;
@@ -17,6 +20,11 @@
   --color-red-border-banner: #d90e0e;
 
   --color-black-500: #000000;
+  --color-black-bg-header: #090909;
+
+  --color-black-bg-main: #131313;
+
+  --color-black-bg-carousel: #020202;
 
  
 }

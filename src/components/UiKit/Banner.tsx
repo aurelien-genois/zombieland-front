@@ -1,5 +1,9 @@
 export default function Banner (){
     return (
-        <img className="border-3 border-red-border-banner" src="/img/banner.webp" alt="" />
+        <div>
+            <img className="border-b-3 border-red-border-banner pt-23" src="/img/banner.webp" alt="" />
+            <p>dfdfdfdf</p>
+        </div>
+        
     )
 }
