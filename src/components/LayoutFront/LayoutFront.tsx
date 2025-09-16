@@ -8,9 +8,12 @@ export default function LayoutFront() {
     <div>
       <h1>Layout Front</h1>
       <HeaderFront />
-        <Routes>
+      <div className="main">
+      <Routes>
           <Route path="/" element={<HomePage />} />
         </Routes>
+      </div>
+        
       <FooterFront />
     </div>
   )
