@@ -3,22 +3,23 @@ import Carousel from './Carousel';
 import DirectLink from './DirectLink';
 import Footer from './Footer';
 import Header from './Header';
-import './UiKit.css'
+import './UiKit.css';
 
-export default function UiMain(){
-    return (
-       
-        <div className='bg-black-bg-main'>
-          <Header />
-          
-          <Banner />
-          <Carousel />
-
-          <div className='flex'>
+export default function UiMain() {
+  return (
+    <div className="bg-black-bg-main min-h-dvh">
+      <Header />
+      <main className="pt-16 sm:pt-20">
+        <Banner />
+        <Carousel />
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
             <DirectLink />
             <DirectLink />
           </div>
-          <Footer />
-        </div>
-    )
+        </section>
+      </main>
+      <Footer />
+    </div>
+  );
 }
