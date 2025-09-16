@@ -10,7 +10,9 @@ export default function UiKit(){
             <LinkButton linkBtnClass={"w-38 bg-red-bg-btn rounded-xl py-1 text-white border-3 border-grey-border-btn"} textBtn={"RESERVATION"} />   
             <Card /> 
 
-            <form action="" method="post"></form>
+            <form action="" method="post">
+                <input type="text" />
+            </form>
         </div>
         
     )
