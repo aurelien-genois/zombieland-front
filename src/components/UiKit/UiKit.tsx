@@ -1,7 +1,7 @@
 import Banner from './Banner'
 import Card from './Card'
 import DirectLink from './DirectLink'
-import LinkButton from './LinkButton'
+import LinkButton from '../Utils/LinkButton'
 import './UiKit.css'
 export default function UiKit(){
     return (

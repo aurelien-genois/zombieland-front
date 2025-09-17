@@ -1,4 +1,4 @@
-import LinkButton from "./LinkButton";
+import LinkButton from "../Utils/LinkButton";
 
 export default function Banner() {
   return (

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import LinkButton from "./LinkButton";
+import LinkButton from "../Utils/LinkButton";
 
 export default function Header() {
   const [open, setOpen] = useState(false);

@@ -1,8 +1,8 @@
 
 import { Route, Routes } from 'react-router'
 import './App.css'
-import LayoutFront from '../LayoutFront/LayoutFront'
-import LayoutBack from '../LayoutBack/LayoutBack'
+import LayoutFront from '../Layout/LayoutFront'
+import LayoutBack from '../Layout/LayoutBack'
 
 export default function App() {
 
