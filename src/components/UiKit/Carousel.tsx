@@ -13,7 +13,7 @@ export default function Carousel (){
         "lg": 3
       }
     }' className="relative">
-      <div className="hs-carousel w-full overflow-hidden bg-black-bg-carousel rounded-lg dark:bg-neutral-900 my-10">
+      <div className="hs-carousel w-full overflow-hidden bg-black-bg-carousel rounded-lg dark:bg-neutral-900 pt-5 ">
         <div className="relative min-h-110 -mx-1">
       
           <div className="hs-carousel-body absolute top-0 bottom-0 start-0 flex flex-nowrap opacity-0 transition-transform duration-700">

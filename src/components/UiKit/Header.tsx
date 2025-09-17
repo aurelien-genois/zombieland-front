@@ -21,10 +21,10 @@ export default function Header() {
           </ul>
         </nav>
         <div className="hidden md:flex flex-col items-center ">
-          <img className="h-8" src="/icon/account_zombie.svg" alt="Compte" />
+          <img className="h-10" src="/icon/account_zombie.svg" alt="Compte" />
           <LinkButton
-            linkBtnClass="w-36 mb-0 bg-red-bg-btn hover:bg-red-500 rounded-xl py-1 px-3 text-white font-bold border-3 border-grey-border-btn"
-            textBtn="MON COMPTE"
+            linkBtnClass="w-30 mb-0 bg-red-bg-btn hover:bg-red-500 rounded-xl py-1 px-3 text-white font-bold border-3 border-grey-border-btn text-center text-sm"
+            textBtn="Mon compte"
           />
         </div>
         <button
