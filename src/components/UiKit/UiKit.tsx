@@ -1,6 +1,6 @@
-import Banner from './Banner'
+import Banner from '../../pages/HomePage/Banner'
 import Card from './Card'
-import DirectLink from './DirectLink'
+import DirectLink from '../../pages/HomePage/DirectLink'
 import LinkButton from '../Utils/LinkButton'
 import './UiKit.css'
 export default function UiKit(){

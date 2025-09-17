@@ -1,6 +1,6 @@
-import Banner from './Banner';
-import Carousel from './Carousel';
-import DirectLink from './DirectLink';
+import Banner from '../../pages/HomePage/Banner';
+import Carousel from '../../pages/HomePage/Carousel';
+import DirectLink from '../../pages/HomePage/DirectLink';
 import Footer from './Footer';
 import Header from './Header';
 import './UiKit.css';

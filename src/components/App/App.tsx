@@ -7,7 +7,7 @@ import LayoutBack from '../Layout/LayoutBack'
 export default function App() {
 
   return (
-    <div className="App">
+    <div className="App bg-black-bg-main">
 
         <Routes>
           <Route path="/admin/*" element={<LayoutBack />} />

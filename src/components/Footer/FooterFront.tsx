@@ -1,4 +1,4 @@
-export default function Footer() {
+export default function FooterFront() {
   return(
     <>
     <div className="bg-black border-t-3 border-red-border-banner">
@@ -17,7 +17,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
-    <p className="text-grey-text-footer text-l text-center text-xs mb-3">SEO + Adresse</p>
+    <p className="text-grey-text-footer text-l text-center text-xs">SEO + Adresse</p>
     </div>
     </>
   )
