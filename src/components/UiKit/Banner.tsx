@@ -16,8 +16,8 @@ export default function Banner() {
               aut natus velit soluta alias distinctio, nulla iste? Est?
             </p>
             <div className="mt-4 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
-              <LinkButton linkBtnClass="w-full sm:w-auto px-4 bg-red-bg-btn rounded-xl py-2 text-white font-bold border-3 border-grey-border-btn" textBtn="Réserver" />
-              <LinkButton linkBtnClass="w-full sm:w-auto px-4 bg-green-bg-btn rounded-xl py-2 text-white font-bold border-3 border-grey-border-btn" textBtn="En savoir plus" />
+              <LinkButton linkBtnClass="w-full sm:w-auto px-4 bg-red-bg-btn hover:bg-red-500 rounded-xl py-2 text-white font-bold border-3 border-grey-border-btn" textBtn="Réserver" />
+              <LinkButton linkBtnClass="w-full sm:w-auto px-4 bg-green-bg-btn hover:bg-green-600 rounded-xl py-2 text-white font-bold border-3 border-grey-border-btn" textBtn="En savoir plus" />
             </div>
           </div>
         </div>

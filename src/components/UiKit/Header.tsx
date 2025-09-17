@@ -13,17 +13,17 @@ export default function Header() {
 
         
         <nav className="hidden md:block">
-          <ul className="flex items-center gap-6 text-white text-sm lg:text-base">
-            <li><a href="">Accueil</a></li>
-            <li><a href="">Attractions</a></li>
-            <li><a href="">Restauration</a></li>
-            <li><a href="">Réservation</a></li>
+          <ul className="flex items-center gap-6 text-white text-sm font-bold lg:text-base">
+            <li><a href="" className="hover:text-red-500">Accueil</a></li>
+            <li><a href="" className="hover:text-red-500">Attractions</a></li>
+            <li><a href="" className="hover:text-red-500">Restauration</a></li>
+            <li><a href="" className="hover:text-red-500">Réservation</a></li>
           </ul>
         </nav>
         <div className="hidden md:flex flex-col items-center ">
           <img className="h-8" src="/icon/account_zombie.svg" alt="Compte" />
           <LinkButton
-            linkBtnClass="w-36 mb-0 bg-red-bg-btn rounded-xl py-1 px-3 text-white font-bold border-3 border-grey-border-btn"
+            linkBtnClass="w-36 mb-0 bg-red-bg-btn hover:bg-red-500 rounded-xl py-1 px-3 text-white font-bold border-3 border-grey-border-btn"
             textBtn="MON COMPTE"
           />
         </div>
