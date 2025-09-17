@@ -1,13 +1,13 @@
 
 import { Route, Routes } from 'react-router'
 import './App.css'
-import LayoutFront from '../LayoutFront/LayoutFront'
-import LayoutBack from '../LayoutBack/LayoutBack'
+import LayoutFront from '../Layout/LayoutFront'
+import LayoutBack from '../Layout/LayoutBack'
 
 export default function App() {
 
   return (
-    <div className="App">
+    <div className="App bg-black-bg-main">
 
         <Routes>
           <Route path="/admin/*" element={<LayoutBack />} />
