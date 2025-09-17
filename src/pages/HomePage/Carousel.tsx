@@ -1,4 +1,4 @@
-import Card from "../../components/UiKit/Card";
+import Card from "./HomeCard";
 
 export default function Carousel (){
 
