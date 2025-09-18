@@ -32,6 +32,9 @@ export default function CheckoutPage1() {
   const tvaRate = 0.055;
   const tva = useMemo(() => +(subtotal * tvaRate).toFixed(2), [subtotal]);
   const total = useMemo(() => +(subtotal + tva).toFixed(2), [subtotal, tva]);
+  const totalCount = useMemo(() => lines.reduce((n, l) => n + l.quantity, 0), [lines]);
+  const [date, setDate] = useState("");
+  const canPay = totalCount > 0 && !!date;
 
   return(
     <div className="bg-black-bg-main min-h-[calc(100svh-5rem-1.45rem)] text-white">
@@ -60,13 +63,13 @@ export default function CheckoutPage1() {
                         <button
                           onClick={() => dec(product.id)}
                           className="w-9 h-9 grid place-items-center text-white/90 hover:bg-white/10 rounded-full"
-                          aria-label={`Retirer un billet Adult`}
+                          aria-label={`Retirer un billet ${product.name}`}
                         >-</button>
                         <span className="w-10 text-center tabular-nums">{qty[product.id] ?? 0}</span>
                         <button
                           onClick={() => inc(product.id)}
                           className="w-9 h-9 grid place-items-center text-white/90 hover:bg-white/10 rounded-full"
-                          aria-label={`Ajouter un billet Adult`}
+                          aria-label={`Ajouter un billet ${product.name}`}
                         >+</button>
                       </div>
                     </div>
@@ -82,8 +85,8 @@ export default function CheckoutPage1() {
                   <span className="text-sm text-white/70">Date de visite</span>
                   <input
                     type="date"
-                    value={"10/02/2025"}
-                    onChange={() => ""}
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
                     className="mt-1 w-full px-3 py-2 rounded-xl bg-black/40 border border-white/10 outline-none focus:border-brand focus:ring-1 focus:ring-brand"
                   />
                 </label>
@@ -120,12 +123,15 @@ export default function CheckoutPage1() {
                   </li>
                 </ul>
                 <button
-                  className={`mt-4 w-full px-4 py-3 rounded-xl font-extrabold border`}
+                  className={`mt-4 w-full px-4 py-3 rounded-xl font-extrabold border
+                    ${canPay ? "bg-green-bg-btn border-white/10 hover:brightness-110" : "bg-white/10 border-white/10 text-white/50 cursor-not-allowed"}  
+                  `}
+                  disabled={!canPay}
                 >
                   Passer au paiement
                 </button>
                 <p className="mt-2 text-[12px] text-white/60">
-                  En cliquant, vous serez redirigé vers la page de paiement (mock Stripe).
+                  En cliquant, vous serez redirigé vers la page de paiement (Stripe).
                 </p>
               </div>
               <div className="rounded-xl bg-white/5 p-4 text-sm text-white/70">
