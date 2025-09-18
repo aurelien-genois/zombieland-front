@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 type Product = { 
   id: number; 
   name: string; 
@@ -10,6 +12,9 @@ export default function CheckoutPage1() {
     { id: 3, name: "Réduit (PMR)", unit_price: 19.9 },
     { id: 4, name: "Groupe (10 personnes)", unit_price: 249.9 },
   ];
+  const [qty, setQty] = useState<Record<number, number>>({});
+  const inc = (id: number) => setQty(prevQty => ({ ...prevQty, [id]: (prevQty[id] ?? 0) + 1 }));
+  const dec = (id: number) => setQty(prevQty => ({ ...prevQty, [id]: Math.max(0, (prevQty[id] ?? 0) - 1) }));
   return(
     <div className="bg-black-bg-main min-h-[calc(100svh-5rem-1.45rem)] text-white">
       {/* header fixe au-dessus dans ton layout */}
@@ -35,13 +40,13 @@ export default function CheckoutPage1() {
                       <p className="tabular-nums text-white/90">{product.unit_price.toFixed(2)} €</p>
                       <div className="inline-flex items-center rounded-full bg-white/5">
                         <button
-                          onClick={() => ""}
+                          onClick={() => dec(product.id)}
                           className="w-9 h-9 grid place-items-center text-white/90 hover:bg-white/10 rounded-full"
                           aria-label={`Retirer un billet Adult`}
                         >-</button>
-                        <span className="w-10 text-center tabular-nums">0</span>
+                        <span className="w-10 text-center tabular-nums">{qty[product.id] ?? 0}</span>
                         <button
-                          onClick={() => ""}
+                          onClick={() => inc(product.id)}
                           className="w-9 h-9 grid place-items-center text-white/90 hover:bg-white/10 rounded-full"
                           aria-label={`Ajouter un billet Adult`}
                         >+</button>
