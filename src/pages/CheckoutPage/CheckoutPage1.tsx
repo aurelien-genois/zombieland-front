@@ -36,6 +36,29 @@ export default function CheckoutPage1() {
   const [date, setDate] = useState("");
   const canPay = totalCount > 0 && !!date;
 
+  // Payload (COMMANDE + LIGNES)
+  const orderDraft = {
+    statut: "PANIER", // à convertir en "PAYÉ" après paiement
+    date_commande: new Date().toISOString(),
+    date_visite: date,
+    tva: tvaRate,
+    mode_paiement: "CB", // sélectionné plus tard
+    lignes: lines.map(line => ({
+      product_id: line.product_id,
+      quantity: line.quantity,
+      unit_price: line.unit_price,
+      price_total_ligne: line.line_total,
+      // code_ticket généré côté back lors de l’émission (ou après paiement)
+    })),
+  };
+
+  function handlePay() {
+    if (!canPay) return;
+    // plus tard: POST /api/commandes { ...orderDraft }
+    console.log("ORDER_DRAFT", orderDraft);
+    alert("Fake: redirection vers paiement…");
+  }
+
   return(
     <div className="bg-black-bg-main min-h-[calc(100svh-5rem-1.45rem)] text-white">
       {/* header fixe au-dessus dans ton layout */}
@@ -127,6 +150,7 @@ export default function CheckoutPage1() {
                     ${canPay ? "bg-green-bg-btn border-white/10 hover:brightness-110" : "bg-white/10 border-white/10 text-white/50 cursor-not-allowed"}  
                   `}
                   disabled={!canPay}
+                  onClick={handlePay}
                 >
                   Passer au paiement
                 </button>
