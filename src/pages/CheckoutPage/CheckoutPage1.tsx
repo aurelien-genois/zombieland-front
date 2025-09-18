@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 type Product = { 
   id: number; 
@@ -6,6 +6,7 @@ type Product = {
   unit_price: number
 };
 export default function CheckoutPage1() {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const products: Product[] = [
     { id: 1, name: "Adulte", unit_price: 29.9 },
     { id: 2, name: "Enfant (-12 ans)", unit_price: 14.9 },
@@ -15,6 +16,23 @@ export default function CheckoutPage1() {
   const [qty, setQty] = useState<Record<number, number>>({});
   const inc = (id: number) => setQty(prevQty => ({ ...prevQty, [id]: (prevQty[id] ?? 0) + 1 }));
   const dec = (id: number) => setQty(prevQty => ({ ...prevQty, [id]: Math.max(0, (prevQty[id] ?? 0) - 1) }));
+
+  // (LIGNE-COMMANDE) (recap et passage au back)
+  const lines = useMemo(() => {
+    return products
+      .map(product => {
+        const quantity = qty[product.id] ?? 0;
+        const line_total = +(quantity * product.unit_price).toFixed(2);
+        return { product_id: product.id, name: product.name, unit_price: product.unit_price, quantity, line_total };
+      })
+      .filter(line => line.quantity > 0);
+  }, [qty, products]);
+
+  const subtotal = useMemo(() => lines.reduce((s, l) => s + l.line_total, 0), [lines]);
+  const tvaRate = 0.055;
+  const tva = useMemo(() => +(subtotal * tvaRate).toFixed(2), [subtotal]);
+  const total = useMemo(() => +(subtotal + tva).toFixed(2), [subtotal, tva]);
+
   return(
     <div className="bg-black-bg-main min-h-[calc(100svh-5rem-1.45rem)] text-white">
       {/* header fixe au-dessus dans ton layout */}
@@ -82,21 +100,23 @@ export default function CheckoutPage1() {
                 <h3 className="text-lg font-extrabold tracking-wide">Récapitulatif</h3>
                 {/* lignes */}
                 <ul className="mt-3 space-y-2">
-                  <li className="flex justify-between text-sm">
-                    <span className="text-white/85">Adult x 0</span>
-                    <span className="tabular-nums">29.90 €</span>
-                  </li>
+                  {lines.map(line => (
+                    <li key={line.product_id} className="flex justify-between text-sm">
+                      <span className="text-white/85">{line.name} x {line.quantity}</span>
+                      <span className="tabular-nums">{line.line_total.toFixed(2)} €</span>
+                    </li>
+                  ))}
                   <li className="flex justify-between text-sm pt-2 border-t border-white/10">
                     <span className="text-white/70">Sous-total</span>
-                    <span className="tabular-nums">29.90 €</span>
+                    <span className="tabular-nums">{subtotal.toFixed(2)} €</span>
                   </li>
                   <li className="flex justify-between text-sm">
                     <span className="text-white/70">TVA (5,5%)</span>
-                    <span className="tabular-nums">2 €</span>
+                    <span className="tabular-nums">{tva.toFixed(2)} €</span>
                   </li>
                   <li className="flex justify-between text-base font-bold pt-1">
                     <span>Total</span>
-                    <span className="tabular-nums">31.90 €</span>
+                    <span className="tabular-nums">{total.toFixed(2)} €</span>
                   </li>
                 </ul>
                 <button
