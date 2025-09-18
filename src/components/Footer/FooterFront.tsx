@@ -3,17 +3,21 @@ export default function FooterFront() {
     <>
     <div className="bg-black border-t-3 border-red-border-banner">
       <div className="flex justify-between items-center">
-        <nav className="text-white text-l flex flex-col ml-10 mt-3 ">
-          <a href="" className="hover:text-red-500">Activités</a>
-          <a href="" className="hover:text-red-500">Réservation</a>
-          <a href="" className="hover:text-red-500">Mentions légales</a>
-        </nav>
-        <a href="" className="max-w-50 flex-auto"><img src="/icon/logo.svg" alt="Logo"/></a>
-        <div className="flex flex-col mr-10 text-center">
+        <div className="flex ml-10 w-40">
+          <nav className="text-white text-l flex flex-col mt-3 ">
+            <a href="" className="hover:text-red-500">Activités</a>
+            <a href="" className="hover:text-red-500">Réservation</a>
+            <a href="" className="hover:text-red-500">Mentions légales</a>
+          </nav>
+        </div>
+        <div className="w-100 flex justify-center" >
+          <img className="w-45" src="/icon/logo.svg" alt="Logo"/>          
+        </div>
+        <div className="text-center flex flex-col w-40 mr-10">
           <p className="text-white text-l">Nos réseaux sociaux :</p>
           <div className="flex justify-center mt-2">
-            <a href=""><img className="max-w-8" src="/icon/facebook-logo.svg" alt="facebook" /></a>
-            <a href=""><img className="max-w-8" src="/icon/instagram-logo.svg" alt="instagram" /></a>
+            <a className="mr-1" href=""><span aria-hidden className="size-8 bg-white hover:bg-red-500 [mask:url(/icon/facebook-logo.svg)_no-repeat_center/contain] inline-block"/></a>
+            <a className="ml-1" href=""><span aria-hidden className="size-8 bg-white hover:bg-red-500 [mask:url(/icon/instagram-logo.svg)_no-repeat_center/contain] inline-block"/></a>
           </div>
         </div>
       </div>

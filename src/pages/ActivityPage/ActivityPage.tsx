@@ -1,8 +1,14 @@
-import './ActivityPage.css'
-export default function ActivityPage() {        
-  return (
-    <div>
-      <h1>Welcome to the Activity Page</h1>
-    </div>
+import ActivityCarousel from './ActivityCarousel';
+import ActivityDetails from './ActivityDetails';
+import './ActivityPage.css';
+
+export default function ActivityPage() {
+  return(
+    <>
+      <div className="pt-20">
+        <ActivityCarousel />
+        <ActivityDetails />
+      </div>
+    </>
   )
 }
