@@ -5,7 +5,7 @@ export default function Carousel (){
   return (
 
     <div data-hs-carousel='{
-      "loadingClasses": "opacity-0",
+      "loadingClasses": "opacity-0", "isInfiniteLoop": true,
       "dotsItemClasses": "hs-carousel-active:bg-blue-700 hs-carousel-active:border-blue-700 size-3 border border-gray-400 rounded-full cursor-pointer dark:border-neutral-600 dark:hs-carousel-active:bg-blue-500 dark:hs-carousel-active:border-blue-500",
       "slidesQty": {
         "xs": 1,

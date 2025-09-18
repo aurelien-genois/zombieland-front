@@ -15,6 +15,7 @@ import ContactPage from "../../pages/ContactPage/ContactPage";
 import PrivacyPage from "../../pages/PrivacyPage/PrivacyPage";
 import LegalPage from "../../pages/LegalPage/LegalPage";
 
+
 export default function LayoutFront() {
   return (
     <>
