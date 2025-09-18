@@ -14,6 +14,7 @@ import OrderPage from "../../pages/OrderPage/OrderPage";
 import ContactPage from "../../pages/ContactPage/ContactPage";
 import PrivacyPage from "../../pages/PrivacyPage/PrivacyPage";
 import LegalPage from "../../pages/LegalPage/LegalPage";
+import CheckoutPage1 from "../../pages/CheckoutPage/CheckoutPage1";
 
 
 export default function LayoutFront() {
@@ -28,7 +29,7 @@ export default function LayoutFront() {
           <Route path="/register/confirmation" element={<RegisterConfirmationPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/account" element={<AccountPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/checkout" element={<CheckoutPage1 />} />
           <Route path="/checkout/confirmation" element={<CheckoutConfirmationPage />} />
           <Route path="/order/:id" element={<OrderPage />} />
           <Route path="/contact" element={<ContactPage />} />

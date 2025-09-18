@@ -1,5 +1,15 @@
-
-export default function CheckoutPage() {
+type Product = { 
+  id: number; 
+  name: string; 
+  unit_price: number
+};
+export default function CheckoutPage1() {
+  const products: Product[] = [
+    { id: 1, name: "Adulte", unit_price: 29.9 },
+    { id: 2, name: "Enfant (-12 ans)", unit_price: 14.9 },
+    { id: 3, name: "Réduit (PMR)", unit_price: 19.9 },
+    { id: 4, name: "Groupe (10 personnes)", unit_price: 249.9 },
+  ];
   return(
     <div className="bg-black-bg-main min-h-[calc(100svh-5rem-1.45rem)] text-white">
       {/* header fixe au-dessus dans ton layout */}
@@ -16,93 +26,29 @@ export default function CheckoutPage() {
             <div className="rounded-2xl ring-1 ring-white/10 bg-black/40 p-5 sm:p-6">
               <h2 className="text-xl sm:text-2xl font-extrabold tracking-wide text-brand">Choisissez vos billets</h2>
               <div className="mt-4 divide-y divide-white/5">
-                <div className="py-4 flex items-center justify-between gap-3">
-                  <div>
-                    <p className="font-bold">Adult</p>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <p className="tabular-nums text-white/90">29.90 €</p>
-                    <div className="inline-flex items-center rounded-full bg-white/5">
-                      <button
-                        onClick={() => ""}
-                        className="w-9 h-9 grid place-items-center text-white/90 hover:bg-white/10 rounded-full"
-                        aria-label={`Retirer un billet Adult`}
-                      >-</button>
-                      <span className="w-10 text-center tabular-nums">0</span>
-                      <button
-                        onClick={() => ""}
-                        className="w-9 h-9 grid place-items-center text-white/90 hover:bg-white/10 rounded-full"
-                        aria-label={`Ajouter un billet Adult`}
-                      >+</button>
+                {products.map((product) => (
+                  <div key={product.id} className="py-4 flex items-center justify-between gap-3">
+                    <div>
+                      <p className="font-bold">{product.name}</p>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <p className="tabular-nums text-white/90">{product.unit_price.toFixed(2)} €</p>
+                      <div className="inline-flex items-center rounded-full bg-white/5">
+                        <button
+                          onClick={() => ""}
+                          className="w-9 h-9 grid place-items-center text-white/90 hover:bg-white/10 rounded-full"
+                          aria-label={`Retirer un billet Adult`}
+                        >-</button>
+                        <span className="w-10 text-center tabular-nums">0</span>
+                        <button
+                          onClick={() => ""}
+                          className="w-9 h-9 grid place-items-center text-white/90 hover:bg-white/10 rounded-full"
+                          aria-label={`Ajouter un billet Adult`}
+                        >+</button>
+                      </div>
                     </div>
                   </div>
-                </div>
-
-                <div className="py-4 flex items-center justify-between gap-3">
-                  <div>
-                    <p className="font-bold">Adult</p>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <p className="tabular-nums text-white/90">29.90 €</p>
-                    <div className="inline-flex items-center rounded-full bg-white/5">
-                      <button
-                        onClick={() => ""}
-                        className="w-9 h-9 grid place-items-center text-white/90 hover:bg-white/10 rounded-full"
-                        aria-label={`Retirer un billet Adult`}
-                      >-</button>
-                      <span className="w-10 text-center tabular-nums">0</span>
-                      <button
-                        onClick={() => ""}
-                        className="w-9 h-9 grid place-items-center text-white/90 hover:bg-white/10 rounded-full"
-                        aria-label={`Ajouter un billet Adult`}
-                      >+</button>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="py-4 flex items-center justify-between gap-3">
-                  <div>
-                    <p className="font-bold">Adult</p>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <p className="tabular-nums text-white/90">29.90 €</p>
-                    <div className="inline-flex items-center rounded-full bg-white/5">
-                      <button
-                        onClick={() => ""}
-                        className="w-9 h-9 grid place-items-center text-white/90 hover:bg-white/10 rounded-full"
-                        aria-label={`Retirer un billet Adult`}
-                      >-</button>
-                      <span className="w-10 text-center tabular-nums">0</span>
-                      <button
-                        onClick={() => ""}
-                        className="w-9 h-9 grid place-items-center text-white/90 hover:bg-white/10 rounded-full"
-                        aria-label={`Ajouter un billet Adult`}
-                      >+</button>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="py-4 flex items-center justify-between gap-3">
-                  <div>
-                    <p className="font-bold">Adult</p>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <p className="tabular-nums text-white/90">29.90 €</p>
-                    <div className="inline-flex items-center rounded-full bg-white/5">
-                      <button
-                        onClick={() => ""}
-                        className="w-9 h-9 grid place-items-center text-white/90 hover:bg-white/10 rounded-full"
-                        aria-label={`Retirer un billet Adult`}
-                      >-</button>
-                      <span className="w-10 text-center tabular-nums">0</span>
-                      <button
-                        onClick={() => ""}
-                        className="w-9 h-9 grid place-items-center text-white/90 hover:bg-white/10 rounded-full"
-                        aria-label={`Ajouter un billet Adult`}
-                      >+</button>
-                    </div>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
             {/* Date */}
