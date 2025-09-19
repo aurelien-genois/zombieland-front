@@ -1,4 +1,4 @@
-import LinkButton from "../../components/Utils/LinkButton";
+import { Link } from "react-router";
 
 export default function Banner() {
   return (
@@ -16,8 +16,8 @@ export default function Banner() {
               aut natus velit soluta alias distinctio, nulla iste? Est?
             </p>
             <div className="mt-4 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
-              <LinkButton linkBtnClass="w-full sm:w-auto px-4 bg-red-bg-btn hover:bg-red-500 rounded-xl py-2 text-white font-bold border-3 border-grey-border-btn" textBtn="Réserver" />
-              <LinkButton linkBtnClass="w-full sm:w-auto px-4 bg-green-bg-btn hover:bg-green-600 rounded-xl py-2 text-white font-bold border-3 border-grey-border-btn" textBtn="En savoir plus" />
+              <Link to="/checkout" className={"w-full sm:w-auto px-4 bg-red-bg-btn hover:bg-red-500 rounded-xl py-2 text-white font-bold border-3 border-grey-border-btn"}>Réserver</Link>
+              <Link to="/" className={"w-full sm:w-auto px-4 bg-green-bg-btn hover:bg-green-600 rounded-xl py-2 text-white font-bold border-3 border-grey-border-btn"}>En savoir plus</Link>
             </div>
           </div>
         </div>

@@ -8,7 +8,7 @@ import RegisterPage from "../../pages/RegisterPage/RegisterPage";
 import RegisterConfirmationPage from "../../pages/RegisterConfirmationPage/RegisterConfirmationPage";
 import LoginPage from "../../pages/LoginPage/LoginPage";
 import AccountPage from "../../pages/AccountPage/AccountPage";
-import CheckoutPage from "../../pages/CheckoutPage/CheckoutPage";
+// import CheckoutPage from "../../pages/CheckoutPage/CheckoutPage";
 import CheckoutConfirmationPage from "../../pages/CheckoutConfirmationPage/CheckoutConfirmationPage";
 import OrderPage from "../../pages/OrderPage/OrderPage";
 import ContactPage from "../../pages/ContactPage/ContactPage";
