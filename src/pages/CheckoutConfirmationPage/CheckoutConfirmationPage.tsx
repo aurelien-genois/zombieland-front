@@ -1,7 +1,48 @@
+import { useMemo } from "react";
+
+type Line = {
+  id: string;
+  product_name: string;
+  unit_price: number;
+  quantity: number;
+  code_ticket: string; // concidère que le code sera généré et envoyé a la page de confirmation mais a confirmer coté back
+};
+
+type Order = {
+  id: string;
+  status: "PAYÉ" | "EN_ATTENTE" | "ANNULÉ";
+  placed_at: string;        
+  visit_date: string;     
+  tva_rate: number;          
+  lines: Line[];
+  buyer: { first_name: string; last_name: string; email: string };
+};
+
+const FakeOrder: Order = {
+  id: "ZMB-2025-000427",
+  status: "PAYÉ",
+  placed_at: new Date().toISOString(),
+  visit_date: "2025-10-31",
+  tva_rate: 0.055,
+  buyer: { first_name: "John", last_name: "Doe", email: "john.doe@mail.com" },
+  lines: [
+    { id: "L1", product_name: "Adulte", unit_price: 29.9, quantity: 2, code_ticket: "AD-9X2F3" },
+    { id: "L2", product_name: "Enfant (-12 ans)", unit_price: 14.9, quantity: 1, code_ticket: "EN-41KQ7" },
+    { id: "L3", product_name: "Réduit (PMR)", unit_price: 19.9, quantity: 1, code_ticket: "RD-7Z2B1" },
+  ],
+};
 
 export default function CheckoutConfirmationPage() {
 
 
+  const order = FakeOrder;
+
+  const subtotal = useMemo(
+    () => order.lines.reduce((prev, line) => prev + line.unit_price * line.quantity, 0),
+    [order.lines]
+  );
+  const tva = useMemo(() => +(subtotal * order.tva_rate).toFixed(2), [subtotal, order.tva_rate]);
+  const total = useMemo(() => +(subtotal + tva).toFixed(2), [subtotal, tva]);
   return(
     <div className="bg-black-bg-main min-h-[calc(100svh-5rem-1.45rem)] text-white">
       <main className="pt-16 sm:pt-20">
@@ -38,14 +79,14 @@ export default function CheckoutConfirmationPage() {
                 <div className="text-sm text-white/80">
                   <p>
                     Passée le{" "}
-                    <time dateTime={"2025/09/19"}>
-                      {new Date("2025/09/19").toLocaleDateString("fr")}
+                    <time dateTime={order.placed_at}>
+                      {new Date(order.placed_at).toLocaleDateString("fr")}
                     </time>
                   </p>
                   <p>
                     Date de visite :{" "}
-                    <time dateTime={"2025/09/21"}>
-                      {new Date("2025/09/21").toLocaleDateString("fr")}
+                    <time dateTime={order.visit_date}>
+                      {new Date(order.visit_date).toLocaleDateString("fr")}
                     </time>
                   </p>
                 </div>
@@ -56,9 +97,9 @@ export default function CheckoutConfirmationPage() {
                   <p>
                     Acheteur :{" "}
                     <strong>
-                      John Doe
+                      {order.buyer.first_name} {order.buyer.last_name}
                     </strong>{" "}
-                    — {"johndoe@test.com"}
+                    — {order.buyer.email}
                   </p>
                 </div>
          
@@ -71,22 +112,22 @@ export default function CheckoutConfirmationPage() {
               </h2>
 
               <ul className="mt-4 divide-y divide-white/10">
-               
-                  <li  className="py-4 flex items-start justify-between gap-4">
+                {order.lines.map((line) => (
+                  <li key={line.id} className="py-4 flex items-start justify-between gap-4">
                     <div>
-                      <p className="font-bold">Adult</p>
+                      <p className="font-bold">{line.product_name}</p>
                       <p className="text-sm text-white/70">
-                        Quantité : <span className="tabular-nums">2</span> — Prix unitaire :{" "}
-                        29,90 €
+                        Quantité : <span className="tabular-nums">{line.quantity}</span> — Prix unitaire :{" "}
+                        {line.unit_price.toFixed(2)} {" "} €
                       </p>
                     </div>
                     <div className="text-right">
                       <p className="font-bold tabular-nums">
-                        59.80 €
+                        {(line.unit_price * line.quantity).toFixed(2)} {" "} €
                       </p>
                     </div>
                   </li>
-             
+                ))}
               </ul>
             </div>
           </section>
@@ -100,15 +141,15 @@ export default function CheckoutConfirmationPage() {
                 <ul className="mt-3 space-y-2">
                   <li className="flex justify-between text-sm">
                     <span className="text-white/70">Sous-total</span>
-                    <span className="tabular-nums">59,80</span>
+                    <span className="tabular-nums">{subtotal.toFixed(2)} {" "} €</span>
                   </li>
                   <li className="flex justify-between text-sm">
                     <span className="text-white/70">TVA (5.5 %)</span>
-                    <span className="tabular-nums">3,29</span>
+                    <span className="tabular-nums">{tva.toFixed(2)} {" "} €</span>
                   </li>
                   <li className="flex justify-between text-base font-bold pt-1 border-t border-white/10">
                     <span>Total</span>
-                    <span className="tabular-nums">63,09</span>
+                    <span className="tabular-nums">{total.toFixed(2)} {" "} €</span>
                   </li>
                 </ul>
 
