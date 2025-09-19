@@ -1,5 +1,6 @@
 import { useState } from "react";
 import LinkButton from "../Utils/LinkButton";
+import { NavLink } from "react-router";
 export default function HeaderFront() {
   const [open, setOpen] = useState(false);
 
@@ -13,10 +14,37 @@ export default function HeaderFront() {
         
         <nav className="hidden md:block">
           <ul className="flex items-center gap-6 text-white text-sm font-bold lg:text-base">
-            <li><a href="" className="hover:text-red-500">Accueil</a></li>
-            <li><a href="" className="hover:text-red-500">Attractions</a></li>
-            <li><a href="" className="hover:text-red-500">Restauration</a></li>
-            <li><a href="" className="hover:text-red-500">Réservation</a></li>
+            <NavLink
+              to={ `/`}
+              end
+              className={"hover:text-red-500"}
+            >
+              Accueil
+            </NavLink>
+
+            <NavLink
+              to={ `/activities`}
+              end
+              className={"hover:text-red-500"}
+            >
+              Attractions
+            </NavLink>
+
+            <NavLink
+              to={ `/`}
+              end
+              className={"hover:text-red-500"}
+            >
+              Restauration
+            </NavLink>
+
+            <NavLink
+              to={ `/checkout`}
+              end
+              className={"hover:text-red-500"}
+            >
+              Réservation
+            </NavLink>
           </ul>
         </nav>
         <div className="hidden md:flex flex-col items-center ">
