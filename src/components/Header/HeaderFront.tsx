@@ -1,6 +1,6 @@
 import { useState } from "react";
-import LinkButton from "../Utils/LinkButton";
 import { NavLink } from "react-router";
+import AccountMenu from "./AccountMenu";
 export default function HeaderFront() {
   const [open, setOpen] = useState(false);
 
@@ -32,11 +32,8 @@ export default function HeaderFront() {
           </ul>
         </nav>
         <div className="flex flex-col items-center ">
-          <img className="h-10" src="/icon/account_zombie.svg" alt="Compte" />
-          <LinkButton
-            linkBtnClass="w-30 mb-0 bg-red-bg-btn hover:bg-red-500 rounded-xl py-1 px-3 text-white font-bold border-3 border-grey-border-btn text-center text-sm"
-            textBtn="Mon compte"
-          />
+          <img className="h-8 sm:h-10 " src="/icon/account_zombie.svg" alt="Compte" />
+          <AccountMenu />
         </div>
         <button
           onClick={() => setOpen(v => !v)}
