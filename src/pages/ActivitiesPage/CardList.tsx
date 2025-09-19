@@ -1,4 +1,4 @@
-import LinkButton from "../../components/Utils/LinkButton";
+import { Link } from "react-router";
 
 export default function CardList(){
   return(
@@ -19,7 +19,9 @@ export default function CardList(){
               <span aria-hidden className=" block size-8 bg-white [mask:url(/icon/heart.svg)_no-repeat_center/contain]"/>
             </div>
           </div>
-          <LinkButton linkBtnClass={"w-38 mb-3 bg-green-bg-btn hover:bg-red-500 rounded-xl py-1 text-white font-bold border-3 border-grey-border-btn m-auto"} textBtn={"VOIR LE DETAIL"} />  
+          <div className={`w-38 mb-3 bg-green-bg-btn hover:bg-red-500 rounded-xl py-1 text-white font-bold border-3 border-grey-border-btn m-auto`}>
+              <Link to="/activity/slug">VOIR LE DETAIL</Link>
+          </div>  
         </div>
       </div>             
     </>
