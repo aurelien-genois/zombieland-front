@@ -1,7 +1,37 @@
 
 export default function CheckoutConfirmationPage() {
 
-
+  type Line = {
+    id: string;
+    product_name: string;
+    unit_price: number;
+    quantity: number;
+    code_ticket: string; // concidère que le code sera généré et envoyé a la page de confirmation mais a confirmer coté back
+  };
+  
+  type Order = {
+    id: string;
+    status: "PAYÉ" | "EN_ATTENTE" | "ANNULÉ";
+    placed_at: string;        
+    visit_date: string;     
+    tva_rate: number;          
+    lines: Line[];
+    buyer?: { first_name?: string; last_name?: string; email?: string };
+  };
+  
+  const FakeOrder: Order = {
+    id: "ZMB-2025-000427",
+    status: "PAYÉ",
+    placed_at: new Date().toISOString(),
+    visit_date: "2025-10-31",
+    tva_rate: 0.055,
+    buyer: { first_name: "John", last_name: "Doe", email: "john.doe@mail.com" },
+    lines: [
+      { id: "L1", product_name: "Adulte", unit_price: 29.9, quantity: 2, code_ticket: "AD-9X2F3" },
+      { id: "L2", product_name: "Enfant (-12 ans)", unit_price: 14.9, quantity: 1, code_ticket: "EN-41KQ7" },
+      { id: "L3", product_name: "Réduit (PMR)", unit_price: 19.9, quantity: 1, code_ticket: "RD-7Z2B1" },
+    ],
+  };
   return(
     <div className="bg-black-bg-main min-h-[calc(100svh-5rem-1.45rem)] text-white">
       <main className="pt-16 sm:pt-20">
