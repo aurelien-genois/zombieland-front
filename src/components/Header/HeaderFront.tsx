@@ -14,40 +14,24 @@ export default function HeaderFront() {
         
         <nav className="hidden md:block">
           <ul className="flex items-center gap-6 text-white text-sm font-bold lg:text-base">
-            <NavLink
-              to={ `/`}
-              end
-              className={"hover:text-red-500"}
-            >
+            <NavLink to={ `/`} end className={"hover:text-red-500"}>
               Accueil
             </NavLink>
 
-            <NavLink
-              to={ `/activities`}
-              end
-              className={"hover:text-red-500"}
-            >
+            <NavLink to={ `/activities`} end className={"hover:text-red-500"}>
               Attractions
             </NavLink>
 
-            <NavLink
-              to={ `/`}
-              end
-              className={"hover:text-red-500"}
-            >
+            <NavLink to={ `/`} end className={"hover:text-red-500"}>
               Restauration
             </NavLink>
 
-            <NavLink
-              to={ `/checkout`}
-              end
-              className={"hover:text-red-500"}
-            >
+            <NavLink to={ `/checkout`} end className={"hover:text-red-500"}>
               Réservation
             </NavLink>
           </ul>
         </nav>
-        <div className="hidden md:flex flex-col items-center ">
+        <div className="flex flex-col items-center ">
           <img className="h-10" src="/icon/account_zombie.svg" alt="Compte" />
           <LinkButton
             linkBtnClass="w-30 mb-0 bg-red-bg-btn hover:bg-red-500 rounded-xl py-1 px-3 text-white font-bold border-3 border-grey-border-btn text-center text-sm"
@@ -68,18 +52,21 @@ export default function HeaderFront() {
 
       <div id="mobile-menu" className={`${open ? 'block' : 'hidden'} md:hidden`}>
         <div className="px-4 pb-4 space-y-2 text-white">
-          <a className="block py-2" href="">Accueil</a>
-          <a className="block py-2" href="">Attractions</a>
-          <a className="block py-2" href="">Restauration</a>
-          <a className="block py-2" href="">Réservation</a>
+          <NavLink to={ `/`} end className={"block py-2"} >
+            Accueil
+          </NavLink>
+        
+          <NavLink to={ `/activities`} end className={"block py-2"}>
+            Attractions
+          </NavLink>
 
-          <div className="flex flex-col items-center max-w-10 pt-2 ml-10">
-            <img className="" src="/icon/account_zombie.svg" alt="Compte" />
-            <LinkButton
-              linkBtnClass="w-36 bg-red-bg-btn rounded-xl py-1 px-3 text-white font-bold border-3 border-grey-border-btn"
-              textBtn="MON COMPTE"
-            />
-          </div>
+          <NavLink to={ `/`} end className={"block py-2"}>
+            Restauration
+          </NavLink>
+
+          <NavLink to={ `/checkout`} end className={"block py-2"}>
+            Réservation
+          </NavLink>
         </div>
       </div>
     </header>
