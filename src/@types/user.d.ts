@@ -1,29 +1,30 @@
 export interface IRole {
-    id: number;
-    nom: "ADMIN" | "STAFF" | "USER"
-  }
-  
+  id: number;
+  nom: "admin" | "member"
+}
 
-  export type TokenType = "RESET_PASSWORD" | "VERIFY_EMAIL" | "REFRESH";
+
+export type TokenType = "reset_password" | "verification_email" | "refresh";
+
+export interface IToken {
+  id: number;
+  token: string;
+  type: TokenType;
+  date_expiration: string; 
+}
+
+
+export interface IUser {
+  id: number;
+  firstname: string;
+  lastname: string;
+  email: string;
+  is_active: boolean;
+  phone?: string | null;
+  birthday: dateTime; 
+  last_login: dateTime; 
   
-  export interface IToken {
-    id: number;
-    token: string;
-    type: TokenType;
-    date_expiration: string; 
-  }
-  
-  
-  export interface IUser {
-    id: number;
-    nom: string;
-    prenom: string;
-    email: string;
-    est_actif: boolean;
-    telephone?: string | null;
-    date_naissance: string; 
-    derniere_connexion: string; 
-    
-    roles: IRole[];
-    tokens?: IToken[] | null;
-  }
+  roles: IRole[];
+  tokens?: IToken[] | null;
+}
+

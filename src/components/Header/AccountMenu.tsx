@@ -1,27 +1,13 @@
-import type {IUser} from "../../@types/user";
+
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { logout } from "../../store/reducers/userReducer";
 
 export default function AccountMenu() {
   const [open, setOpen] = useState(false);
   const btnRef = useRef<HTMLButtonElement | null>(null);
   const panelRef = useRef<HTMLDivElement | null>(null);
-  const fakeUser: IUser = {
-    id: 101,
-    nom: "John",
-    prenom: "Doe",
-    email: "john.doe@test.com",
-    est_actif: true,
-    telephone: "+33 6 12 34 56 78",
-    date_naissance: "1998-04-15",
-    derniere_connexion: new Date().toISOString(),
-    roles: [
-      { id: 1, nom: "ADMIN" },
-    ],
-  };
-
-  const hasRole = (fakeUser: IUser, role: string) =>
-    fakeUser.roles.some(r => r.nom === role);
 
   useEffect(() => {
     function onDocClick(e: MouseEvent) {
@@ -42,6 +28,12 @@ export default function AccountMenu() {
     };
   }, [open]);
 
+  const dispatch = useAppDispatch();
+  const { userInfo, isAuth } = useAppSelector(store => store.userStore);
+  console.log("user info: ", userInfo)
+  console.log("isAuth: ", isAuth)
+
+  
   return (
     <div className="relative z-50">
       <button ref={btnRef} type="button" aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen(value => !value)}
@@ -59,20 +51,38 @@ export default function AccountMenu() {
                      bg-black/95 backdrop-blur-sm ring-1 ring-white/10 shadow-xl"
         >
           <div className="py-1">
-            <Link to="/account/orders" className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10 outline-none">Mon profil</Link>
-            <Link to="/account/orders" className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10 outline-none">Mes réservations</Link>
-            <Link to="/account/settings" className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10 outline-none">Paramètres</Link>
-            {hasRole(fakeUser, "ADMIN") && (
-              <Link to="/account/settings" className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10 outline-none">Backoffice</Link>
+            {!isAuth ? (
+              <>
+                <Link to="/login" className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10">
+                  Se connecter
+                </Link>
+                <Link to="/register" className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10">
+                  Créer un compte
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/account/orders" className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10 outline-none">
+                  Mon profil
+                </Link>
+                <Link to="/account/orders" className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10 outline-none">
+                  Mes réservations
+                </Link>
+                <Link to="/account/settings" className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10 outline-none">
+                  Paramètres
+                </Link>
+                <Link to="/account/settings" className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10 outline-none">
+                  Backoffice
+                </Link> 
+              </>
             )}
           </div>
 
           <div className="h-px bg-white/10" />
           <button
             role="menuitem"
-            onClick={() => {
-              // TODO
-              console.log("logout");
+            onClick={async () => {
+              await dispatch(logout());
               setOpen(false);
             }}
             className="w-full text-left flex items-center gap-3 px-3 py-2.5 text-sm
