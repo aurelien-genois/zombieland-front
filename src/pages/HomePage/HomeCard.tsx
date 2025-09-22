@@ -1,4 +1,4 @@
-import LinkButton from "../../components/Utils/LinkButton";
+import { Link } from "react-router";
 
 export default function HomeCard () {
     return (
@@ -9,7 +9,9 @@ export default function HomeCard () {
                 <h2 className="z-10 mt-3 text-3xl font-bold text-white">Appocalypse Drop</h2>
                 <p className="z-10 gap-y-1 overflow-hidden text-sm font-bold leading-6 text-gray-300">Laissez-vous chuter !</p>
                 <img src="/icon/crane_zombie.svg" className="m-auto max-w-8" alt="Icone d'un crane" />
-                <LinkButton linkBtnClass={"w-38 mb-3 bg-red-bg-btn hover:bg-red-500 rounded-xl py-1 text-white font-bold border-3 border-grey-border-btn m-auto"} textBtn={"Découvrir..."} />  
+                <div className={`w-38 mb-3 bg-red-bg-btn hover:bg-red-500 rounded-xl py-1 text-white font-bold border-3 border-grey-border-btn m-auto`}>
+                    <Link to="/activity/slug">Découvrir...</Link>
+                </div>
             </div>
         </div>
            
