@@ -1,7 +1,7 @@
 export default function FooterFront() {
   return(
     <>
-    <div className="bg-black border-t-3 border-red-border-banner">
+    <div className="bg-black-bg-header/90 border-t-3 border-red-border-banner">
       <div className="flex justify-between items-center">
         <div className="flex ml-10 w-40">
           <nav className="text-white text-l flex flex-col mt-3 ">
