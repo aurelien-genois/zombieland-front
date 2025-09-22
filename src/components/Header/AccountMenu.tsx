@@ -62,16 +62,13 @@ export default function AccountMenu() {
               </>
             ) : (
               <>
-                <Link to="/account/orders" className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10 outline-none">
+                <Link to="/account/" className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10 outline-none">
                   Mon profil
                 </Link>
-                <Link to="/account/orders" className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10 outline-none">
+                <Link to="/account/" className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10 outline-none">
                   Mes réservations
                 </Link>
-                <Link to="/account/settings" className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10 outline-none">
-                  Paramètres
-                </Link>
-                <Link to="/account/settings" className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10 outline-none">
+                <Link to="/admin/dashboard" className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10 outline-none">
                   Backoffice
                 </Link> 
               </>
