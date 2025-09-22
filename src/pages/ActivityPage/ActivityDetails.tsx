@@ -18,9 +18,9 @@ export default function ActivityDetails() {
             
           </div>
           <div className="flex mx-auto  w-40 justify-center">
-             <img className="max-w-10" src="icon/crane_zombie.svg" alt="Crane de niveau" />
-             <img className="max-w-10" src="icon/crane_zombie.svg" alt="Crane de niveau" />
-             <img className="max-w-10" src="icon/crane_zombie.svg" alt="Crane de niveau" />
+             <img className="max-w-10" src="/icon/crane_zombie.svg" alt="Crane de niveau" />
+             <img className="max-w-10" src="/icon/crane_zombie.svg" alt="Crane de niveau" />
+             <img className="max-w-10" src="/icon/crane_zombie.svg" alt="Crane de niveau" />
           </div>
           <div className="flex mx-auto w-40 justify-center">
             <img className="max-w-10" src="/icon/heart.svg" alt="Déconseillée aux personnes souffrant de troubles cardiaques" />
