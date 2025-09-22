@@ -2,6 +2,7 @@ import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
 import type { IUser } from "../../@types";
 
 import { axiosInstance } from "../../api/axiosInstance";
+import type { AxiosError } from "axios";
 
 // **********************************************************************************
 // ** Types & Initial State
@@ -36,10 +37,29 @@ export const login = createAsyncThunk<IUser, FormData, { rejectValue: string }>(
       console.log("data :LOGIN:", data);
 
       return data.user as IUser;
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      return rejectWithValue(error.message ?? "Network error occurred");
+      console.error("LOGIN ERROR CAUGHT:", error);
+      const axiosError = error as AxiosError;
+
+      if (axiosError.response) {
+        const responseData = axiosError.response.data as any;
+        const errorMessage = responseData?.error;
+
+        if (axiosError.response.status === 400) {
+          return rejectWithValue("Email ou mot de passe incorrect");
+        }
+        return rejectWithValue(
+          errorMessage || `Erreur serveur: ${axiosError.response.status}`
+        );
+      } else if (axiosError.request) {
+        console.log(">Network< error - no response");
+        return rejectWithValue(
+          "Erreur réseau: Impossible de contacter le serveur"
+        );
+      }
+      return rejectWithValue(
+        "Une erreur est survenue. Veuillez réessayer plus tard."
+      );
     }
   }
 );
@@ -73,6 +93,19 @@ export const resendEmailConfirmation = createAsyncThunk<
 >("auth/resend-email-confirmation", async (email, { rejectWithValue }) => {
   try {
     await axiosInstance.post("/auth/resend-email-confirmation", { email });
+  } catch (error: any) {
+    return rejectWithValue(error.message ?? "Network error occurred");
+  }
+});
+
+// Forgot Password
+export const forgotPassword = createAsyncThunk<
+  void,
+  string,
+  { rejectValue: string }
+>("auth/forgot-password", async (email, { rejectWithValue }) => {
+  try {
+    await axiosInstance.post("/auth/forgot-password", { email });
   } catch (error: any) {
     return rejectWithValue(error.message ?? "Network error occurred");
   }
