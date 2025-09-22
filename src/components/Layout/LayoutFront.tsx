@@ -18,7 +18,7 @@ import LegalPage from "../../pages/LegalPage/LegalPage";
 
 export default function LayoutFront() {
   return (
-    <>
+    <div className="bg-black-bg-main ">
       <HeaderFront />
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -36,6 +36,6 @@ export default function LayoutFront() {
           <Route path="/legal" element={<LegalPage />} />
         </Routes>
       <FooterFront />
-    </>
+    </div>
   )
 }
