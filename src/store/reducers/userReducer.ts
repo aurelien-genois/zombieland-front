@@ -3,7 +3,6 @@ import type { IUser } from "../../@types";
 
 import { axiosInstance } from "../../api/axiosInstance";
 
-
 // **********************************************************************************
 // ** Types & Initial State
 // **********************************************************************************
@@ -38,7 +37,7 @@ export const login = createAsyncThunk<IUser, FormData, { rejectValue: string }>(
 
       return data.user as IUser;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       return rejectWithValue(error.message ?? "Network error occurred");
     }
@@ -65,6 +64,19 @@ export const logout = createAsyncThunk<void, void, { rejectValue: string }>(
     await axiosInstance.get("/auth/logout");
   }
 );
+
+// Resend Email Confirmation
+export const resendEmailConfirmation = createAsyncThunk<
+  void,
+  string,
+  { rejectValue: string }
+>("auth/resend-email-confirmation", async (email, { rejectWithValue }) => {
+  try {
+    await axiosInstance.post("/auth/resend-email-confirmation", { email });
+  } catch (error: any) {
+    return rejectWithValue(error.message ?? "Network error occurred");
+  }
+});
 
 // **********************************************************************************
 // ** Reducer & Associated Cases
@@ -113,6 +125,20 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(logout.fulfilled, (state) => {
       state.userInfo = null;
       state.isAuth = false;
+    });
+  // emailConfirmation
+  builder
+    .addCase(resendEmailConfirmation.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(resendEmailConfirmation.fulfilled, (state) => {
+      state.loading = false;
+    })
+    .addCase(resendEmailConfirmation.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload || "Email confirmation failed";
+      console.error("Email confirmation failed:", action.payload);
     });
 });
 
