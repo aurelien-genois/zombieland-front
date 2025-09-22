@@ -1,7 +1,7 @@
 
 import axios from "axios";
 
-export const api = axios.create({
+export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
   headers: { "Content-Type": "application/json" },
@@ -11,7 +11,7 @@ export const api = axios.create({
 let refreshing = false;
 let queue: Array<() => void> = [];
 
-api.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   (res) => res,
   async (err) => {
     if (err.response?.status !== 401 || err.config?._retry) {
@@ -22,14 +22,14 @@ api.interceptors.response.use(
     if (!refreshing) {
       refreshing = true;
       try {
-        await api.post("/auth/refresh");
+        await axiosInstance.post("/auth/refresh");
         queue.forEach((resume) => resume());
         queue = [];
-        return api(err.config);
+        return axiosInstance(err.config);
       } finally {
         refreshing = false;
       }
     }
-    return new Promise((resolve) => queue.push(() => resolve(api(err.config))));
+    return new Promise((resolve) => queue.push(() => resolve(axiosInstance(err.config))));
   }
 );  

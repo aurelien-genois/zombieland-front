@@ -1,6 +1,6 @@
 import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
 import type { IUser } from "../../@types";
-import { api } from "../../axiosInstance/axios";
+import { axiosInstance } from "../../api/axiosInstance";
 
 // **********************************************************************************
 // ** Types & Initial State
@@ -31,11 +31,12 @@ export const login = createAsyncThunk<IUser, FormData, { rejectValue: string }>(
       const objData = Object.fromEntries(formData);
       console.log("objData ::>>>>", objData);
 
-      const { data } = await api.post("/auth/login", objData);
+      const { data } = await axiosInstance.post("/auth/login", objData);
       console.log("data :LOGIN:", data);
 
       return data.user as IUser;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       return rejectWithValue(error.message ?? "Network error occurred");
     }
@@ -47,7 +48,7 @@ export const fetchMe = createAsyncThunk<IUser, void, { rejectValue: string }>(
   "auth/me",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await api.get("/users/me");
+      const { data } = await axiosInstance.get("/users/me");
       return data as IUser;
     } catch {
       return rejectWithValue("Unauthenticated");
@@ -59,7 +60,7 @@ export const fetchMe = createAsyncThunk<IUser, void, { rejectValue: string }>(
 export const logout = createAsyncThunk<void, void, { rejectValue: string }>(
   "auth/logout",
   async () => {
-    await api.get("/auth/logout");
+    await axiosInstance.get("/auth/logout");
   }
 );
 
