@@ -1,16 +1,13 @@
 import { useAppDispatch } from "../../hooks/redux";
 import ModalContainer from "./ContainerModal";
-// importe bien ton thunk ou action creator
-import { resendEmailConfirmation } from "../../store/reducers/userReducer";
+import { forgotPassword } from "../../store/reducers/userReducer";
 import { useState } from "react";
 
-interface EmailConfirmationModalProps {
+interface ForgotPasswordModalProps {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function EmailConfirmationModal({
-  setIsModalOpen,
-}: EmailConfirmationModalProps) {
+function ForgotPasswordModal({ setIsModalOpen }: ForgotPasswordModalProps) {
   const dispatch = useAppDispatch();
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
@@ -25,8 +22,10 @@ function EmailConfirmationModal({
     }
 
     try {
-      await dispatch(resendEmailConfirmation(email));
-      setSuccessMessage("Un lien de confirmation a été envoyé à votre email.");
+      await dispatch(forgotPassword(email));
+      setSuccessMessage(
+        "Un lien de réinitialisation a été envoyé à votre email."
+      );
     } catch (err) {
       setSuccessMessage("Une erreur est survenue. Réessayez plus tard.");
     }
@@ -38,7 +37,7 @@ function EmailConfirmationModal({
         className="bg-white rounded-xl shadow-lg max-w-md w-[90%] p-6 animate-fadeIn"
       >
         <div className="text-lg font-semibold mb-4 text-gray-800">
-          Confirmation d'email
+          Mot de passe oublié ?
         </div>
 
         <input
@@ -47,10 +46,7 @@ function EmailConfirmationModal({
           placeholder="Entrez votre email"
           className="w-full border border-gray-300 rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
-        {successMessage && (
-          <div className="mb-4 text-sm ">{successMessage}</div>
-        )}
-
+        {successMessage && <div className="mb-4 text-sm">{successMessage}</div>}
         <div className="flex justify-end gap-2">
           <button
             type="button"
@@ -71,4 +67,4 @@ function EmailConfirmationModal({
   );
 }
 
-export default EmailConfirmationModal;
+export default ForgotPasswordModal;

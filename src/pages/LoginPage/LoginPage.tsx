@@ -3,12 +3,14 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { useState, type FormEvent } from "react";
 import { login } from "../../store/reducers/userReducer";
 import EmailConfirmationModal from "../../components/Modals/EmailConfirmationModal";
+import ForgotPasswordModal from "../../components/Modals/ForgotPasswordModal";
 
 export default function LoginPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { loading, error, isAuth } = useAppSelector((s) => s.userStore);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -111,7 +113,7 @@ export default function LoginPage() {
             className="text-blue-500 hover:underline"
             onClick={(e) => {
               e.preventDefault();
-              setShowConfirmationModal(true);
+              setShowForgotPasswordModal(true);
             }}
           >
             Mot de passe oublié ?
@@ -133,6 +135,9 @@ export default function LoginPage() {
 
       {showConfirmationModal && (
         <EmailConfirmationModal setIsModalOpen={setShowConfirmationModal} />
+      )}
+      {showForgotPasswordModal && (
+        <ForgotPasswordModal setIsModalOpen={setShowForgotPasswordModal} />
       )}
     </div>
   );

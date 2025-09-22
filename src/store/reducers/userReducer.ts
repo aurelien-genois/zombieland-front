@@ -98,6 +98,19 @@ export const resendEmailConfirmation = createAsyncThunk<
   }
 });
 
+// Forgot Password
+export const forgotPassword = createAsyncThunk<
+  void,
+  string,
+  { rejectValue: string }
+>("auth/forgot-password", async (email, { rejectWithValue }) => {
+  try {
+    await axiosInstance.post("/auth/forgot-password", { email });
+  } catch (error: any) {
+    return rejectWithValue(error.message ?? "Network error occurred");
+  }
+});
+
 // **********************************************************************************
 // ** Reducer & Associated Cases
 // **********************************************************************************
