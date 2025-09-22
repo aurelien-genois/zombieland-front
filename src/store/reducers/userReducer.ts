@@ -1,6 +1,6 @@
 import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
 import type { IUser } from "../../@types";
-import { api } from "../../axiosInstance/axios";
+import { api } from "../../api/axiosInstance";
 
 // **********************************************************************************
 // ** Types & Initial State
