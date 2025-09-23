@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 import FooterFront from "../Footer/FooterFront";
 import HeaderFront from "../Header/HeaderFront";
 import HomePage from "../../pages/HomePage/HomePage";
@@ -15,27 +15,41 @@ import ContactPage from "../../pages/ContactPage/ContactPage";
 import PrivacyPage from "../../pages/PrivacyPage/PrivacyPage";
 import LegalPage from "../../pages/LegalPage/LegalPage";
 
+import { useAppSelector } from "../../hooks/redux";
 
 export default function LayoutFront() {
+  const { isAuth } = useAppSelector((store) => store.userStore);
+
   return (
     <div className="bg-black-bg-main ">
       <HeaderFront />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/activities" element={<ActivitiesPage />} />
-          <Route path="/activity/:slug" element={<ActivityPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/register/confirmation" element={<RegisterConfirmationPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/account" element={<AccountPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/checkout/confirmation" element={<CheckoutConfirmationPage />} />
-          <Route path="/order/:id" element={<OrderPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/privacy" element={<PrivacyPage />} />
-          <Route path="/legal" element={<LegalPage />} />
-        </Routes>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/activities" element={<ActivitiesPage />} />
+        <Route path="/activity/:slug" element={<ActivityPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route
+          path="/register/confirmation"
+          element={<RegisterConfirmationPage />}
+        />
+        <Route path="/login" element={<LoginPage />} />
+
+        <Route
+          path="/account"
+          element={isAuth ? <AccountPage /> : <Navigate to="/login" replace />}
+        />
+
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route
+          path="/checkout/confirmation"
+          element={<CheckoutConfirmationPage />}
+        />
+        <Route path="/order/:id" element={<OrderPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/legal" element={<LegalPage />} />
+      </Routes>
       <FooterFront />
     </div>
-  )
+  );
 }
