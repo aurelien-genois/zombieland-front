@@ -44,9 +44,8 @@ export default function CheckoutConfirmationPage() {
   const tva = useMemo(() => +(subtotal * order.tva_rate).toFixed(2), [subtotal, order.tva_rate]);
   const total = useMemo(() => +(subtotal + tva).toFixed(2), [subtotal, tva]);
   return(
-    <div className="bg-black-bg-main min-h-[calc(100svh-5rem-1.45rem)] text-white">
-      <main className="pt-16 sm:pt-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8 text-white">
           {/* Colonne 1-2 : contenu */}
           <section className="lg:col-span-2 space-y-6">
 
@@ -191,7 +190,6 @@ export default function CheckoutConfirmationPage() {
             </div>
           </aside>
         </div>
-      </main>
-    </div>
+
   )
 }

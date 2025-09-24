@@ -60,9 +60,8 @@ export default function CheckoutPage() {
   }
 
   return(
-    <div className="bg-black-bg-main min-h-[calc(100svh-5rem-1.45rem)] text-white">
-      <main className="pt-16 sm:pt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8 text-white">
           {/* COLONNE CONTENU */}
           <section className="lg:col-span-2 space-y-8">
             {/* Récap activité */}
@@ -163,7 +162,6 @@ export default function CheckoutPage() {
             </div>
           </aside>
         </div>
-      </main>
-    </div>
+
   )
 }

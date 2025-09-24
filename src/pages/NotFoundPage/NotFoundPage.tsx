@@ -1,10 +1,6 @@
 import './NotFoundPage.css'
 export default function NotFoundPage() {        
   return (
-    <div className="bg-black-bg-main ">
-      <main className="pt-16 sm:pt-20  min-h-[calc(100svh-5rem-1.45rem)]">
-
-      </main>
-    </div>
+    <h1 className="text-white">Not found</h1>
   )
 }

@@ -14,6 +14,7 @@ import OrderPage from "../../pages/OrderPage/OrderPage";
 import ContactPage from "../../pages/ContactPage/ContactPage";
 import PrivacyPage from "../../pages/PrivacyPage/PrivacyPage";
 import LegalPage from "../../pages/LegalPage/LegalPage";
+import Main from "../Main/Main";
 
 import { useAppSelector } from "../../hooks/redux";
 
@@ -23,32 +24,29 @@ export default function LayoutFront() {
   return (
     <div className="bg-black-bg-main ">
       <HeaderFront />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/activities" element={<ActivitiesPage />} />
-        <Route path="/activity/:slug" element={<ActivityPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route
-          path="/register/confirmation"
-          element={<RegisterConfirmationPage />}
-        />
-        <Route path="/login" element={<LoginPage />} />
-
-        <Route
-          path="/account"
-          element={isAuth ? <AccountPage /> : <Navigate to="/login" replace />}
-        />
-
-        <Route path="/checkout" element={<CheckoutPage />} />
-        <Route
-          path="/checkout/confirmation"
-          element={<CheckoutConfirmationPage />}
-        />
-        <Route path="/order/:id" element={<OrderPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/privacy" element={<PrivacyPage />} />
-        <Route path="/legal" element={<LegalPage />} />
-      </Routes>
+      <Main>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/activities" element={<ActivitiesPage />} />
+          <Route path="/activity/:slug" element={<ActivityPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route
+            path="/register/confirmation"
+            element={<RegisterConfirmationPage />}
+          />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/account" element={<AccountPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route
+            path="/checkout/confirmation"
+            element={<CheckoutConfirmationPage />}
+          />
+          <Route path="/order/:id" element={<OrderPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/legal" element={<LegalPage />} />
+        </Routes>
+      </Main>
       <FooterFront />
     </div>
   );

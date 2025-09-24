@@ -1,7 +1,7 @@
 export default function RegisterForm() {
   return(
     <>
-      <div className="pb-10">
+      <div className="pb-8">
         <h1 className="text-center font-bold text-3xl pt-10 mb-3">Inscription</h1>
         <h2 className="text-center font-bold text-2xl mb-5 sm:text-xl">Mes informations personnelles</h2>
         
