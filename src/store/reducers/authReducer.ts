@@ -1,5 +1,5 @@
 import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
-import type { IUser } from "../../@types";
+import type { IUser, IUserResetPassword } from "../../@types";
 
 import { axiosInstance } from "../../api/axiosInstance";
 import type { AxiosError } from "axios";
@@ -115,20 +115,37 @@ export const forgotPassword = createAsyncThunk<
 
 // Reset Password
 export const resetPassword = createAsyncThunk<
-  any,
-  { token: string; formData: any },
+  { message: string }, // Type plus précis
+  { token: string; formData: IUserResetPassword },
   { rejectValue: string }
 >("auth/reset-password", async ({ token, formData }, { rejectWithValue }) => {
   try {
-    const { data } = await axiosInstance.post(
+
+  await axiosInstance.patch(
       `/auth/reset-password?token=${token}`,
       formData
     );
 
-    console.log("data :RESET:", data);
-    return data;
+    return { message: "Password reset successful" };
   } catch (error: any) {
-    return rejectWithValue(error.message ?? "Network error occurred");
+    console.error("RESET PASSWORD ERROR:", error);
+    const axiosError = error as AxiosError;
+
+    if (axiosError.response) {
+      const responseData = axiosError.response.data as any;
+      const errorMessage = responseData?.error || responseData?.message;
+
+      if (axiosError.response.status === 400) {
+        return rejectWithValue("Token invalide ou expiré");
+      }
+      if (axiosError.response.status === 404) {
+        return rejectWithValue("Endpoint de réinitialisation non trouvé");
+      }
+      return rejectWithValue(
+        errorMessage || `Erreur serveur: ${axiosError.response.status}`
+      );
+    }
+    return rejectWithValue("Erreur réseau: Impossible de contacter le serveur");
   }
 });
 
@@ -208,6 +225,23 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = false;
       state.error = action.payload || "Forgot password failed";
       console.error("Forgot password failed:", action.payload);
+    });
+
+  // resetPassword
+  builder
+    .addCase(resetPassword.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(resetPassword.fulfilled, (state) => {
+      state.loading = false;
+      state.error = null;
+      console.log("Password reset successful");
+    })
+    .addCase(resetPassword.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload || "Password reset failed";
+      console.error("Password reset failed:", action.payload);
     });
 });
 
