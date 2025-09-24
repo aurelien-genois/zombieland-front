@@ -14,12 +14,14 @@ import OrderPage from "../../pages/OrderPage/OrderPage";
 import ContactPage from "../../pages/ContactPage/ContactPage";
 import PrivacyPage from "../../pages/PrivacyPage/PrivacyPage";
 import LegalPage from "../../pages/LegalPage/LegalPage";
+import Main from "../Main/Main";
 
 
 export default function LayoutFront() {
   return (
     <div className="bg-black-bg-main ">
       <HeaderFront />
+      <Main >  
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/activities" element={<ActivitiesPage />} />
@@ -35,6 +37,7 @@ export default function LayoutFront() {
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/legal" element={<LegalPage />} />
         </Routes>
+      </Main>
       <FooterFront />
     </div>
   )
