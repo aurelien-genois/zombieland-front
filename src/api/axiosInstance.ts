@@ -1,4 +1,3 @@
-
 import axios from "axios";
 
 export const axiosInstance = axios.create({
@@ -30,6 +29,8 @@ axiosInstance.interceptors.response.use(
         refreshing = false;
       }
     }
-    return new Promise((resolve) => queue.push(() => resolve(axiosInstance(err.config))));
+    return new Promise((resolve) =>
+      queue.push(() => resolve(axiosInstance(err.config)))
+    );
   }
-);  
+);
