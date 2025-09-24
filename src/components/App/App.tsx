@@ -4,13 +4,13 @@ import LayoutFront from "../Layout/LayoutFront";
 import LayoutBack from "../Layout/LayoutBack";
 import { useAppDispatch } from "../../hooks/redux";
 import { useEffect } from "react";
-import { fetchMe } from "../../store/reducers/authReducer";
+import { getUserInfo } from "../../store/reducers/authReducer";
 
 export default function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchMe());
+    dispatch(getUserInfo());
   }, []);
 
   return (

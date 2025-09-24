@@ -64,19 +64,20 @@ export const login = createAsyncThunk<IUser, FormData, { rejectValue: string }>(
   }
 );
 
-// Me
-export const fetchMe = createAsyncThunk<IUser, void, { rejectValue: string }>(
-  "auth/me",
-  async (_, { rejectWithValue }) => {
-    try {
-      const { data } = await axiosInstance.get("/users/me");
-      console.log(">>>>>>>>>>>><<data :ME:", data);
-      return data as IUser;
-    } catch {
-      return rejectWithValue("Unauthenticated");
-    }
+// getUserInfo
+export const getUserInfo = createAsyncThunk<
+  IUser,
+  void,
+  { rejectValue: string }
+>("auth/me", async (_, { rejectWithValue }) => {
+  try {
+    const { data } = await axiosInstance.get("/users/me");
+    console.log(">>>>>>>>>>>><<data :ME:", data);
+    return data as IUser;
+  } catch {
+    return rejectWithValue("Unauthenticated");
   }
-);
+});
 
 // LOGOUT
 export const logout = createAsyncThunk<void, void, { rejectValue: string }>(
@@ -112,6 +113,25 @@ export const forgotPassword = createAsyncThunk<
   }
 });
 
+// Reset Password
+export const resetPassword = createAsyncThunk<
+  any,
+  { token: string; formData: any },
+  { rejectValue: string }
+>("auth/reset-password", async ({ token, formData }, { rejectWithValue }) => {
+  try {
+    const { data } = await axiosInstance.post(
+      `/auth/reset-password?token=${token}`,
+      formData
+    );
+
+    console.log("data :RESET:", data);
+    return data;
+  } catch (error: any) {
+    return rejectWithValue(error.message ?? "Network error occurred");
+  }
+});
+
 // **********************************************************************************
 // ** Reducer & Associated Cases
 // **********************************************************************************
@@ -139,18 +159,18 @@ const userReducer = createReducer(initialState, (builder) => {
       console.error("Login failed:", action.payload);
     })
 
-    // fetchMe
-    .addCase(fetchMe.pending, (state) => {
+    // Get User Info
+    .addCase(getUserInfo.pending, (state) => {
       state.loading = true;
       state.error = null;
     })
-    .addCase(fetchMe.fulfilled, (state, action) => {
+    .addCase(getUserInfo.fulfilled, (state, action) => {
       state.userInfo = action.payload;
       state.isAuth = true;
       state.loading = false;
       console.log(">>>>>>isAuth:", state.isAuth);
     })
-    .addCase(fetchMe.rejected, (state) => {
+    .addCase(getUserInfo.rejected, (state) => {
       state.userInfo = null;
       state.isAuth = false;
       state.loading = false;
@@ -174,6 +194,20 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = false;
       state.error = action.payload || "Email confirmation failed";
       console.error("Email confirmation failed:", action.payload);
+    });
+  // forgotPassword
+  builder
+    .addCase(forgotPassword.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(forgotPassword.fulfilled, (state) => {
+      state.loading = false;
+    })
+    .addCase(forgotPassword.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload || "Forgot password failed";
+      console.error("Forgot password failed:", action.payload);
     });
 });
 
