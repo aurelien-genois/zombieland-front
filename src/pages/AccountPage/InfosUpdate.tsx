@@ -4,8 +4,8 @@
 import { useAppSelector } from "../../hooks/redux";
 
 export default function InfosUpdate() {
-  const { userInfo } = useAppSelector((store) => store.userStore);
-  console.log(">>>>>>>>><user info: ", userInfo);
+  const { userInfo } = useAppSelector((store) => store.authStore);
+  console.log(">>>>>>>>><user info: ", userInfo?.firstname);
 
   return (
     <>
@@ -23,7 +23,7 @@ export default function InfosUpdate() {
                 type="text"
                 name="firstname"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
-                placeholder="Prénom"
+                placeholder={userInfo?.firstname || "Prénom"}
                 required
               />
             </div>
@@ -38,7 +38,7 @@ export default function InfosUpdate() {
                 type="text"
                 name="lastname"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
-                placeholder="Nom"
+                placeholder={userInfo?.lastname || "Nom"}
                 required
               />
             </div>
@@ -54,7 +54,7 @@ export default function InfosUpdate() {
             type="text"
             name="email"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
-            placeholder="monemail@host.com"
+            placeholder={userInfo?.email || "monemail@host.com"}
             required
           />
           <p className="mb-3 text-lg md:text-sm ml-2 text-gray-600">
@@ -119,7 +119,7 @@ export default function InfosUpdate() {
             type="tel"
             name="telephone"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5 mb-1.5"
-            placeholder="Indicatif + Téléphone"
+            placeholder={userInfo?.phone || "Indicatif + Téléphone"}
           />
 
           <label
