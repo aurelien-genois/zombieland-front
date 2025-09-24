@@ -1,0 +1,96 @@
+import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
+
+import { axiosInstance } from "../../api/axiosInstance";
+// import type { AxiosError } from "axios";
+
+// **********************************************************************************
+// ** Types & Initial State
+// **********************************************************************************
+
+// TODO move IActivity to ../../@types
+interface IActivity {
+  id: number;
+  name: string;
+  slug: string;
+  slogan: string;
+  description: string;
+  minimum_age: number;
+  duration: string;
+  disabled_access: boolean;
+  high_intensity: boolean;
+  status: string;
+  image_url: string;
+  category_id: number;
+  created_at: string;
+  updated_at: string;
+}
+
+interface ActivitiesState {
+  activities: IActivity[];
+  page: number;
+  perPage: number;
+  total: number;
+  loading: boolean;
+  error: string | null;
+}
+
+export const initialState: ActivitiesState = {
+  activities: [],
+  page: 1,
+  perPage: 20,
+  total: 0,
+  loading: false,
+  error: null,
+};
+
+// **********************************************************************************
+// ** Actions (Async & Sync)
+// **********************************************************************************
+
+export const fetchActivities = createAsyncThunk<
+  { activities: IActivity[]; totalActivities: number },
+  { perPage?: number },
+  { rejectValue: string }
+>("activities/fetchAll", async (params, { rejectWithValue }) => {
+  try {
+    // TODO manage params (category (id), age_group (0/1/2/3), high_intensity (bool), disabled_access (bool), limit (int), status, page (int), order (name:asc/name:desc))
+    const { data } = await axiosInstance.get("/activities", {
+      params: {
+        ...(params.perPage && { limit: params.perPage }),
+      },
+    });
+    console.log("DATA FROM FETCH ACTIVITIES: ", data);
+    return data as { activities: IActivity[]; totalActivities: number };
+  } catch {
+    return rejectWithValue("Failed to fetch activities");
+  }
+});
+
+// **********************************************************************************
+// ** Reducer & Associated Cases
+// **********************************************************************************
+
+const activitiesReducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(fetchActivities.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(fetchActivities.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.activities = action.payload.activities;
+      state.total = action.payload.totalActivities;
+      state.perPage = action.payload.activities.length;
+      state.page = 1; // TODO manage page
+    })
+    .addCase(fetchActivities.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || "Failed to fetch activities";
+    });
+});
+
+export default activitiesReducer;
+
+// TODO Activity Reducer with addCase for each actions responses
+// cf https://redux-toolkit.js.org/api/createReducer
