@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
@@ -29,14 +28,18 @@ export default function AccountMenu() {
   }, [open]);
 
   const dispatch = useAppDispatch();
-  const { userInfo, isAuth } = useAppSelector(store => store.userStore);
-  console.log("user info: ", userInfo)
-  console.log("isAuth: ", isAuth)
+  const { userInfo, isAuth } = useAppSelector((store) => store.userStore);
+  console.log("user info: ", userInfo);
+  console.log("isAuth: ", isAuth);
 
-  
   return (
     <div className="relative z-50">
-      <button ref={btnRef} type="button" aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen(value => !value)}
+      <button
+        ref={btnRef}
+        type="button"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        onClick={() => setOpen((value) => !value)}
         className=" w-30 mb-0 bg-red-bg-btn hover:bg-red-500 rounded-xl py-1 px-3 text-white font-bold border-3 border-grey-border-btn text-center text-xs sm:text-sm"
       >
         Mon compte
@@ -53,40 +56,59 @@ export default function AccountMenu() {
           <div className="py-1">
             {!isAuth ? (
               <>
-                <Link to="/login" className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10">
+                <Link
+                  to="/login"
+                  className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10"
+                >
                   Se connecter
                 </Link>
-                <Link to="/register" className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10">
+                <Link
+                  to="/register"
+                  className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10"
+                >
                   Créer un compte
                 </Link>
               </>
             ) : (
               <>
-                <Link to="/account/" className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10 outline-none">
+                <Link
+                  to="/account/"
+                  className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10 outline-none"
+                >
                   Mon profil
                 </Link>
-                <Link to="/account/" className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10 outline-none">
+                <Link
+                  to="/account/"
+                  className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10 outline-none"
+                >
                   Mes réservations
                 </Link>
-                <Link to="/admin/dashboard" className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10 outline-none">
+                <Link
+                  to="/admin/dashboard"
+                  className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10 outline-none"
+                >
                   Backoffice
-                </Link> 
+                </Link>
               </>
             )}
           </div>
 
-          <div className="h-px bg-white/10" />
-          <button
-            role="menuitem"
-            onClick={async () => {
-              await dispatch(logout());
-              setOpen(false);
-            }}
-            className="w-full text-left flex items-center gap-3 px-3 py-2.5 text-sm
+          {isAuth && (
+            <>
+              <div className="h-px bg-white/10" />
+              <button
+                role="menuitem"
+                onClick={async () => {
+                  await dispatch(logout());
+                  setOpen(false);
+                }}
+                className="w-full text-left flex items-center gap-3 px-3 py-2.5 text-sm
                       text-red-400 hover:bg-red-500/10 focus:bg-red-500/10 outline-none"
-          >
-            Déconnexion
-          </button>
+              >
+                Déconnexion
+              </button>
+            </>
+          )}
         </div>
       )}
     </div>
