@@ -1,20 +1,15 @@
-
-import { Route, Routes } from 'react-router'
-import './App.css'
-import LayoutFront from '../Layout/LayoutFront'
-import LayoutBack from '../Layout/LayoutBack'
+import { Route, Routes } from "react-router";
+import "./App.css";
+import LayoutFront from "../Layout/LayoutFront";
+import LayoutBack from "../Layout/LayoutBack";
 
 export default function App() {
-
   return (
     <div className="App ">
-
-        <Routes>
-          <Route path="/admin/*" element={<LayoutBack />} />
-          <Route path="*" element={<LayoutFront />} />
-        </Routes>
-
+      <Routes>
+        <Route path="/admin/*" element={<LayoutBack />} />
+        <Route path="*" element={<LayoutFront />} />
+      </Routes>
     </div>
-  )
-};
-
+  );
+}
