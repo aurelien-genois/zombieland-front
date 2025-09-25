@@ -1,10 +1,5 @@
 import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
-import type {
-  IUser,
-  IUserChangePassword,
-  IUserResetPassword,
-} from "../../@types";
-
+import type { IUser } from "../../@types";
 import { axiosInstance } from "../../api/axiosInstance";
 import type { AxiosError } from "axios";
 
@@ -28,71 +23,45 @@ export const initialState: AdminState = {
 // ** Actions (Async & Sync)
 // **********************************************************************************
 
-// LOGIN
-export const login = createAsyncThunk<IUser, FormData, { rejectValue: string }>(
-  "auth/login",
-  async (formData, { rejectWithValue }) => {
-    try {
-      const objData = Object.fromEntries(formData);
-      console.log("objData ::>>>>", objData);
-
-      const { data } = await axiosInstance.post("/auth/login", objData);
-      console.log("data :LOGIN:", data);
-
-      return data.user as IUser;
-    } catch (error: any) {
-      console.error("LOGIN ERROR CAUGHT:", error);
-      const axiosError = error as AxiosError;
-
-      if (axiosError.response) {
-        const responseData = axiosError.response.data as any;
-        const errorMessage = responseData?.error;
-
-        if (axiosError.response.status === 400) {
-          return rejectWithValue("Email ou mot de passe incorrect");
-        }
-        return rejectWithValue(
-          errorMessage || `Erreur serveur: ${axiosError.response.status}`
-        );
-      } else if (axiosError.request) {
-        console.log(">Network< error - no response");
-        return rejectWithValue(
-          "Erreur réseau: Impossible de contacter le serveur"
-        );
-      }
-      return rejectWithValue(
-        "Une erreur est survenue. Veuillez réessayer plus tard."
-      );
+// Get All Users
+export const getAllUsers = createAsyncThunk<
+  IUser[],
+  void,
+  { rejectValue: string }
+>("admin/getAllUsers", async (_, { rejectWithValue }) => {
+  try {
+    const response = await axiosInstance.get("/users");
+    return response.data;
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    if (axiosError.response) {
+      return rejectWithValue(axiosError.response.data as string);
+    } else {
+      return rejectWithValue(axiosError.message);
     }
   }
-);
+});
 
 // **********************************************************************************
 // ** Reducer & Associated Cases
 // **********************************************************************************
 
+//
 const userReducer = createReducer(initialState, (builder) => {
-  builder
-    // Login
-    .addCase(login.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    })
-    .addCase(login.fulfilled, (state, action) => {
-      state.userInfo = action.payload;
-      state.isAuth = true;
-      state.loading = false;
-      state.error = null;
-      console.log("isAuth:", state.isAuth);
-      console.log("UserInfo:", state.userInfo);
-    })
-    .addCase(login.rejected, (state, action) => {
-      state.userInfo = null;
-      state.isAuth = false;
-      state.loading = false;
-      state.error = action.payload || "Login failed";
-      console.error("Login failed:", action.payload);
-    });
+  builder;
+  // Get All Users
+  builder.addCase(getAllUsers.pending, (state) => {
+    state.loading = true;
+    state.error = null;
+  });
+  builder.addCase(getAllUsers.fulfilled, (state, action) => {
+    state.loading = false;
+    state.usersInfo = action.payload;
+  });
+  builder.addCase(getAllUsers.rejected, (state, action) => {
+    state.loading = false;
+    state.error = action.payload || "Failed to fetch users";
+  });
 });
 
 export default userReducer;
