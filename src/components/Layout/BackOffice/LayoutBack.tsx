@@ -8,7 +8,7 @@ export default function LayoutBack() {
   return (
     <div className="flex h-screen">
       <SideBar />
-      <div id="rightSide" className="flex flex-col flex-1">
+      <div className="flex flex-col flex-1">
         <Main>
           <Routes>
             <Route path="" element={<Dashboard />} />
