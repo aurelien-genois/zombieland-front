@@ -21,18 +21,6 @@ export default function InfosUpdate() {
           <label htmlFor="email" className="block mb-0.5 text-lg md:text-sm font-bold ml-1.5">E-mail <span className="text-red-500 font-normal">*</span></label>
           <input type="text" name="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5" placeholder="monemail@host.com" required />
           <p className="mb-3 text-lg md:text-sm ml-2 text-gray-600">Vous recevrez un email de confirmation pour valider le nouvel email.</p>
-          
-          <div className="mb-6">
-            <label htmlFor="password" className="block mb-0.5 text-lg md:text-sm font-bold ml-1.5">Ancien mot de passe <span className="text-red-500 font-normal">*</span></label>
-            <input type="password" name="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5" required />
-            <p className="mb-1.5 text-lg md:text-sm ml-2 text-gray-600">Le mot de passe doit contenir au minimum 10 caractères dont 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial.</p>
-
-            <label htmlFor="password" className="block mb-1.5 text-lg md:text-sm font-bold ml-1.5">Nouveau mot de passe <span className="text-red-500 font-normal">*</span></label>
-            <input type="password" name="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5 mb-1.5" required />
-
-            <label htmlFor="confirmpassword" className="block mb-0.5 text-lg md:text-sm font-bold ml-1.5" >Retapez le nouveau mot de passe <span className="text-red-500 font-normal">*</span></label>
-            <input type="password" name="confirmpassword" className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5" required />
-          </div>
 
           <label htmlFor="telephone" className="block mb-1.5 text-lg md:text-sm font-bold ml-1.5">Téléphone</label>
           <input type="tel" name="telephone" className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5 mb-1.5" placeholder="Indicatif + Téléphone"/>
