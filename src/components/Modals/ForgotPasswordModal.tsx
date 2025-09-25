@@ -1,6 +1,6 @@
 import { useAppDispatch } from "../../hooks/redux";
 import ModalContainer from "./ContainerModal";
-import { forgotPassword } from "../../store/reducers/userReducer";
+import { forgotPassword } from "../../store/reducers/authReducer";
 import { useState } from "react";
 
 interface ForgotPasswordModalProps {
