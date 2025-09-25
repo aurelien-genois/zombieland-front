@@ -1,13 +1,12 @@
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { useNavigate } from "react-router";
 import { register } from "../../store/reducers/userReducer"; // ✅ Import correct
 import { useState } from "react";
 
 export default function RegisterForm() {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const { loading, error } = useAppSelector((state) => state.userStore);
   const [formError, setFormError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -81,8 +80,8 @@ export default function RegisterForm() {
     }
 
     // Dispatch avec FormData pour l'inscription
-     dispatch(register(formData));
-
+    dispatch(register(formData));
+    setSuccessMessage("Veuillez valider votre email pour activer le compte.");
   };
 
   return (
@@ -91,6 +90,11 @@ export default function RegisterForm() {
       <h2 className="text-center font-bold text-2xl mb-5 sm:text-xl">
         Mes informations personnelles
       </h2>
+      {successMessage && (
+        <div className="mb-4 p-3 font-bold bg-green-100 border border-green-400 text-green-700 rounded text-center">
+          {successMessage}
+        </div>
+      )}
 
       <form
         onSubmit={handleSubmit}
