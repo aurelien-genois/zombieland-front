@@ -23,8 +23,8 @@ export default function Carousel() {
     console.log("CAROUSEL", carouselRef);
     console.log("ACTIVITIES 1", activities);
 
+    // do not .destroy() because Preline will often fail (if not snap for example)
     if (carouselRefInstance.current?.destroy) {
-      // HSCarousel always fails on destroy for some reason
       try {
         carouselRefInstance.current?.destroy();
       } catch (err) {
@@ -60,7 +60,7 @@ export default function Carousel() {
     );
 
     return () => {
-      // HSCarousel always fails on destroy for some reason
+      // do not .destroy() because Preline will often fail (if not snap for example)
       try {
         carouselRefInstance.current?.destroy?.();
       } catch (err) {
@@ -78,11 +78,8 @@ export default function Carousel() {
   }
 
   return (
-    <div className="relative">
-      <div
-        ref={carouselRef}
-        className="hs-carousel w-full overflow-hidden bg-black-bg-carousel rounded-lg dark:bg-neutral-900 pt-5 "
-      >
+    <div ref={carouselRef} className="relative hs-carousel">
+      <div className="hs-carousel w-full overflow-hidden bg-black-bg-carousel rounded-lg dark:bg-neutral-900 pt-5 ">
         <div className="relative min-h-110 -mx-1">
           <div className="hs-carousel-body absolute top-0 bottom-0 start-0 flex flex-nowrap opacity-0 transition-transform duration-700">
             {activities.map((activity) => (
@@ -108,12 +105,6 @@ export default function Carousel() {
       <button
         type="button"
         className="hs-carousel-prev cursor-pointer hs-carousel-disabled:opacity-50 hs-carousel-disabled:pointer-events-none absolute inset-y-0 start-0 inline-flex justify-center items-center w-11.5 h-full text-gray-800 hover:bg-gray-800/10 focus:outline-hidden focus:bg-gray-800/10 rounded-s-lg dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
-        onClick={() => {
-          const carousel = HSCarousel.getInstance(
-            carouselRef.current as HTMLElement
-          ) as ICarousel;
-          carousel?.goToPrev();
-        }}
       >
         <span className="text-2xl" aria-hidden="true">
           <svg
@@ -136,12 +127,6 @@ export default function Carousel() {
       <button
         type="button"
         className="hs-carousel-next cursor-pointer hs-carousel-disabled:opacity-50 hs-carousel-disabled:pointer-events-none absolute inset-y-0 end-0 inline-flex justify-center items-center w-11.5 h-full text-gray-800 hover:bg-gray-800/10 focus:outline-hidden focus:bg-gray-800/10 rounded-e-lg dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
-        onClick={() => {
-          const carousel = HSCarousel.getInstance(
-            carouselRef.current as HTMLElement
-          ) as ICarousel;
-          carousel?.goToNext();
-        }}
       >
         <span className="sr-only">Next</span>
         <span className="text-2xl" aria-hidden="true">
