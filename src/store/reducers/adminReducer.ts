@@ -31,6 +31,7 @@ export const getAllUsers = createAsyncThunk<
 >("admin/getAllUsers", async (_, { rejectWithValue }) => {
   try {
     const response = await axiosInstance.get("/users");
+    console.log("Users fetched successfully:", response.data);
     return response.data;
   } catch (error) {
     const axiosError = error as AxiosError;

@@ -5,12 +5,17 @@ import LayoutBack from "@/components/Layout/BackOffice/LayoutBack";
 import { useAppDispatch } from "@/hooks/redux";
 import { useEffect } from "react";
 import { getUserInfo } from "@/store/reducers/userReducer";
+import { getAllUsers } from "@/store/reducers/adminReducer";
 
 export default function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getUserInfo());
+  }, []);
+
+  useEffect(() => {
+    dispatch(getAllUsers());
   }, []);
 
   return (
