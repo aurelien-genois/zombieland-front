@@ -70,7 +70,7 @@ export default function PasswordUpdate() {
     <>
       <div className="pb-10">
         <form
-          method="post"
+          method="patch"
           onSubmit={handleSubmit}
           className="mx-auto px-5 md:max-w-150 sm:max-w-150"
         >

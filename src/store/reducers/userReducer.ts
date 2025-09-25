@@ -178,6 +178,39 @@ export const changePassword = createAsyncThunk<
   }
 });
 
+// updateUserProfile
+export const updateUserProfile = createAsyncThunk<
+  IUser,
+  FormData,
+  { rejectValue: string }
+>("users/update-profile", async (formData, { rejectWithValue }) => {
+  try {
+    const objData = Object.fromEntries(formData);
+    console.log("objData ::>>>>", objData);
+
+    const { data } = await axiosInstance.patch("/users", objData);
+    console.log("data :UPDATE PROFILE:", data);
+
+    return data.user as IUser;
+  } catch (error: any) {
+    console.error("UPDATE PROFILE ERROR CAUGHT:", error);
+    const axiosError = error as AxiosError;
+
+    if (axiosError.response) {
+      const responseData = axiosError.response.data as any;
+      const errorMessage = responseData?.error;
+
+      if (axiosError.response.status === 400) {
+        return rejectWithValue("Données de profil invalides");
+      }
+      return rejectWithValue(
+        errorMessage || `Erreur serveur: ${axiosError.response.status}`
+      );
+    }
+    return rejectWithValue("Erreur réseau: Impossible de contacter le serveur");
+  }
+});
+
 // **********************************************************************************
 // ** Reducer & Associated Cases
 // **********************************************************************************
@@ -288,6 +321,24 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = false;
       state.error = action.payload || "Password change failed";
       console.error("Password change failed:", action.payload);
+    });
+
+  // updateUserProfile
+  builder
+    .addCase(updateUserProfile.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(updateUserProfile.fulfilled, (state, action) => {
+      state.userInfo = action.payload;
+      state.loading = false;
+      state.error = null;
+      console.log("Profile update successful");
+    })
+    .addCase(updateUserProfile.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || "Profile update failed";
+      console.error("Profile update failed:", action.payload);
     });
 });
 
