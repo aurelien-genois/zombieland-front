@@ -211,6 +211,33 @@ export const updateUserProfile = createAsyncThunk<
   }
 });
 
+// Delete My Account
+export const deleteMyAccount = createAsyncThunk<
+  void,
+  void,
+  { rejectValue: string }
+>("users/delete-account", async (_, { rejectWithValue }) => {
+  try {
+    await axiosInstance.delete("/users");
+  } catch (error: any) {
+    console.error("DELETE ACCOUNT ERROR CAUGHT:", error);
+    const axiosError = error as AxiosError;
+
+    if (axiosError.response) {
+      const responseData = axiosError.response.data as any;
+      const errorMessage = responseData?.error;
+
+      if (axiosError.response.status === 400) {
+        return rejectWithValue("Impossible de supprimer le compte");
+      }
+      return rejectWithValue(
+        errorMessage || `Erreur serveur: ${axiosError.response.status}`
+      );
+    }
+    return rejectWithValue("Erreur réseau: Impossible de contacter le serveur");
+  }
+});
+
 // **********************************************************************************
 // ** Reducer & Associated Cases
 // **********************************************************************************
@@ -339,6 +366,25 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = false;
       state.error = (action.payload as string) || "Profile update failed";
       console.error("Profile update failed:", action.payload);
+    });
+
+  // deleteMyAccount
+  builder
+    .addCase(deleteMyAccount.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(deleteMyAccount.fulfilled, (state) => {
+      state.userInfo = null;
+      state.isAuth = false;
+      state.loading = false;
+      state.error = null;
+      console.log("Account deletion successful");
+    })
+    .addCase(deleteMyAccount.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || "Account deletion failed";
+      console.error("Account deletion failed:", action.payload);
     });
 });
 

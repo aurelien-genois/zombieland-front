@@ -3,6 +3,7 @@ import AccountTabs from "./AccountTabs";
 import InfosUpdate from "./InfosUpdate";
 import PasswordUpdate from "./PasswordUpdate";
 import OrdersHistory from "./OrdersHistory";
+import DeleteMyAccount from "./DeleteMyAccount";
 
 export default function AccountPage() {
   const [activeTab, setActiveTab] = useState("infos");
@@ -21,6 +22,7 @@ export default function AccountPage() {
         {activeTab === "infos" && <InfosUpdate />}
         {activeTab === "password" && <PasswordUpdate />}
         {activeTab === "orders" && <OrdersHistory />}
+        {activeTab === "delete" && <DeleteMyAccount />}
       </div>
     </>
   );
