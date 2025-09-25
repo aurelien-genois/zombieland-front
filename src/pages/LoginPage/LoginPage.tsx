@@ -1,7 +1,7 @@
 import { useNavigate, Link } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { useState, type FormEvent } from "react";
-import { login } from "../../store/reducers/authReducer";
+import { login } from "../../store/reducers/userReducer";
 import EmailConfirmationModal from "../../components/Modals/EmailConfirmationModal";
 import ForgotPasswordModal from "../../components/Modals/ForgotPasswordModal";
 

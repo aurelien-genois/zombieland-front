@@ -4,7 +4,7 @@
 import { useAppSelector } from "../../hooks/redux";
 
 export default function InfosUpdate() {
-  const { userInfo } = useAppSelector((store) => store.authStore);
+  const { userInfo } = useAppSelector((store) => store.userStore);
   console.log(">>>>>>>>><user info: ", userInfo?.firstname);
 
   return (
@@ -44,9 +44,22 @@ export default function InfosUpdate() {
             </div>
           </div>
 
-          <label htmlFor="email" className="block mb-0.5 text-lg md:text-sm font-bold ml-1.5">E-mail <span className="text-red-500 font-normal">*</span></label>
-          <input type="text" name="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5" placeholder="monemail@host.com" required />
-          <p className="mb-3 text-lg md:text-sm ml-2 text-gray-600">Vous recevrez un email de confirmation pour valider le nouvel email.</p>
+          <label
+            htmlFor="email"
+            className="block mb-0.5 text-lg md:text-sm font-bold ml-1.5"
+          >
+            E-mail <span className="text-red-500 font-normal">*</span>
+          </label>
+          <input
+            type="text"
+            name="email"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
+            placeholder="monemail@host.com"
+            required
+          />
+          <p className="mb-3 text-lg md:text-sm ml-2 text-gray-600">
+            Vous recevrez un email de confirmation pour valider le nouvel email.
+          </p>
 
           <label
             htmlFor="telephone"
