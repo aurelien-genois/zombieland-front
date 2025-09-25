@@ -1,6 +1,7 @@
 import { useState } from "react";
-import AccountTabs from "./AccoutTabs";
+import AccountTabs from "./AccountTabs";
 import InfosUpdate from "./InfosUpdate";
+import PasswordUpdate from "./PasswordUpdate";
 import OrdersHistory from "./OrdersHistory";
 
 export default function AccountPage() {
@@ -16,8 +17,9 @@ export default function AccountPage() {
         <h1 className="text-center font-bold text-3xl pt-10 pb-8">
           Mon compte
         </h1>
-        <AccountTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+        <AccountTabs activeTab={activeTab} updateActiveTab={setActiveTab} />
         {activeTab === "infos" && <InfosUpdate />}
+        {activeTab === "password" && <PasswordUpdate />}
         {activeTab === "orders" && <OrdersHistory />}
       </div>
     </>
