@@ -20,8 +20,6 @@ export default function Carousel() {
 
   useEffect(() => {
     if (activities.length === 0 || !carouselRef.current) return;
-    console.log("CAROUSEL", carouselRef);
-    console.log("ACTIVITIES 1", activities);
 
     // do not .destroy() because Preline will often fail (if not snap for example)
     if (carouselRefInstance.current?.destroy) {
@@ -33,31 +31,34 @@ export default function Carousel() {
       carouselRefInstance.current = null;
     }
 
-    carouselRefInstance.current = new HSCarousel(
-      carouselRef.current as HTMLElement,
-      {
-        currentIndex: 1,
-        loadingClasses: "opacity-0",
-        dotsItemClasses:
-          "hs-carousel-active:bg-blue-700 hs-carousel-active:border-blue-700 size-3 border border-gray-400 rounded-full cursor-pointer dark:border-neutral-600 dark:hs-carousel-active:bg-blue-500 dark:hs-carousel-active:border-blue-500",
-        mode: "default",
-        isAutoHeight: false,
-        isAutoPlay: false,
-        isCentered: true,
-        isDraggable: true,
-        isInfiniteLoop: true,
-        isRTL: false,
-        isSnap: false,
-        hasSnapSpacers: false,
-        slidesQty: {
-          xs: 1,
-          md: 2,
-          lg: 3,
-        },
-        speed: 6000,
-        updateDelay: 4,
-      }
-    );
+    // optional micro-delay so children exist and styles are applied
+    requestAnimationFrame(() => {
+      carouselRefInstance.current = new HSCarousel(
+        carouselRef.current as HTMLElement,
+        {
+          currentIndex: 1,
+          loadingClasses: "opacity-0",
+          dotsItemClasses:
+            "hs-carousel-active:bg-blue-700 hs-carousel-active:border-blue-700 size-3 border border-gray-400 rounded-full cursor-pointer dark:border-neutral-600 dark:hs-carousel-active:bg-blue-500 dark:hs-carousel-active:border-blue-500",
+          mode: "default",
+          isAutoHeight: false,
+          isAutoPlay: false,
+          isCentered: true,
+          isDraggable: true,
+          isInfiniteLoop: true,
+          isRTL: false,
+          isSnap: false,
+          hasSnapSpacers: false,
+          slidesQty: {
+            xs: 1,
+            md: 2,
+            lg: 3,
+          },
+          speed: 6000,
+          updateDelay: 4,
+        }
+      );
+    });
 
     return () => {
       // do not .destroy() because Preline will often fail (if not snap for example)

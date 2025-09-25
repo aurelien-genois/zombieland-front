@@ -4,16 +4,20 @@ import ActivityDetails from "./ActivityDetails";
 import "./ActivityPage.css";
 
 export default function ActivityPage() {
-  // TODO use params (:slug) to fetch activity details from API
   const params = useParams();
-  // params.slug;
+
+  console.log("SLUG", params.slug);
 
   return (
     <>
-   
-        <ActivityCarousel />
-        <ActivityDetails />
-
+      {/* // ! Only one image per activity actually ! */}
+      <ActivityCarousel
+        images={[
+          "/img/activities/zombie4d-interior.png",
+          "/img/activities/zombie4d-cover.png",
+        ]}
+      />
+      <ActivityDetails />
     </>
   );
 }
