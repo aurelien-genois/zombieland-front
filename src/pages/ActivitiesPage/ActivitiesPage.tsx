@@ -10,9 +10,8 @@ import { useEffect } from "react";
 export default function ActivitiesPage() {
   const dispatch = useAppDispatch();
 
-  // Fetch activities on component mount
   useEffect(() => {
-    dispatch(fetchActivities({ perPage: 6 }));
+    dispatch(fetchActivities({ perPage: 20 }));
   }, [dispatch]);
 
   // TODO clean up unused variables & console.logs
