@@ -42,6 +42,7 @@ export const fetchActivities = createAsyncThunk(
         },
       });
       console.log("DATA FROM FETCH ACTIVITIES: ", data);
+      // TODO Axios errors
       return data as { activities: IActivity[]; totalActivities: number };
     } catch {
       return rejectWithValue("Failed to fetch activities");
@@ -57,9 +58,10 @@ export const fetchOneActivity = createAsyncThunk(
         params: {},
       });
       console.log("DATA FROM FETCH ONE ACTIVITY: ", data);
+      // TODO Axios errors
       return data as IActivity;
     } catch {
-      return rejectWithValue("Failed to fetch activities");
+      return rejectWithValue("Failed to fetch one activity");
     }
   }
 );
@@ -99,11 +101,9 @@ const activitiesReducer = createReducer(initialState, (builder) => {
     })
     .addCase(fetchOneActivity.rejected, (state, action) => {
       state.loading = false;
-      state.error = (action.payload as string) || "Failed to fetch activities";
+      state.error =
+        (action.payload as string) || "Failed to fetch one activity";
     });
 });
 
 export default activitiesReducer;
-
-// TODO Activity Reducer with addCase for each actions responses
-// cf https://redux-toolkit.js.org/api/createReducer

@@ -38,6 +38,7 @@ export default function ActivityPage() {
       />
       <ActivityDetails
         name={currentActivity.name}
+        categoryId={currentActivity.category_id}
         slogan={currentActivity.slogan}
         description={currentActivity.description}
         minimum_age={currentActivity.minimum_age}
