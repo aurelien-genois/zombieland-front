@@ -34,7 +34,7 @@ export default function OrderTemplate() {
             href="#"
             className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl font-extrabold text-white bg-red-600 hover:bg-red-500"
             >
-            Modifier la réservation
+            Annuler la réservation
           </a>
         </div>
       </div>

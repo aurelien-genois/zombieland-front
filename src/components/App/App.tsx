@@ -4,7 +4,7 @@ import LayoutFront from "../Layout/LayoutFront";
 import LayoutBack from "../Layout/LayoutBack";
 import { useAppDispatch } from "../../hooks/redux";
 import { useEffect } from "react";
-import { getUserInfo } from "../../store/reducers/authReducer";
+import { getUserInfo } from "../../store/reducers/userReducer";
 
 export default function App() {
   const dispatch = useAppDispatch();

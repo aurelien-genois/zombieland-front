@@ -1,12 +1,12 @@
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { resetPassword } from "../../store/reducers/authReducer";
+import { resetPassword } from "../../store/reducers/userReducer";
 import { useNavigate, useSearchParams } from "react-router";
 
 export default function ResetPassword() {
   const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { loading, error } = useAppSelector((state) => state.authStore);
+  const { loading, error } = useAppSelector((state) => state.userStore);
   const regex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
 
