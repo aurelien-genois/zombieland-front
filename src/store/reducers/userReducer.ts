@@ -1,5 +1,9 @@
 import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
-import type { IUser, IUserResetPassword } from "../../@types";
+import type {
+  IUser,
+  IUserChangePassword,
+  IUserResetPassword,
+} from "../../@types";
 
 import { axiosInstance } from "../../api/axiosInstance";
 import type { AxiosError } from "axios";
@@ -145,6 +149,35 @@ export const resetPassword = createAsyncThunk<
   }
 });
 
+// changePassword
+export const changePassword = createAsyncThunk<
+  void,
+  { formData: IUserChangePassword },
+  { rejectValue: string }
+>("users/change-password", async ({ formData }, { rejectWithValue }) => {
+  try {
+    await axiosInstance.patch("/users/change-password", formData);
+  } catch (error: any) {
+    const axiosError = error as AxiosError;
+
+    if (axiosError.response) {
+      const responseData = axiosError.response.data as any;
+      const errorMessage = responseData?.error || responseData?.message;
+
+      if (axiosError.response.status === 400) {
+        return rejectWithValue("Données invalides ou mot de passe incorrect");
+      }
+      if (axiosError.response.status === 401) {
+        return rejectWithValue("Non authentifié");
+      }
+      return rejectWithValue(
+        errorMessage || `Erreur serveur: ${axiosError.response.status}`
+      );
+    }
+    return rejectWithValue("Erreur réseau: Impossible de contacter le serveur");
+  }
+});
+
 // **********************************************************************************
 // ** Reducer & Associated Cases
 // **********************************************************************************
@@ -238,6 +271,23 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = false;
       state.error = action.payload || "Password reset failed";
       console.error("Password reset failed:", action.payload);
+    });
+
+  // changePassword
+  builder
+    .addCase(changePassword.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(changePassword.fulfilled, (state) => {
+      state.loading = false;
+      state.error = null;
+      console.log("Password change successful");
+    })
+    .addCase(changePassword.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload || "Password change failed";
+      console.error("Password change failed:", action.payload);
     });
 });
 

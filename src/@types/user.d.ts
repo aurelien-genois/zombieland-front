@@ -30,3 +30,9 @@ export interface IUserResetPassword {
   newPassword: string;
   confirmation: string;
 }
+
+export interface IUserChangePassword {
+  oldPassword: string;
+  newPassword: string;
+  confirmation: string;
+}
