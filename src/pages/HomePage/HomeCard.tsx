@@ -1,35 +1,53 @@
 import { Link } from "react-router";
 
-export default function HomeCard() {
-  // TODO get data from API
+interface IHomeCardProps {
+  name: string;
+  slug: string;
+  slogan: string;
+  minimum_age: number;
+  high_intensity: boolean;
+  disabled_access: boolean;
+  image_url?: string;
+}
 
+export default function HomeCard({
+  name,
+  slug,
+  slogan,
+  minimum_age,
+  high_intensity,
+  disabled_access,
+  image_url,
+}: IHomeCardProps) {
   return (
-    <>
-      <div className="relative max-w-sm">
-        <img
-          className="rounded-xl relative"
-          src="/img/activities/activity1.webp"
-          alt="Image de l'activité"
-        />
-        <div className="bg-black-500/70 absolute bottom-10 left-0 right-0 text-white text-center">
-          <h2 className="z-10 mt-3 text-3xl font-bold text-white">
-            Appocalypse Drop
-          </h2>
-          <p className="z-10 gap-y-1 overflow-hidden text-sm font-bold leading-6 text-gray-300">
-            Laissez-vous chuter !
-          </p>
-          <img
-            src="/icon/crane_zombie.svg"
-            className="m-auto max-w-8"
-            alt="Icone d'un crane"
-          />
-          <div
-            className={`w-38 mb-3 bg-red-bg-btn hover:bg-red-500 rounded-xl py-1 text-white font-bold border-3 border-grey-border-btn m-auto`}
-          >
-            <Link to="/activity/slug">Découvrir...</Link>
-          </div>
+    <div className="relative w-sm">
+      <img
+        className="rounded-xl relative h-full max-h-full w-full object-cover"
+        src={image_url ?? "/img/activities/activity1.webp"}
+        alt={`Image de l'attraction ${name}`}
+      />
+      <div className="bg-black-500/70 absolute bottom-10 left-0 right-0 text-white text-center">
+        <h2 className="z-10 mt-3 text-2xl font-bold text-white">{name}</h2>
+        <p className="z-10 gap-y-1 overflow-hidden min-h-12 text-sm font-bold leading-6 text-gray-300">
+          {slogan}
+        </p>
+        <div className="h-8">
+          {[...Array(minimum_age)].map((_, index) => (
+            <img
+              key={index}
+              src="/icon/crane_zombie.svg"
+              className="m-auto max-w-8 inline"
+              alt="Niveau de frousse/groupe d'âge"
+            />
+          ))}
+        </div>
+
+        <div
+          className={`w-38 mb-3 bg-red-bg-btn hover:bg-red-500 rounded-xl py-1 text-white font-bold border-3 border-grey-border-btn m-auto`}
+        >
+          <Link to={`/activity/${slug}`}>Découvrir...</Link>
         </div>
       </div>
-    </>
+    </div>
   );
 }
