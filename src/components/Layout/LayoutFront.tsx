@@ -17,6 +17,7 @@ import LegalPage from "../../pages/LegalPage/LegalPage";
 import Main from "../Main/Main";
 
 import { useAppSelector } from "../../hooks/redux";
+import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 
 export default function LayoutFront() {
   const { isAuth } = useAppSelector((store) => store.userStore);
@@ -41,6 +42,7 @@ export default function LayoutFront() {
             path="/checkout/confirmation"
             element={<CheckoutConfirmationPage />}
           />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/order/:id" element={<OrderPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />

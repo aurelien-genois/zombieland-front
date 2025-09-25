@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { logout } from "../../store/reducers/userReducer";
+import { logout } from "../../store/reducers/authReducer";
 
 export default function AccountMenu() {
   const [open, setOpen] = useState(false);
@@ -28,7 +28,7 @@ export default function AccountMenu() {
   }, [open]);
 
   const dispatch = useAppDispatch();
-  const { userInfo, isAuth } = useAppSelector((store) => store.userStore);
+  const { userInfo, isAuth } = useAppSelector((store) => store.authStore);
   console.log("user info: ", userInfo);
   console.log("isAuth: ", isAuth);
 
