@@ -1,3 +1,5 @@
+import activity from "@/assets/img/activities/activity1.webp";
+
 import { Link } from "react-router";
 
 interface ICardListProps {
@@ -24,7 +26,7 @@ export default function CardList({
       <div className="relative max-w-sm">
         <img
           className="rounded-xl relative h-80 w-full object-cover"
-          src={image_url ?? "/img/activities/activity1.webp"}
+          src={image_url ?? activity}
           alt={`Image de l'attraction ${name}`}
         />
         <div className="bg-black-500/70 absolute bottom-10 left-0 right-0 text-white text-center">

@@ -1,3 +1,5 @@
+import logo from "@/assets/icon/logo.svg";
+import account_zombie from "@/assets/icon/account_zombie.svg";
 import { useState } from "react";
 import { NavLink } from "react-router";
 import AccountMenu from "./AccountMenu";
@@ -8,7 +10,7 @@ export default function HeaderFront() {
     <header className="fixed top-0 inset-x-0 z-50 border-b-3 shadow-md shadow-red-800 bg-black-bg-header/90 backdrop-blur">
       <div className="max-w-7xl mx-auto h-16 sm:h-20 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         <a href="/" className="shrink-0">
-          <img className="h-8 sm:h-10" src="/icon/logo.svg" alt="ZombieLand" />
+          <img className="h-8 sm:h-10" src={logo} alt="ZombieLand" />
         </a>
 
         <nav className="hidden md:block">
@@ -31,11 +33,7 @@ export default function HeaderFront() {
           </ul>
         </nav>
         <div className="flex flex-col items-center ">
-          <img
-            className="h-8 sm:h-10 "
-            src="/icon/account_zombie.svg"
-            alt="Compte"
-          />
+          <img className="h-8 sm:h-10 " src={account_zombie} alt="Compte" />
           <AccountMenu />
         </div>
         <button

@@ -1,3 +1,6 @@
+import activity from "@/assets/img/activities/activity1.webp";
+import crane_zombie from "@/assets/icon/crane_zombie.svg";
+
 import { Link } from "react-router";
 
 interface IHomeCardProps {
@@ -23,7 +26,7 @@ export default function HomeCard({
     <div className="relative w-sm">
       <img
         className="rounded-xl relative h-full max-h-full w-full object-cover"
-        src={image_url ?? "/img/activities/activity1.webp"}
+        src={image_url ?? activity}
         alt={`Image de l'attraction ${name}`}
       />
       <div className="bg-black-500/70 absolute bottom-10 left-0 right-0 text-white text-center">
@@ -35,7 +38,7 @@ export default function HomeCard({
           {[...Array(minimum_age)].map((_, index) => (
             <img
               key={index}
-              src="/icon/crane_zombie.svg"
+              src={crane_zombie}
               className="m-auto max-w-8 inline"
               alt="Niveau de frousse/groupe d'âge"
             />

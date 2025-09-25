@@ -110,7 +110,7 @@ export default function ActivityCarousel({ images }: IActivityCarouselProps) {
           </span>
         </button>
 
-        <div className="hs-carousel-pagination flex justify-center absolute bottom-3 start-0 end-0 flex gap-x-2"></div>
+        <div className="hs-carousel-pagination justify-center absolute bottom-3 start-0 end-0 flex gap-x-2"></div>
       </div>
     </>
   );
