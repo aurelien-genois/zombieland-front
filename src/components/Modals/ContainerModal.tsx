@@ -6,7 +6,7 @@ export interface ModalAddProductProps {
 function ModalContainer({ setIsModalOpen, children }: ModalAddProductProps) {
   return (
     <div
-      className="fixed inset-0 w-screen h-screen bg-black/60 flex justify-center items-center"
+      className="fixed inset-0 w-screen h-screen bg-black/60 flex justify-center items-center z-20"
       onClick={() => setIsModalOpen(false)}
     >
       <div

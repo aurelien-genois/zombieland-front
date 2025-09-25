@@ -13,6 +13,7 @@ export default function LoginPage() {
   const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
+  console.log("LOADING:", loading);
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formEl = event.currentTarget;
@@ -44,7 +45,7 @@ export default function LoginPage() {
 
     const result = await dispatch(login(formData));
     if (login.fulfilled.match(result)) {
-      navigate("/login"); // TODO: remplacer par la page d'accueil
+      navigate("/"); // TODO: remplacer par la page d'accueil
     }
   };
 
@@ -101,7 +102,6 @@ export default function LoginPage() {
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-blue-500 hover:bg-blue-600"
             }`}
-            disabled={loading}
           >
             {loading ? "Connexion en cours..." : "Connexion"}
           </button>
