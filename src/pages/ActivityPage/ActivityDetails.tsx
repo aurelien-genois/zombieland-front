@@ -1,5 +1,10 @@
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { fetchOneCategory } from "../../store/reducers/categoriesReducer";
+
 interface IActivityDetailsProps {
   name: string;
+  categoryId: number;
   slogan: string;
   description: string;
   minimum_age: number;
@@ -9,19 +14,36 @@ interface IActivityDetailsProps {
 
 export default function ActivityDetails({
   name,
+  categoryId,
   slogan,
   description,
   minimum_age,
   high_intensity,
   disabled_access,
 }: IActivityDetailsProps) {
+  const dispatch = useAppDispatch();
+
+  // ! actually failed to fetch because endpoint /categories/:id need auth & role admin
+  useEffect(() => {
+    dispatch(fetchOneCategory(categoryId));
+  }, [dispatch, categoryId]);
+  const { currentCategory, loading, error } = useAppSelector(
+    (state) => state.categoriesStore
+  );
+
   return (
     <>
       <div>
         <div className="text-white text-center mt-5">
           <h1 className="text-6xl font-bold">{name}</h1>
           <h2 className="text-2xl font-bold italic text-gray-400 mt-2 mb-5">
-            - Spectacle -
+            {loading ? (
+              <div className="text-white">Loading...</div>
+            ) : error || !currentCategory ? (
+              <div className="text-white">Error: {error}</div>
+            ) : (
+              currentCategory.name
+            )}
           </h2>
           <h3 className="text-xl font-bold italic mb-3">{slogan}</h3>
           <p className="max-w-200 mx-auto text-lg mt-7">{description}</p>
