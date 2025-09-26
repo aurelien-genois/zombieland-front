@@ -238,6 +238,46 @@ export const deleteMyAccount = createAsyncThunk<
   }
 });
 
+// Register
+export const register = createAsyncThunk<
+  IUser,
+  FormData,
+  { rejectValue: string }
+>("auth/register", async (formData, { rejectWithValue }) => {
+  try {
+    const objData = Object.fromEntries(formData);
+    console.log("objData ::>>>>", objData);
+
+    const { data } = await axiosInstance.post("/auth/register", objData);
+    console.log("data :REGISTER:", data);
+
+    return data.user as IUser;
+  } catch (error: any) {
+    console.error("REGISTER ERROR CAUGHT:", error);
+    const axiosError = error as AxiosError;
+
+    if (axiosError.response) {
+      const responseData = axiosError.response.data as any;
+      const errorMessage = responseData?.error;
+
+      if (axiosError.response.status === 400) {
+        return rejectWithValue("Données d'inscription invalides");
+      }
+      return rejectWithValue(
+        errorMessage || `Erreur serveur: ${axiosError.response.status}`
+      );
+    } else if (axiosError.request) {
+      console.log(">Network< error - no response");
+      return rejectWithValue(
+        "Erreur réseau: Impossible de contacter le serveur"
+      );
+    }
+    return rejectWithValue(
+      "Une erreur est survenue. Veuillez réessayer plus tard."
+    );
+  }
+});
+
 // **********************************************************************************
 // ** Reducer & Associated Cases
 // **********************************************************************************
@@ -385,6 +425,28 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = false;
       state.error = (action.payload as string) || "Account deletion failed";
       console.error("Account deletion failed:", action.payload);
+    });
+
+  // register
+  builder
+    .addCase(register.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(register.fulfilled, (state, action) => {
+      state.userInfo = action.payload;
+      state.isAuth = false;
+      state.loading = false;
+      state.error = null;
+      console.log("isAuth:", state.isAuth);
+      console.log("UserInfo:", state.userInfo);
+    })
+    .addCase(register.rejected, (state, action) => {
+      state.userInfo = null;
+      state.isAuth = false;
+      state.loading = false;
+      state.error = action.payload || "Registration failed";
+      console.error("Registration failed:", action.payload);
     });
 });
 
