@@ -56,7 +56,7 @@ export default function LayoutFront() {
           />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route
-            path="/checkout/confirmation"
+            path="/checkout/confirmation/:id"
             element={<CheckoutConfirmationPage />}
           />
           <Route path="/reset-password" element={<ResetPassword />} />
