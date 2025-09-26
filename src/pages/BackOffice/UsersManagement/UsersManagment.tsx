@@ -12,7 +12,7 @@ export default function UsersManagement() {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [showButtons, setShowButtons] = useState(true);
+  const [showAllTable, setShowAllTable] = useState(true);
 
   console.log(">>>Users: !!", users);
 
@@ -71,25 +71,29 @@ export default function UsersManagement() {
       <TableData>
         <div className="text-sm text-gray-900">{user.email}</div>
       </TableData>
-
-      <TableData>
-        <span
-          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-            user.is_active
-              ? "bg-green-100 text-green-800"
-              : "bg-red-100 text-red-800"
-          }`}
-        >
-          {user.is_active ? "Active" : "Inactive"}
-        </span>
-      </TableData>
-
-      <TableData>{user.phone || "N/A"}</TableData>
-      <TableData>
-        {user.last_login
-          ? new Date(user.last_login).toLocaleDateString("fr-FR")
-          : "Never"}
-      </TableData>
+      {/* --------------------------------- */}
+      {showAllTable && (
+        <>
+          <TableData>
+            <span
+              className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                user.is_active
+                  ? "bg-green-100 text-green-800"
+                  : "bg-red-100 text-red-800"
+              }`}
+            >
+              {user.is_active ? "Active" : "Inactive"}
+            </span>
+          </TableData>
+          <TableData>{user.phone || "N/A"}</TableData>
+          <TableData>
+            {user.last_login
+              ? new Date(user.last_login).toLocaleDateString("fr-FR")
+              : "Never"}
+          </TableData>{" "}
+        </>
+      )}
+      {/* ------------------ */}
       <TableData>
         <button
           onClick={() => handleViewUser(user.id)}
@@ -178,6 +182,12 @@ export default function UsersManagement() {
         {/*------------------------------------------------------ Compteurs et résultats */}
         <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-4 text-sm text-gray-600">
+            <button
+              onClick={() => setShowAllTable(!showAllTable)}
+              className="cursor-pointer px-2 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+            >
+              Voir tout le tableau
+            </button>
             <span className="px-3 py-1 bg-blue-50 text-blue-800 rounded-full">
               Total: {users.meta.total}
             </span>
@@ -190,6 +200,7 @@ export default function UsersManagement() {
               </span>
             )}
           </div>
+          <div></div>
 
           {/*------------------------------------------------------ Selected Limit */}
           <div className="flex items-center gap-2">
@@ -215,14 +226,6 @@ export default function UsersManagement() {
         </div>
       </div>
 
-      {/*------------------------------------------------------ Show Table Data */}
-
-      <div>
-        <button onClick={() => setShowButtons(!showButtons)}>
-          {showButtons ? "Masquer" : "Voir"} détails
-        </button>
-      </div>
-
       {/*------------------------------------------------------ Table Header Cells */}
 
       <div className="bg-white shadow overflow-hidden sm:rounded-lg">
@@ -238,17 +241,20 @@ export default function UsersManagement() {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Email
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Status
-              </th>
+              {showAllTable && (
+                <>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
 
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Téléphone
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                connexion
-              </th>
-
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Téléphone
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    connexion
+                  </th>
+                </>
+              )}
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Détails
               </th>
