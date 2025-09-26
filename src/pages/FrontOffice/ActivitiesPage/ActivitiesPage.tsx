@@ -2,29 +2,22 @@ import CardList from "./CardList";
 import FilterBar from "./FilterBar";
 import Pagination from "./Pagination";
 import SearchForm from "./SearchForm";
-import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { fetchActivities } from "@/store/reducers/activitiesReducer";
-import { useEffect } from "react";
+import { useActivities } from "../../../hooks/activities";
 
 export default function ActivitiesPage() {
-  const dispatch = useAppDispatch();
+  useActivities({ perPage: 20 });
 
-  useEffect(() => {
-    dispatch(fetchActivities({ perPage: 20 }));
-  }, [dispatch]);
-
-  // TODO clean up unused variables & console.logs
-  const { activities, page, perPage, total, loading, error } = useAppSelector(
-    (state) => state.activitiesStore
-  );
-  console.log("Activities Store:", {
-    activities,
-    page,
-    perPage,
-    total,
-    loading,
-    error,
+  // TODO manage filters here ?
+  const { activities, page, perPage, total, loading, error } = useActivities({
+    perPage: 20,
   });
+
+  if (loading) {
+    return <div className="text-white">Loading...</div>;
+  }
+  if (error || !activities) {
+    return <div className="text-white">Error: {error}</div>;
+  }
 
   return (
     <div className="bg-black-bg-main ">
@@ -61,7 +54,11 @@ export default function ActivitiesPage() {
                 />
               ))}
             </div>
-            <Pagination />
+            <Pagination
+              currentPage={page}
+              totalItems={total}
+              itemsPerPage={perPage}
+            />
           </div>
         </section>
       </main>

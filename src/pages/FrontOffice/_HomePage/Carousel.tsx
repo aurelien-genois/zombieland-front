@@ -1,19 +1,10 @@
 import HomeCard from "./HomeCard";
-import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { fetchActivities } from "@/store/reducers/activitiesReducer";
-import { useEffect, useRef } from "react";
+import { useActivities } from "../../../hooks/activities";
 import { HSCarousel, type ICarousel } from "preline";
+import { useEffect, useRef } from "react";
 
 export default function Carousel() {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(fetchActivities({ perPage: 6 }));
-  }, [dispatch]);
-
-  const { activities, loading, error } = useAppSelector(
-    (state) => state.activitiesStore
-  );
+  const { activities, loading, error } = useActivities({ perPage: 6 });
 
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const carouselRefInstance = useRef<ICarousel | null>(null);
