@@ -1,5 +1,5 @@
-import { useAppDispatch } from "../../../hooks/redux";
-import { fetchActivities } from "../../../store/reducers/activitiesReducer";
+import { useAppDispatch } from "@/hooks/redux";
+import { fetchActivities } from "@/store/reducers/activitiesReducer";
 
 interface IPaginationProps {
   currentPage: number;

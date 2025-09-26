@@ -1,7 +1,7 @@
 import { useParams } from "react-router";
 import ActivityCarousel from "./ActivityCarousel";
 import ActivityDetails from "./ActivityDetails";
-import { useActivity } from "../../../hooks/activities";
+import { useActivity } from "@/hooks/activities";
 
 export default function ActivityPage() {
   const params = useParams();

@@ -1,5 +1,5 @@
 import HomeCard from "./HomeCard";
-import { useActivities } from "../../../hooks/activities";
+import { useActivities } from "@/hooks/activities";
 import { HSCarousel, type ICarousel } from "preline";
 import { useEffect, useRef } from "react";
 

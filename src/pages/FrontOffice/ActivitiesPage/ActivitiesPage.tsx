@@ -2,7 +2,7 @@ import CardList from "./CardList";
 import FilterBar from "./FilterBar";
 import Pagination from "./Pagination";
 import SearchForm from "./SearchForm";
-import { useActivities } from "../../../hooks/activities";
+import { useActivities } from "@/hooks/activities";
 
 export default function ActivitiesPage() {
   const { activities, page, perPage, total, loading, error } = useActivities();

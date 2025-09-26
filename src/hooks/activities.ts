@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "./redux";
 import {
   fetchOneActivity,
   fetchActivities,
-} from "../store/reducers/activitiesReducer";
+} from "@/store/reducers/activitiesReducer";
 
 export function useActivity(slug: string) {
   const dispatch = useAppDispatch();
