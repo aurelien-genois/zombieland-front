@@ -1,5 +1,5 @@
 import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
-import type { IUser } from "@/@types";
+import type { IPaginatedUsers } from "@/@types";
 import { axiosInstance } from "@/api/axiosInstance";
 import type { AxiosError } from "axios";
 
@@ -8,13 +8,13 @@ import type { AxiosError } from "axios";
 // **********************************************************************************
 
 interface AdminState {
-  usersInfo: IUser[] | null;
+  usersList: IPaginatedUsers | null;
   loading: boolean;
   error: string | null;
 }
 
 export const initialState: AdminState = {
-  usersInfo: null,
+  usersList: null,
   loading: false,
   error: null,
 };
@@ -25,7 +25,7 @@ export const initialState: AdminState = {
 
 // Get All Users
 export const getAllUsers = createAsyncThunk<
-  IUser[],
+  IPaginatedUsers,
   void,
   { rejectValue: string }
 >("admin/getAllUsers", async (_, { rejectWithValue }) => {
@@ -48,7 +48,7 @@ export const getAllUsers = createAsyncThunk<
 // **********************************************************************************
 
 //
-const userReducer = createReducer(initialState, (builder) => {
+const adminReducer = createReducer(initialState, (builder) => {
   builder;
   // Get All Users
   builder.addCase(getAllUsers.pending, (state) => {
@@ -57,7 +57,7 @@ const userReducer = createReducer(initialState, (builder) => {
   });
   builder.addCase(getAllUsers.fulfilled, (state, action) => {
     state.loading = false;
-    state.usersInfo = action.payload;
+    state.usersList = action.payload;
   });
   builder.addCase(getAllUsers.rejected, (state, action) => {
     state.loading = false;
@@ -65,4 +65,4 @@ const userReducer = createReducer(initialState, (builder) => {
   });
 });
 
-export default userReducer;
+export default adminReducer;
