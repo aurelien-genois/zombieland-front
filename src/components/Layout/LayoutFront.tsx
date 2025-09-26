@@ -21,12 +21,14 @@ import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 
 export default function LayoutFront() {
   const { isAuth } = useAppSelector((store) => store.userStore);
+  
 
   return (
     <div className="bg-black-bg-main ">
       <HeaderFront />
       <Main>
         <Routes>
+          {/* PUBLIC ROUTES */}
           <Route path="/" element={<HomePage />} />
           <Route path="/activities" element={<ActivitiesPage />} />
           <Route path="/activity/:slug" element={<ActivityPage />} />
@@ -36,17 +38,19 @@ export default function LayoutFront() {
             element={<RegisterConfirmationPage />}
           />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/account" element={<AccountPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route
-            path="/checkout/confirmation"
-            element={<CheckoutConfirmationPage />}
-          />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/order/:id" element={<OrderPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/legal" element={<LegalPage />} />
+
+          {/* MEMBER ROUTES */}
+          <Route path="/account" element={ isAuth ? <AccountPage /> : <LoginPage />} />
+          <Route path="/checkout" element={ isAuth ? <CheckoutPage /> : <LoginPage />} />
+          <Route
+            path="/checkout/confirmation"
+            element={ isAuth ? <CheckoutConfirmationPage /> : <LoginPage />}
+          />
+          <Route path="/reset-password" element={ isAuth ? <ResetPassword /> : <LoginPage />} />
+          <Route path="/order/:id" element={ isAuth ? <OrderPage /> : <LoginPage />} />
         </Routes>
       </Main>
       <FooterFront />
