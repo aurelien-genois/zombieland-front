@@ -1,13 +1,14 @@
 import { useAppDispatch } from "@/hooks/redux";
-import { fetchActivities } from "@/store/reducers/activitiesReducer";
 
 interface IPaginationProps {
+  fetchItems: Function;
   currentPage: number;
   totalItems: number;
   itemsPerPage: number;
 }
 
 export default function Pagination({
+  fetchItems,
   currentPage,
   totalItems,
   itemsPerPage,
@@ -27,10 +28,12 @@ export default function Pagination({
   return (
     <nav className="mt-8 flex items-center justify-center gap-2 sm:gap-3">
       <button
-        className="size-9 grid place-items-center rounded-full hover:bg-white/10 disabled:pointer-events-none disabled:opacity-50"
+        className="size-9 grid place-items-center bg-black rounded-full hover:bg-white/10 disabled:pointer-events-none disabled:opacity-50"
         onClick={() =>
           dispatch(
-            fetchActivities({ page: currentPage > 1 ? currentPage - 1 : 1 })
+            fetchItems({
+              page: currentPage > 1 ? currentPage - 1 : 1,
+            })
           )
         }
         disabled={currentPage === 1}
@@ -49,17 +52,17 @@ export default function Pagination({
               ? "bg-brand text-green-text"
               : "hover:bg-white/10"
           }`}
-          onClick={() => dispatch(fetchActivities({ page }))}
+          onClick={() => dispatch(fetchItems({ page }))}
         >
           {page}
         </button>
       ))}
 
       <button
-        className="size-9 grid place-items-center rounded-full hover:bg-white/10 disabled:pointer-events-none disabled:opacity-50"
+        className="size-9 grid place-items-center bg-black rounded-full hover:bg-white/10 disabled:pointer-events-none disabled:opacity-50"
         onClick={() =>
           dispatch(
-            fetchActivities({
+            fetchItems({
               page: currentPage < nbPages ? currentPage + 1 : nbPages,
             })
           )

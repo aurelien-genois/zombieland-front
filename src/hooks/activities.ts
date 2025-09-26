@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./redux";
 import {
-  fetchOneActivity,
-  fetchActivities,
+  fetchOnePublishedActivity,
+  fetchPublishedActivities,
+  fetchAllActivities,
 } from "@/store/reducers/activitiesReducer";
 
 export function useActivity(slug: string) {
@@ -12,7 +13,7 @@ export function useActivity(slug: string) {
   );
 
   useEffect(() => {
-    dispatch(fetchOneActivity(slug));
+    dispatch(fetchOnePublishedActivity(slug));
   }, [dispatch, slug]);
 
   return { currentActivity, loading, error };
@@ -28,7 +29,18 @@ export function useActivities({ perPage, page }: IActivitiesFilters = {}) {
   const activitiesState = useAppSelector((state) => state.activitiesStore);
 
   useEffect(() => {
-    dispatch(fetchActivities({ perPage, page }));
+    dispatch(fetchPublishedActivities({ perPage, page }));
+  }, [dispatch, perPage, page]);
+
+  return activitiesState;
+}
+
+export function useAllActivities({ perPage, page }: IActivitiesFilters = {}) {
+  const dispatch = useAppDispatch();
+  const activitiesState = useAppSelector((state) => state.activitiesStore);
+
+  useEffect(() => {
+    dispatch(fetchAllActivities({ perPage, page }));
   }, [dispatch, perPage, page]);
 
   return activitiesState;

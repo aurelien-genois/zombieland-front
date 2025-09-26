@@ -1,54 +1,56 @@
-import { useActivities } from "@/hooks/activities";
+import { useAllActivities } from "@/hooks/activities";
 import Pagination from "@/pages/FrontOffice/ActivitiesPage/Pagination";
 import { Link } from "react-router";
+import { fetchAllActivities } from "@/store/reducers/activitiesReducer";
 
 export default function ActivitiesManagement() {
-  const { activities, page, perPage, total, loading, error } = useActivities();
+  const { activities, page, perPage, total, loading, error } =
+    useAllActivities();
 
   const displayActivitiesList = activities?.map((activity) => (
     <tr key={activity.id} className="hover:bg-gray-50 transition-colors">
       {/* Colonne Nom */}
-      <td className="px-6 py-4 whitespace-nowrap">
+      <td className="px-6 py-4 w-[10%] ">
         <div className="text-sm font-medium text-gray-900">{activity.name}</div>
       </td>
 
       {/* Colonne Slogan */}
-      <td className="px-6 py-4 whitespace-nowrap">
+      <td className="px-6 py-4">
         <div className="text-sm font-medium text-gray-900">
           {activity.slogan}
         </div>
       </td>
 
       {/* Colonne Frousse/age minimum */}
-      <td className="px-6 py-4 whitespace-nowrap">
+      <td className="px-6 py-4">
         <div className="text-sm font-medium text-gray-900">
           {activity.minimum_age}
         </div>
       </td>
 
       {/* Colonne Accès PMR */}
-      <td className="px-6 py-4 whitespace-nowrap">
+      <td className="px-6 py-4">
         <div className="text-sm font-medium text-gray-900">
           {activity.disabled_access ? "OUI" : "NON"}
         </div>
       </td>
 
       {/* Colonne Haute intensité */}
-      <td className="px-6 py-4 whitespace-nowrap">
+      <td className="px-6 py-4">
         <div className="text-sm font-medium text-gray-900">
           {activity.high_intensity ? "OUI" : "NON"}
         </div>
       </td>
 
       {/* Colonne catégorie */}
-      <td className="px-6 py-4 whitespace-nowrap">
+      <td className="px-6 py-4">
         <div className="text-sm font-medium text-gray-900">
           {activity.category.name}
         </div>
       </td>
 
       {/* Colonne Image */}
-      <td className="px-6 py-4 whitespace-nowrap">
+      <td className="px-6 py-4">
         <div className="text-sm font-medium text-gray-900">
           {activity.image_url ? (
             <img
@@ -63,14 +65,14 @@ export default function ActivitiesManagement() {
       </td>
 
       {/* Colonne statut */}
-      <td className="px-6 py-4 whitespace-nowrap">
+      <td className="px-6 py-4">
         <div className="text-sm font-medium text-gray-900">
           {activity.status}
         </div>
       </td>
 
       {/* Colonne Updated at */}
-      <td className="px-6 py-4 whitespace-nowrap">
+      <td className="px-6 py-4">
         <div className="text-sm font-medium text-gray-900">
           {activity.updated_at}
         </div>
@@ -108,53 +110,57 @@ export default function ActivitiesManagement() {
         <p className="text-gray-600">Manage your activities here...</p>
         <div className="mt-4 inline-flex items-center px-4 py-2 bg-blue-50 rounded-lg">
           <span className="text-blue-800 font-medium">
-            📊 Total Users: {total}
+            📊 Total Activities: {total}
           </span>
         </div>
       </div>
 
-      <Link to={"/creation"}>Créer une activité</Link>
+      <Link
+        to={"/admin/management/activities/creation"}
+        className="bg-blue-500 text-white hover:bg-cyan-400 py-2 px-3 font-bold rounded-lg"
+      >
+        Créer une activité
+      </Link>
 
-      <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Nom
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Slogan
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Age Group (niveau de frousse)
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Disabled access
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                High intensity
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Category
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Image
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Status
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Updated at
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {displayActivitiesList}
-          </tbody>
-        </table>
-      </div>
+      <table className="mt-8 bg-white shadow overflow-hidden sm:rounded-lg min-w-full divide-y divide-gray-200">
+        <thead className="bg-gray-50 w-[10%]">
+          <tr>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Nom
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Slogan
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Age Group (niveau de frousse)
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Disabled access
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              High intensity
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Category
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Image
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Status
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Updated at
+            </th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {displayActivitiesList}
+        </tbody>
+      </table>
 
       <Pagination
+        fetchItems={fetchAllActivities}
         currentPage={page}
         totalItems={total}
         itemsPerPage={perPage}

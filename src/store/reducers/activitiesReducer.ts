@@ -42,8 +42,8 @@ interface IFetchActivitiesReturn {
   page: number;
 }
 
-export const fetchActivities = createAsyncThunk(
-  "activities/fetchAll",
+export const fetchPublishedActivities = createAsyncThunk(
+  "activities/fetchAllPublished",
   async (params: IFetchActivitiesParams, { rejectWithValue }) => {
     try {
       // TODO manage params (category (id), age_group (0/1/2/3), high_intensity (bool), disabled_access (bool), limit (int), status, page (int), order (name:asc/name:desc))
@@ -68,7 +68,33 @@ export const fetchActivities = createAsyncThunk(
   }
 );
 
-export const fetchOneActivity = createAsyncThunk(
+export const fetchAllActivities = createAsyncThunk(
+  "activities/fetchAll",
+  async (params: IFetchActivitiesParams, { rejectWithValue }) => {
+    try {
+      // TODO manage params (category (id), age_group (0/1/2/3), high_intensity (bool), disabled_access (bool), limit (int), status, page (int), order (name:asc/name:desc))
+      const { data } = await axiosInstance.get("/activities/all", {
+        params: {
+          ...(params.perPage
+            ? { limit: params.perPage }
+            : { limit: initialState.perPage }),
+          ...(params.page && { page: params.page }),
+        },
+      });
+      console.log("DATA FROM FETCH ACTIVITIES: ", data);
+      // TODO Axios errors
+      return {
+        ...data,
+        perPage: params.perPage || initialState.perPage,
+        page: params.page || initialState.page,
+      } as IFetchActivitiesReturn;
+    } catch {
+      return rejectWithValue("Failed to fetch activities");
+    }
+  }
+);
+
+export const fetchOnePublishedActivity = createAsyncThunk(
   "activities/fetchOne",
   async (slug: string, { rejectWithValue }) => {
     try {
@@ -84,17 +110,19 @@ export const fetchOneActivity = createAsyncThunk(
   }
 );
 
+// TODO builder: one activity (admin)
+
 // **********************************************************************************
 // ** Reducer & Associated Cases
 // **********************************************************************************
 
 const activitiesReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(fetchActivities.pending, (state) => {
+    .addCase(fetchPublishedActivities.pending, (state) => {
       state.loading = true;
       state.error = null;
     })
-    .addCase(fetchActivities.fulfilled, (state, action) => {
+    .addCase(fetchPublishedActivities.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
       state.activities = action.payload.activities;
@@ -102,22 +130,42 @@ const activitiesReducer = createReducer(initialState, (builder) => {
       state.perPage = action.payload.perPage;
       state.page = action.payload.page;
     })
-    .addCase(fetchActivities.rejected, (state, action) => {
+    .addCase(fetchPublishedActivities.rejected, (state, action) => {
       state.loading = false;
       state.error = (action.payload as string) || "Failed to fetch activities";
     });
 
   builder
-    .addCase(fetchOneActivity.pending, (state) => {
+    .addCase(fetchAllActivities.pending, (state) => {
       state.loading = true;
       state.error = null;
     })
-    .addCase(fetchOneActivity.fulfilled, (state, action) => {
+    .addCase(fetchAllActivities.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.activities = action.payload.activities;
+      state.total = action.payload.totalActivities;
+      state.perPage = action.payload.perPage;
+      state.page = action.payload.page;
+    })
+    .addCase(fetchAllActivities.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || "Failed to fetch activities";
+    });
+
+  // TODO builder: one activity (admin)
+
+  builder
+    .addCase(fetchOnePublishedActivity.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(fetchOnePublishedActivity.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
       state.currentActivity = action.payload;
     })
-    .addCase(fetchOneActivity.rejected, (state, action) => {
+    .addCase(fetchOnePublishedActivity.rejected, (state, action) => {
       state.loading = false;
       state.error =
         (action.payload as string) || "Failed to fetch one activity";

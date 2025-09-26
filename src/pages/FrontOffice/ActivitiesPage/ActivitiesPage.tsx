@@ -3,6 +3,7 @@ import FilterBar from "./FilterBar";
 import Pagination from "./Pagination";
 import SearchForm from "./SearchForm";
 import { useActivities } from "@/hooks/activities";
+import { fetchPublishedActivities } from "@/store/reducers/activitiesReducer";
 
 export default function ActivitiesPage() {
   const { activities, page, perPage, total, loading, error } = useActivities();
@@ -50,6 +51,7 @@ export default function ActivitiesPage() {
               ))}
             </div>
             <Pagination
+              fetchItems={fetchPublishedActivities}
               currentPage={page}
               totalItems={total}
               itemsPerPage={perPage}
