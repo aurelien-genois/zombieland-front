@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 import FooterFront from "./Footer/FooterFront";
 import HeaderFront from "@/components/Layout/FrontOffice/Header/HeaderFront";
 import HomePage from "@/pages/FrontOffice/_HomePage/HomePage";
@@ -30,13 +30,30 @@ export default function LayoutFront() {
           <Route path="/" element={<HomePage />} />
           <Route path="/activities" element={<ActivitiesPage />} />
           <Route path="/activity/:slug" element={<ActivityPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+          <Route
+            path="/register"
+            element={!isAuth ? <RegisterPage /> : <Navigate to="/" replace />}
+          />
           <Route
             path="/register/confirmation"
-            element={<RegisterConfirmationPage />}
+            element={
+              !isAuth ? (
+                <RegisterConfirmationPage />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            }
           />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/account" element={<AccountPage />} />
+          <Route
+            path="/login"
+            element={!isAuth ? <LoginPage /> : <Navigate to="/" replace />}
+          />
+          <Route
+            path="/account"
+            element={
+              isAuth ? <AccountPage /> : <Navigate to="/login" replace />
+            }
+          />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route
             path="/checkout/confirmation"
