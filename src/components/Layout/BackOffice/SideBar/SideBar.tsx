@@ -3,7 +3,7 @@ import home from "@/assets/icon/home.svg";
 import user from "@/assets/icon/user.svg";
 import activity from "@/assets/icon/activity.svg";
 import dashboard from "@/assets/icon/dashboard.svg";
-import NavLink from "@/components/UI/NavLink";
+import NavLink from "@/components/UI/BackOffice/NavLink";
 
 export default function SideBar() {
   return (

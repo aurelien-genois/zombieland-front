@@ -5,7 +5,6 @@ import LayoutBack from "@/components/Layout/BackOffice/LayoutBack";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { useEffect } from "react";
 import { getUserInfo } from "@/store/reducers/userReducer";
-import { getAllUsers } from "@/store/reducers/adminReducer";
 
 export default function App() {
   const dispatch = useAppDispatch();
@@ -15,10 +14,6 @@ export default function App() {
 
   useEffect(() => {
     dispatch(getUserInfo());
-  }, []);
-
-  useEffect(() => {
-    dispatch(getAllUsers());
   }, []);
 
   return (

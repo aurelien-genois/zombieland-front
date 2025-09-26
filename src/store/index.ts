@@ -5,6 +5,8 @@ import categoriesReducer from "./reducers/categoriesReducer";
 import adminReducer from "./reducers/adminReducer";
 import reservationReducer from "./reducers/reservationReducer";
 
+
+
 export const store = configureStore({
   reducer: {
     userStore: userReducer,
@@ -12,6 +14,7 @@ export const store = configureStore({
     categoriesStore: categoriesReducer,
     adminStore: adminReducer,
     reservationStore: reservationReducer,
+
   },
 });
 // Infer the `RootState` and `AppDispatch` types from the store itself
