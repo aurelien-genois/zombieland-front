@@ -11,8 +11,8 @@ export default function LayoutBack() {
       <div className="flex flex-col flex-1">
         <Main>
           <Routes>
-            <Route path="" element={<Dashboard />} />
-            <Route path="users" element={<UsersManagement />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="management/users" element={<UsersManagement />} />
           </Routes>
         </Main>
         <Footer />
