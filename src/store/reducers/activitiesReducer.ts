@@ -33,12 +33,13 @@ export const initialState: ActivitiesState = {
 
 export const fetchActivities = createAsyncThunk(
   "activities/fetchAll",
-  async (params: { perPage?: number }, { rejectWithValue }) => {
+  async (params: { perPage?: number; page?: number }, { rejectWithValue }) => {
     try {
       // TODO manage params (category (id), age_group (0/1/2/3), high_intensity (bool), disabled_access (bool), limit (int), status, page (int), order (name:asc/name:desc))
       const { data } = await axiosInstance.get("/activities", {
         params: {
           ...(params.perPage && { limit: params.perPage }),
+          ...(params.page && { page: params.page }),
         },
       });
       console.log("DATA FROM FETCH ACTIVITIES: ", data);

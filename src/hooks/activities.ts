@@ -20,17 +20,18 @@ export function useActivity(slug: string) {
 
 interface IActivitiesFilters {
   perPage?: number;
+  page?: number;
 }
 
-export function useActivities({ perPage = 20 }: IActivitiesFilters) {
+export function useActivities({ perPage = 20, page = 1 }: IActivitiesFilters) {
   const dispatch = useAppDispatch();
-  const { activities, loading, error } = useAppSelector(
+  const { activities, total, loading, error } = useAppSelector(
     (state) => state.activitiesStore
   );
 
   useEffect(() => {
-    dispatch(fetchActivities({ perPage }));
-  }, [dispatch, perPage]);
+    dispatch(fetchActivities({ perPage, page }));
+  }, [dispatch, perPage, page]);
 
-  return { activities, loading, error };
+  return { activities, page, perPage, total, loading, error };
 }
