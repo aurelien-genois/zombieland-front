@@ -1,5 +1,6 @@
 import { useActivities } from "@/hooks/activities";
 import Pagination from "@/pages/FrontOffice/ActivitiesPage/Pagination";
+import { Link } from "react-router";
 
 export default function ActivitiesManagement() {
   const { activities, page, perPage, total, loading, error } = useActivities();
@@ -111,9 +112,8 @@ export default function ActivitiesManagement() {
           </span>
         </div>
       </div>
-    <div>
-      <h1>Activities Management</h1>
-      <p>Manage your activities here...</p>
+
+      <Link to={"/creation"}>Créer une activité</Link>
 
       <div className="bg-white shadow overflow-hidden sm:rounded-lg">
         <table className="min-w-full divide-y divide-gray-200">
