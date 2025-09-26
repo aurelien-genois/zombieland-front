@@ -1,7 +1,8 @@
 import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
-import type { IPaginatedUsers } from "@/@types";
+import type { IPaginatedUsers, IUser } from "@/@types";
 import { axiosInstance } from "@/api/axiosInstance";
 import type { AxiosError } from "axios";
+import type { I } from "node_modules/react-router/dist/development/context-CIdFp11b.d.mts";
 
 // **********************************************************************************
 // ** Types & Initial State
@@ -11,12 +12,14 @@ interface AdminState {
   usersList: IPaginatedUsers | null;
   loading: boolean;
   error: string | null;
+  userDetails?: IUser | null;
 }
 
 export const initialState: AdminState = {
   usersList: null,
   loading: false,
   error: null,
+  userDetails: null,
 };
 
 // **********************************************************************************
@@ -50,6 +53,26 @@ export const getAllUsers = createAsyncThunk<
       `/users?${searchParams.toString()}`
     );
     console.log("Users fetched successfully:", response.data);
+    return response.data;
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    if (axiosError.response) {
+      return rejectWithValue(axiosError.response.data as string);
+    } else {
+      return rejectWithValue(axiosError.message);
+    }
+  }
+});
+
+// Get One User by ID
+export const getUserById = createAsyncThunk<
+  IUser,
+  { userId: number },
+  { rejectValue: string }
+>("admin/getUserById", async ({ userId }, { rejectWithValue }) => {
+  try {
+    const response = await axiosInstance.get(`/users/${userId}`);
+    console.log(`User ${userId} fetched successfully:`, response.data);
     return response.data;
   } catch (error) {
     const axiosError = error as AxiosError;
@@ -145,6 +168,19 @@ const adminReducer = createReducer(initialState, (builder) => {
   builder.addCase(deleteUser.rejected, (state, action) => {
     state.loading = false;
     state.error = action.payload || "Failed to delete user";
+  });
+  // Get One User by ID
+  builder.addCase(getUserById.pending, (state) => {
+    state.loading = true;
+    state.error = null;
+  });
+  builder.addCase(getUserById.fulfilled, (state, action) => {
+    state.loading = false;
+    state.userDetails = action.payload;
+  });
+  builder.addCase(getUserById.rejected, (state, action) => {
+    state.loading = false;
+    state.error = action.payload || "Failed to fetch user";
   });
 });
 

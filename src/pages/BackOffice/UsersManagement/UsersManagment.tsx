@@ -5,6 +5,7 @@ import {
   changeUserRole,
   deleteUser,
   getAllUsers,
+  getUserById,
 } from "@/store/reducers/adminReducer";
 import { useEffect, useState } from "react";
 
@@ -27,10 +28,6 @@ export default function UsersManagement() {
     );
   }, [dispatch, currentPage, limit, searchQuery, changeUserRole]);
 
-  const handleViewUser = (userId: number) => {
-    console.log("View user:", userId);
-  };
-
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
     setCurrentPage(1);
@@ -51,6 +48,12 @@ export default function UsersManagement() {
   function handleDeleteUser(userId: number) {
     dispatch(deleteUser({ userId }));
   }
+
+  function handleViewUser(userId: number) {
+    dispatch(getUserById({ userId }));
+  }
+
+  // ------------------------------------------------------ Display Users List ---------------------------------
 
   const displayUsersList = users?.data.map((user) => (
     <TableRow key={user.id}>
