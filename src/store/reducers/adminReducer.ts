@@ -26,11 +26,27 @@ export const initialState: AdminState = {
 // Get All Users
 export const getAllUsers = createAsyncThunk<
   IPaginatedUsers,
-  void,
+  {
+    page?: number;
+    limit?: number;
+    q?: string | null;
+    status?: string;
+    role?: string;
+  } | void,
   { rejectValue: string }
->("admin/getAllUsers", async (_, { rejectWithValue }) => {
+>("admin/getAllUsers", async (params, { rejectWithValue }) => {
   try {
-    const response = await axiosInstance.get("/users");
+    const searchParams = new URLSearchParams();
+    
+    if (params) {
+      if (params.page) searchParams.append('page', params.page.toString());
+      if (params.limit) searchParams.append('limit', params.limit.toString());
+      if (params.q) searchParams.append('q', params.q);
+      if (params.status) searchParams.append('status', params.status);
+      if (params.role) searchParams.append('role', params.role);
+    }
+
+    const response = await axiosInstance.get(`/users?${searchParams.toString()}`);
     console.log("Users fetched successfully:", response.data);
     return response.data;
   } catch (error) {
