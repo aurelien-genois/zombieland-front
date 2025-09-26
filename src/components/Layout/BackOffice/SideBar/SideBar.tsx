@@ -7,7 +7,7 @@ import NavLink from "@/components/UI/NavLink";
 
 export default function SideBar() {
   return (
-    <aside className="w-[250px] h-full bg-gray-800 text-white p-4">
+    <aside className="w-[250px] h-[calc(100%-20px)] bg-gray-800 text-white p-4 rounded-2xl my-[8px] ml-1">
       <img src={logo} alt="My App Logo" className="pb-10" />
       <div className="flex flex-col justify-between ">
         <nav className="flex flex-col">

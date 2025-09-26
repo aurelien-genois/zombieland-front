@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router";
 import Dashboard from "@/pages/BackOffice/_Dashboard/Dashboard";
 import SideBar from "./SideBar/SideBar";
-import Footer from "./Fonter/Footer";
+import Footer from "./Footer/Footer";
 import Main from "./Main/Main";
 import UsersManagement from "@/pages/BackOffice/UsersManagement/UsersManagment";
 export default function LayoutBack() {
