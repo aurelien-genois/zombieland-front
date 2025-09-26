@@ -21,7 +21,7 @@ export const initialState: ActivitiesState = {
   activities: [],
   currentActivity: undefined,
   page: 1,
-  perPage: 20,
+  perPage: 9,
   total: 0,
   loading: false,
   error: null,
@@ -31,20 +31,37 @@ export const initialState: ActivitiesState = {
 // ** Actions (Async & Sync)
 // **********************************************************************************
 
+interface IFetchActivitiesParams {
+  perPage?: number;
+  page?: number;
+}
+interface IFetchActivitiesReturn {
+  activities: IActivity[];
+  totalActivities: number;
+  perPage: number;
+  page: number;
+}
+
 export const fetchActivities = createAsyncThunk(
   "activities/fetchAll",
-  async (params: { perPage?: number; page?: number }, { rejectWithValue }) => {
+  async (params: IFetchActivitiesParams, { rejectWithValue }) => {
     try {
       // TODO manage params (category (id), age_group (0/1/2/3), high_intensity (bool), disabled_access (bool), limit (int), status, page (int), order (name:asc/name:desc))
       const { data } = await axiosInstance.get("/activities", {
         params: {
-          ...(params.perPage && { limit: params.perPage }),
+          ...(params.perPage
+            ? { limit: params.perPage }
+            : { limit: initialState.perPage }),
           ...(params.page && { page: params.page }),
         },
       });
       console.log("DATA FROM FETCH ACTIVITIES: ", data);
       // TODO Axios errors
-      return data as { activities: IActivity[]; totalActivities: number };
+      return {
+        ...data,
+        perPage: params.perPage || initialState.perPage,
+        page: params.page || initialState.page,
+      } as IFetchActivitiesReturn;
     } catch {
       return rejectWithValue("Failed to fetch activities");
     }
@@ -82,8 +99,8 @@ const activitiesReducer = createReducer(initialState, (builder) => {
       state.error = null;
       state.activities = action.payload.activities;
       state.total = action.payload.totalActivities;
-      state.perPage = action.payload.activities.length;
-      state.page = 1; // TODO manage page
+      state.perPage = action.payload.perPage;
+      state.page = action.payload.page;
     })
     .addCase(fetchActivities.rejected, (state, action) => {
       state.loading = false;

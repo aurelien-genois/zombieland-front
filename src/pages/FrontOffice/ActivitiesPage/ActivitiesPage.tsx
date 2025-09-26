@@ -5,12 +5,7 @@ import SearchForm from "./SearchForm";
 import { useActivities } from "../../../hooks/activities";
 
 export default function ActivitiesPage() {
-  useActivities({ perPage: 20 });
-
-  // TODO manage filters here ?
-  const { activities, page, perPage, total, loading, error } = useActivities({
-    perPage: 20,
-  });
+  const { activities, page, perPage, total, loading, error } = useActivities();
 
   if (loading) {
     return <div className="text-white">Loading...</div>;

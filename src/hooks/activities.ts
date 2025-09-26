@@ -23,15 +23,13 @@ interface IActivitiesFilters {
   page?: number;
 }
 
-export function useActivities({ perPage = 20, page = 1 }: IActivitiesFilters) {
+export function useActivities({ perPage, page }: IActivitiesFilters = {}) {
   const dispatch = useAppDispatch();
-  const { activities, total, loading, error } = useAppSelector(
-    (state) => state.activitiesStore
-  );
+  const activitiesState = useAppSelector((state) => state.activitiesStore);
 
   useEffect(() => {
     dispatch(fetchActivities({ perPage, page }));
   }, [dispatch, perPage, page]);
 
-  return { activities, page, perPage, total, loading, error };
+  return activitiesState;
 }
