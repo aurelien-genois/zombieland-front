@@ -1,6 +1,6 @@
 import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
-import type { IActivity } from "../../@types";
-import { axiosInstance } from "../../api/axiosInstance";
+import type { IActivity } from "@/@types";
+import { axiosInstance } from "@/api/axiosInstance";
 // import type { AxiosError } from "axios";
 
 // **********************************************************************************

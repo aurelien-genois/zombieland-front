@@ -1,11 +1,7 @@
 import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
-import type {
-  IUser,
-  IUserChangePassword,
-  IUserResetPassword,
-} from "../../@types";
+import type { IUser, IUserChangePassword, IUserResetPassword } from "@/@types";
 
-import { axiosInstance } from "../../api/axiosInstance";
+import { axiosInstance } from "@/api/axiosInstance";
 import type { AxiosError } from "axios";
 
 // **********************************************************************************
