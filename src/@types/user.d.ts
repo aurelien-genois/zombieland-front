@@ -1,6 +1,6 @@
 export interface IRole {
   id: number;
-  nom: "admin" | "member";
+  name: "admin" | "member";
 }
 
 export type TokenType = "reset_password" | "verification_email" | "refresh";
@@ -21,9 +21,22 @@ export interface IUser {
   phone?: string | null;
   birthday: dateTime;
   last_login: dateTime;
-
-  roles: IRole[];
+  role: IRole;
   tokens?: IToken[] | null;
+}
+
+export interface IPaginatedUsers {
+  data: IUser[];
+  meta: {
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+    limit: number;
+    order: string;
+    page: number;
+    q: string | null;
+    total: number;
+    totalPages: number;
+  };
 }
 
 export interface IUserResetPassword {
