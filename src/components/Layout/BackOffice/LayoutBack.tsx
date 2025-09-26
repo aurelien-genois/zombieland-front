@@ -4,6 +4,7 @@ import SideBar from "./SideBar/SideBar";
 import Footer from "./Footer/Footer";
 import Main from "./Main/Main";
 import UsersManagement from "@/pages/BackOffice/UsersManagement/UsersManagment";
+import ActivitiesManagement from "@/pages/BackOffice/ActivitiesManagement/ActivitiesManagement";
 export default function LayoutBack() {
   return (
     <div className="flex h-screen">
@@ -13,6 +14,10 @@ export default function LayoutBack() {
           <Routes>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="management/users" element={<UsersManagement />} />
+            <Route
+              path="management/activities"
+              element={<ActivitiesManagement />}
+            />
           </Routes>
         </Main>
         <Footer />

@@ -20,7 +20,7 @@ export default function SideBar() {
           <NavLink
             iconAlt="Activity"
             iconSrc={activity}
-            to="/admin/management/activity"
+            to="/admin/management/activities"
             label="Activités"
           />
           <NavLink
