@@ -71,6 +71,7 @@ export default function UsersManagement() {
       <TableData>
         <div className="text-sm text-gray-900">{user.email}</div>
       </TableData>
+
       <TableData>
         <span
           className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
@@ -81,6 +82,21 @@ export default function UsersManagement() {
         >
           {user.is_active ? "Active" : "Inactive"}
         </span>
+      </TableData>
+
+      <TableData>{user.phone || "N/A"}</TableData>
+      <TableData>
+        {user.last_login
+          ? new Date(user.last_login).toLocaleDateString("fr-FR")
+          : "Never"}
+      </TableData>
+      <TableData>
+        <button
+          onClick={() => handleViewUser(user.id)}
+          className="cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+        >
+          View
+        </button>
       </TableData>
       <TableData>
         <button
@@ -94,34 +110,17 @@ export default function UsersManagement() {
           {user?.role?.name || "N/A"}{" "}
         </button>
       </TableData>
-      <TableData>{user.phone || "N/A"}</TableData>
+
       <TableData>
-        {user.last_login
-          ? new Date(user.last_login).toLocaleDateString("fr-FR")
-          : "Never"}
+        <button
+          onClick={() =>
+            handleDeleteUser(user.id, `${user.firstname} ${user.lastname}`)
+          }
+          className="cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
+        >
+          Delete
+        </button>
       </TableData>
-
-      <>
-        <TableData>
-          <button
-            onClick={() => handleViewUser(user.id)}
-            className="cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-          >
-            View
-          </button>
-        </TableData>
-
-        <TableData>
-          <button
-            onClick={() =>
-              handleDeleteUser(user.id, `${user.firstname} ${user.lastname}`)
-            }
-            className="cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
-          >
-            Delete
-          </button>
-        </TableData>
-      </>
     </TableRow>
   ));
 
@@ -242,18 +241,19 @@ export default function UsersManagement() {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Status
               </th>
+
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Role
+                Téléphone
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Phone
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Last Login
+                connexion
               </th>
 
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                View
+                Détails
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Role
               </th>
 
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
