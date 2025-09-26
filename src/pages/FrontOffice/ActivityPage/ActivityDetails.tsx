@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { fetchOneCategory } from "../../store/reducers/categoriesReducer";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { fetchOneCategory } from "@/store/reducers/categoriesReducer";
 
 interface IActivityDetailsProps {
   name: string;

@@ -1,5 +1,5 @@
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { register } from "../../store/reducers/userReducer"; // ✅ Import correct
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { register } from "@/store/reducers/userReducer"; // ✅ Import correct
 import { useState } from "react";
 
 export default function RegisterForm() {

@@ -1,6 +1,6 @@
 import HomeCard from "./HomeCard";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { fetchActivities } from "../../store/reducers/activitiesReducer";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { fetchActivities } from "@/store/reducers/activitiesReducer";
 import { useEffect, useRef } from "react";
 import { HSCarousel, type ICarousel } from "preline";
 
