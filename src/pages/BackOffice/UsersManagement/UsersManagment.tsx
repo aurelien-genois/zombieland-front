@@ -1,3 +1,5 @@
+import TableData from "@/components/UI/BackOffice/Table/TableData";
+import TableRow from "@/components/UI/BackOffice/Table/TableRow";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { getAllUsers } from "@/store/reducers/adminReducer";
 import { useEffect, useState } from "react";
@@ -10,6 +12,7 @@ export default function UsersManagement() {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
+  const [showButtons, setShowButtons] = useState(true);
 
   console.log(">>>Users: !!", users);
 
@@ -56,30 +59,19 @@ export default function UsersManagement() {
   };
 
   const displayUsersList = users?.data.map((user) => (
-    <tr key={user.id} className="hover:bg-gray-50 transition-colors">
-      {/* Colonne Avatar + Prénom */}
-      <td className="px-6 py-4 whitespace-nowrap">
-        <div className="flex items-center">
-          <div className="ml-4">
-            <div className="text-sm font-medium text-gray-900">
-              {user.firstname}
-            </div>
-          </div>
-        </div>
-      </td>
-
-      {/* Colonne Nom */}
-      <td className="px-6 py-4 whitespace-nowrap">
+    <TableRow key={user.id}>
+      <TableData>
         <div className="text-sm font-medium text-gray-900">{user.lastname}</div>
-      </td>
-
-      {/* Colonne Email */}
-      <td className="px-6 py-4 whitespace-nowrap">
+      </TableData>
+      <TableData>
+        <div className="text-sm font-medium text-gray-900">
+          {user.firstname}
+        </div>
+      </TableData>
+      <TableData>
         <div className="text-sm text-gray-900">{user.email}</div>
-      </td>
-
-      {/* Colonne Status */}
-      <td className="px-6 py-4 whitespace-nowrap">
+      </TableData>
+      <TableData>
         <span
           className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
             user.is_active
@@ -89,65 +81,48 @@ export default function UsersManagement() {
         >
           {user.is_active ? "Active" : "Inactive"}
         </span>
-      </td>
-
-      {/* Colonne Role */}
-      <td className="px-6 py-4 whitespace-nowrap">
-        <span
-          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+      </TableData>
+      <TableData>
+        <button
+          onClick={() => handleChangeRole(user.id, user.role?.name || "user")}
+          className={` cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md ${
             user.role?.name === "admin"
-              ? "bg-purple-100 text-purple-800"
-              : "bg-gray-100 text-gray-800"
+              ? "bg-red-100 text-red-800"
+              : "bg-orange-100 text-orange-800"
           }`}
         >
-          {user?.role?.name || "N/A"}
-        </span>
-      </td>
-
-      {/* Colonne Phone */}
-      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        {user.phone || "N/A"}
-      </td>
-
-      {/* Colonne Last Login */}
-      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+          {user?.role?.name || "N/A"}{" "}
+        </button>
+      </TableData>
+      <TableData>{user.phone || "N/A"}</TableData>
+      <TableData>
         {user.last_login
           ? new Date(user.last_login).toLocaleDateString("fr-FR")
           : "Never"}
-      </td>
+      </TableData>
 
-      {/* Colonne View */}
-      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        <button
-          onClick={() => handleViewUser(user.id)}
-          className="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-        >
-          View
-        </button>
-      </td>
+      <>
+        <TableData>
+          <button
+            onClick={() => handleViewUser(user.id)}
+            className="cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+          >
+            View
+          </button>
+        </TableData>
 
-      {/* Colonne Change Role */}
-      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        <button
-          onClick={() => handleChangeRole(user.id, user?.role?.name || "N/A")}
-          className="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-orange-700 bg-orange-100 hover:bg-orange-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors"
-        >
-          Role
-        </button>
-      </td>
-
-      {/* Colonne Delete */}
-      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        <button
-          onClick={() =>
-            handleDeleteUser(user.id, `${user.firstname} ${user.lastname}`)
-          }
-          className="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
-        >
-          Delete
-        </button>
-      </td>
-    </tr>
+        <TableData>
+          <button
+            onClick={() =>
+              handleDeleteUser(user.id, `${user.firstname} ${user.lastname}`)
+            }
+            className="cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
+          >
+            Delete
+          </button>
+        </TableData>
+      </>
+    </TableRow>
   ));
 
   if (!users) {
@@ -169,11 +144,10 @@ export default function UsersManagement() {
         </h1>
         <p className="text-gray-600">Manage your users here...</p>
       </div>
-
-      {/* ✅ Barre de recherche simplifiée */}
+      {/*------------------------------------------------------ Simple Search Bar */}
       <div className="mb-6 bg-white p-4 rounded-lg shadow border">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-          {/* Barre de recherche */}
+          {/*------------------------------------------------------ Search Bar */}
           <div className="md:col-span-2">
             <label
               htmlFor="search"
@@ -191,7 +165,7 @@ export default function UsersManagement() {
             />
           </div>
 
-          {/* Bouton Reset */}
+          {/*------------------------------------------------------ Bouton Reset */}
           <div>
             <button
               onClick={handleResetFilters}
@@ -202,7 +176,7 @@ export default function UsersManagement() {
           </div>
         </div>
 
-        {/* Compteurs et résultats */}
+        {/*------------------------------------------------------ Compteurs et résultats */}
         <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-4 text-sm text-gray-600">
             <span className="px-3 py-1 bg-blue-50 text-blue-800 rounded-full">
@@ -218,7 +192,7 @@ export default function UsersManagement() {
             )}
           </div>
 
-          {/* Sélecteur de limite */}
+          {/*------------------------------------------------------ Selected Limit */}
           <div className="flex items-center gap-2">
             <label htmlFor="limit" className="text-sm text-gray-700">
               Afficher:
@@ -242,7 +216,16 @@ export default function UsersManagement() {
         </div>
       </div>
 
-      {/* Tableau */}
+      {/*------------------------------------------------------ Show Table Data */}
+
+      <div>
+        <button onClick={() => setShowButtons(!showButtons)}>
+          {showButtons ? "Masquer" : "Voir"} détails
+        </button>
+      </div>
+
+      {/*------------------------------------------------------ Table Header Cells */}
+
       <div className="bg-white shadow overflow-hidden sm:rounded-lg">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
@@ -268,12 +251,11 @@ export default function UsersManagement() {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Last Login
               </th>
+
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 View
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Role
-              </th>
+
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Delete
               </th>
@@ -285,7 +267,7 @@ export default function UsersManagement() {
         </table>
       </div>
 
-      {/* ✅ Pagination */}
+      {/*------------------------------------------------------ Pagination */}
       <div className="mt-6 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <button
