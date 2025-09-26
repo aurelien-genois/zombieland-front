@@ -8,10 +8,6 @@ import DeleteMyAccount from "./DeleteMyAccount";
 export default function AccountPage() {
   const [activeTab, setActiveTab] = useState("infos");
 
-  function updateActiveTab(tab: string): void {
-    setActiveTab(tab);
-  }
-
   return (
     <>
       <div className="bg-gray-300">

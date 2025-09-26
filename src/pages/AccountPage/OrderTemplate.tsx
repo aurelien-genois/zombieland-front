@@ -1,5 +1,7 @@
 // Récupérer les dates des commandes pour afficher ou non le bouton modifier la commande.
 
+
+
 export default function OrderTemplate() {
   return(
     <div className="flex justify-center pb-5">
@@ -28,7 +30,7 @@ export default function OrderTemplate() {
             href="#"
             className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl font-extrabold text-white bg-green-600 hover:bg-green-500"
             >
-            Télécharger les billets (PDF)
+            Afficher ma réservation
           </a>
           <a
             href="#"

@@ -50,7 +50,7 @@ export default function LayoutFront() {
             element={ isAuth ? <CheckoutConfirmationPage /> : <LoginPage />}
           />
           <Route path="/reset-password" element={ isAuth ? <ResetPassword /> : <LoginPage />} />
-          <Route path="/order/:id" element={ isAuth ? <OrderPage /> : <LoginPage />} />
+          <Route path="/order/:id" element={<OrderPage />} />
         </Routes>
       </Main>
       <FooterFront />
