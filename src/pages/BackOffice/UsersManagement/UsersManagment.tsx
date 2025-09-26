@@ -1,7 +1,11 @@
 import TableData from "@/components/UI/BackOffice/Table/TableData";
 import TableRow from "@/components/UI/BackOffice/Table/TableRow";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { changeUserRole, getAllUsers } from "@/store/reducers/adminReducer";
+import {
+  changeUserRole,
+  deleteUser,
+  getAllUsers,
+} from "@/store/reducers/adminReducer";
 import { useEffect, useState } from "react";
 
 export default function UsersManagement() {
@@ -27,16 +31,6 @@ export default function UsersManagement() {
     console.log("View user:", userId);
   };
 
-  const handleDeleteUser = (userId: number, userName: string) => {
-    if (
-      window.confirm(
-        `Êtes-vous sûr de vouloir supprimer l'utilisateur ${userName} ?`
-      )
-    ) {
-      console.log("Delete user:", userId);
-    }
-  };
-
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
     setCurrentPage(1);
@@ -52,6 +46,10 @@ export default function UsersManagement() {
     const newRole = currentRole === "admin" ? "member" : "admin";
 
     dispatch(changeUserRole({ userId, newRole }));
+  }
+
+  function handleDeleteUser(userId: number) {
+    dispatch(deleteUser({ userId }));
   }
 
   const displayUsersList = users?.data.map((user) => (
@@ -113,9 +111,7 @@ export default function UsersManagement() {
 
       <TableData>
         <button
-          onClick={() =>
-            handleDeleteUser(user.id, `${user.firstname} ${user.lastname}`)
-          }
+          onClick={() => handleDeleteUser(user.id)}
           className="cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
         >
           Delete

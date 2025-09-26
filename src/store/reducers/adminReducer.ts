@@ -81,6 +81,26 @@ export const changeUserRole = createAsyncThunk<
   }
 });
 
+// Delete User
+export const deleteUser = createAsyncThunk<
+  void,
+  { userId: number },
+  { rejectValue: string }
+>("admin/deleteUser", async ({ userId }, { rejectWithValue }) => {
+  try {
+    console.log(`Deleting user ${userId}`);
+    await axiosInstance.delete(`/users/${userId}`);
+    console.log(`User ${userId} deleted`);
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    if (axiosError.response) {
+      return rejectWithValue(axiosError.response.data as string);
+    } else {
+      return rejectWithValue(axiosError.message);
+    }
+  }
+});
+
 // **********************************************************************************
 // ** Reducer & Associated Cases
 // **********************************************************************************
@@ -113,6 +133,18 @@ const adminReducer = createReducer(initialState, (builder) => {
   builder.addCase(changeUserRole.rejected, (state, action) => {
     state.loading = false;
     state.error = action.payload || "Failed to change user role";
+  });
+  // Delete User
+  builder.addCase(deleteUser.pending, (state) => {
+    state.loading = true;
+    state.error = null;
+  });
+  builder.addCase(deleteUser.fulfilled, (state) => {
+    state.loading = false;
+  });
+  builder.addCase(deleteUser.rejected, (state, action) => {
+    state.loading = false;
+    state.error = action.payload || "Failed to delete user";
   });
 });
 
