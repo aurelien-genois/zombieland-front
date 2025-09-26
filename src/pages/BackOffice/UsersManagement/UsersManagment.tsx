@@ -1,23 +1,19 @@
 import TableData from "@/components/UI/BackOffice/Table/TableData";
 import TableRow from "@/components/UI/BackOffice/Table/TableRow";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { getAllUsers } from "@/store/reducers/adminReducer";
+import { changeUserRole, getAllUsers } from "@/store/reducers/adminReducer";
 import { useEffect, useState } from "react";
 
 export default function UsersManagement() {
   const dispatch = useAppDispatch();
   const users = useAppSelector((state) => state.adminStore.usersList);
 
-  // États pour les filtres (suppression de statusFilter et roleFilter)
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [showAllTable, setShowAllTable] = useState(true);
 
-  console.log(">>>Users: !!", users);
-
   useEffect(() => {
-    // Appel API avec les filtres (suppression des filtres status et role)
     dispatch(
       getAllUsers({
         page: currentPage,
@@ -25,15 +21,10 @@ export default function UsersManagement() {
         q: searchQuery || null,
       })
     );
-  }, [dispatch, currentPage, limit, searchQuery]);
+  }, [dispatch, currentPage, limit, searchQuery, changeUserRole]);
 
-  // Handlers pour les actions
   const handleViewUser = (userId: number) => {
     console.log("View user:", userId);
-  };
-
-  const handleChangeRole = (userId: number, currentRole: string) => {
-    console.log("Change role for user:", userId, "current role:", currentRole);
   };
 
   const handleDeleteUser = (userId: number, userName: string) => {
@@ -46,17 +37,22 @@ export default function UsersManagement() {
     }
   };
 
-  // Handler pour la recherche
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
-    setCurrentPage(1); // Reset à la première page lors d'une nouvelle recherche
+    setCurrentPage(1);
   };
 
-  // Reset tous les filtres (simplifié)
   const handleResetFilters = () => {
     setSearchQuery("");
     setCurrentPage(1);
   };
+
+  function handleChangeRole(userId: number, currentRole: string) {
+    console.log("Change role for user:", userId, "current role:", currentRole);
+    const newRole = currentRole === "admin" ? "member" : "admin";
+
+    dispatch(changeUserRole({ userId, newRole }));
+  }
 
   const displayUsersList = users?.data.map((user) => (
     <TableRow key={user.id}>
@@ -90,7 +86,7 @@ export default function UsersManagement() {
             {user.last_login
               ? new Date(user.last_login).toLocaleDateString("fr-FR")
               : "Never"}
-          </TableData>{" "}
+          </TableData>
         </>
       )}
       {/* ------------------ */}
