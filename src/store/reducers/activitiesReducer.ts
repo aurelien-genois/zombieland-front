@@ -95,7 +95,7 @@ export const fetchAllActivities = createAsyncThunk(
 );
 
 export const fetchOnePublishedActivity = createAsyncThunk(
-  "activities/fetchOne",
+  "activities/fetchOnePublished",
   async (slug: string, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.get(`/activities/${slug}`, {
@@ -111,6 +111,41 @@ export const fetchOnePublishedActivity = createAsyncThunk(
 );
 
 // TODO builder: one activity (admin)
+
+export const createActivity = createAsyncThunk(
+  "activities/create",
+  async (
+    params: { formData: FormData; action: "draft" | "publish" },
+    { rejectWithValue }
+  ) => {
+    try {
+      const objData = Object.fromEntries(params.formData);
+      console.log("objData ::>>>>", objData);
+
+      const body = {
+        name: objData.name,
+        slogan: objData.slogan,
+        description: objData.description,
+        age_group: Number(objData.age_group),
+        duration: objData.duration,
+        disabled_access: objData.disabled_access === "on",
+        high_intensity: objData.high_intensity === "on",
+        image_url: objData.image_url,
+        category_id: Number(objData.category_id),
+        saved: params.action === "publish",
+      };
+      console.log("body ::>>>>", body);
+
+      const { data } = await axiosInstance.post("/activities", body);
+      console.log("data :CREATE ACTIVITY:", data);
+
+      // TODO Axios errors
+      return data as IActivity;
+    } catch {
+      return rejectWithValue("Failed to fetch create activity");
+    }
+  }
+);
 
 // **********************************************************************************
 // ** Reducer & Associated Cases
@@ -169,6 +204,20 @@ const activitiesReducer = createReducer(initialState, (builder) => {
       state.loading = false;
       state.error =
         (action.payload as string) || "Failed to fetch one activity";
+    });
+
+  builder
+    .addCase(createActivity.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(createActivity.fulfilled, (state) => {
+      state.loading = false;
+      state.error = null;
+    })
+    .addCase(createActivity.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || "Creation failed";
     });
 });
 
