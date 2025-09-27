@@ -1,6 +1,6 @@
 import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
-import type { IActivity } from "../../@types";
-import { axiosInstance } from "../../api/axiosInstance";
+import type { IActivity } from "@/@types";
+import { axiosInstance } from "@/api/axiosInstance";
 // import type { AxiosError } from "axios";
 
 // **********************************************************************************
@@ -21,7 +21,7 @@ export const initialState: ActivitiesState = {
   activities: [],
   currentActivity: undefined,
   page: 1,
-  perPage: 20,
+  perPage: 9,
   total: 0,
   loading: false,
   error: null,
@@ -31,27 +31,71 @@ export const initialState: ActivitiesState = {
 // ** Actions (Async & Sync)
 // **********************************************************************************
 
-export const fetchActivities = createAsyncThunk(
-  "activities/fetchAll",
-  async (params: { perPage?: number }, { rejectWithValue }) => {
+interface IFetchActivitiesParams {
+  perPage?: number;
+  page?: number;
+}
+interface IFetchActivitiesReturn {
+  activities: IActivity[];
+  totalActivities: number;
+  perPage: number;
+  page: number;
+}
+
+export const fetchPublishedActivities = createAsyncThunk(
+  "activities/fetchAllPublished",
+  async (params: IFetchActivitiesParams, { rejectWithValue }) => {
     try {
       // TODO manage params (category (id), age_group (0/1/2/3), high_intensity (bool), disabled_access (bool), limit (int), status, page (int), order (name:asc/name:desc))
       const { data } = await axiosInstance.get("/activities", {
         params: {
-          ...(params.perPage && { limit: params.perPage }),
+          ...(params.perPage
+            ? { limit: params.perPage }
+            : { limit: initialState.perPage }),
+          ...(params.page && { page: params.page }),
         },
       });
       console.log("DATA FROM FETCH ACTIVITIES: ", data);
       // TODO Axios errors
-      return data as { activities: IActivity[]; totalActivities: number };
+      return {
+        ...data,
+        perPage: params.perPage || initialState.perPage,
+        page: params.page || initialState.page,
+      } as IFetchActivitiesReturn;
     } catch {
       return rejectWithValue("Failed to fetch activities");
     }
   }
 );
 
-export const fetchOneActivity = createAsyncThunk(
-  "activities/fetchOne",
+export const fetchAllActivities = createAsyncThunk(
+  "activities/fetchAll",
+  async (params: IFetchActivitiesParams, { rejectWithValue }) => {
+    try {
+      // TODO manage params (category (id), age_group (0/1/2/3), high_intensity (bool), disabled_access (bool), limit (int), status, page (int), order (name:asc/name:desc))
+      const { data } = await axiosInstance.get("/activities/all", {
+        params: {
+          ...(params.perPage
+            ? { limit: params.perPage }
+            : { limit: initialState.perPage }),
+          ...(params.page && { page: params.page }),
+        },
+      });
+      console.log("DATA FROM FETCH ACTIVITIES: ", data);
+      // TODO Axios errors
+      return {
+        ...data,
+        perPage: params.perPage || initialState.perPage,
+        page: params.page || initialState.page,
+      } as IFetchActivitiesReturn;
+    } catch {
+      return rejectWithValue("Failed to fetch activities");
+    }
+  }
+);
+
+export const fetchOnePublishedActivity = createAsyncThunk(
+  "activities/fetchOnePublished",
   async (slug: string, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.get(`/activities/${slug}`, {
@@ -66,43 +110,114 @@ export const fetchOneActivity = createAsyncThunk(
   }
 );
 
+// TODO builder: one activity (admin)
+
+export const createActivity = createAsyncThunk(
+  "activities/create",
+  async (
+    params: { formData: FormData; action: "draft" | "publish" },
+    { rejectWithValue }
+  ) => {
+    try {
+      const objData = Object.fromEntries(params.formData);
+      console.log("objData ::>>>>", objData);
+
+      const body = {
+        name: objData.name,
+        slogan: objData.slogan,
+        description: objData.description,
+        age_group: Number(objData.age_group),
+        duration: objData.duration,
+        disabled_access: objData.disabled_access === "on",
+        high_intensity: objData.high_intensity === "on",
+        image_url: objData.image_url,
+        category_id: Number(objData.category_id),
+        saved: params.action === "publish",
+      };
+      console.log("body ::>>>>", body);
+
+      const { data } = await axiosInstance.post("/activities", body);
+      console.log("data :CREATE ACTIVITY:", data);
+
+      // TODO Axios errors
+      return data as IActivity;
+    } catch {
+      return rejectWithValue("Failed to fetch create activity");
+    }
+  }
+);
+
 // **********************************************************************************
 // ** Reducer & Associated Cases
 // **********************************************************************************
 
 const activitiesReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(fetchActivities.pending, (state) => {
+    .addCase(fetchPublishedActivities.pending, (state) => {
       state.loading = true;
       state.error = null;
     })
-    .addCase(fetchActivities.fulfilled, (state, action) => {
+    .addCase(fetchPublishedActivities.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
       state.activities = action.payload.activities;
       state.total = action.payload.totalActivities;
-      state.perPage = action.payload.activities.length;
-      state.page = 1; // TODO manage page
+      state.perPage = action.payload.perPage;
+      state.page = action.payload.page;
     })
-    .addCase(fetchActivities.rejected, (state, action) => {
+    .addCase(fetchPublishedActivities.rejected, (state, action) => {
       state.loading = false;
       state.error = (action.payload as string) || "Failed to fetch activities";
     });
 
   builder
-    .addCase(fetchOneActivity.pending, (state) => {
+    .addCase(fetchAllActivities.pending, (state) => {
       state.loading = true;
       state.error = null;
     })
-    .addCase(fetchOneActivity.fulfilled, (state, action) => {
+    .addCase(fetchAllActivities.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.activities = action.payload.activities;
+      state.total = action.payload.totalActivities;
+      state.perPage = action.payload.perPage;
+      state.page = action.payload.page;
+    })
+    .addCase(fetchAllActivities.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || "Failed to fetch activities";
+    });
+
+  // TODO builder: one activity (admin)
+
+  builder
+    .addCase(fetchOnePublishedActivity.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(fetchOnePublishedActivity.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
       state.currentActivity = action.payload;
     })
-    .addCase(fetchOneActivity.rejected, (state, action) => {
+    .addCase(fetchOnePublishedActivity.rejected, (state, action) => {
       state.loading = false;
       state.error =
         (action.payload as string) || "Failed to fetch one activity";
+    });
+
+  builder
+    .addCase(createActivity.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(createActivity.fulfilled, (state) => {
+      state.loading = false;
+      state.error = null;
+    })
+    .addCase(createActivity.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || "Creation failed";
     });
 });
 

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
-import type { ICategory } from "../../@types";
-import { axiosInstance } from "../../api/axiosInstance";
+import type { ICategory } from "@/@types";
+import { axiosInstance } from "@/api/axiosInstance";
 // import type { AxiosError } from "axios";
 
 // **********************************************************************************
@@ -31,6 +31,25 @@ export const initialState: CategoriesState = {
 // ** Actions (Async & Sync)
 // **********************************************************************************
 
+export const fetchCategories = createAsyncThunk(
+  "categories/fetchAll",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get("/categories", {
+        params: {},
+      });
+      console.log("DATA FROM FETCH CATEGORIES: ", data);
+      // TODO Axios errors
+      return data as {
+        items: ICategory[];
+        totalFound: number;
+      };
+    } catch {
+      return rejectWithValue("Failed to fetch categories");
+    }
+  }
+);
+
 export const fetchOneCategory = createAsyncThunk(
   "categories/fetchOne",
   async (id: number, { rejectWithValue }) => {
@@ -52,6 +71,22 @@ export const fetchOneCategory = createAsyncThunk(
 // **********************************************************************************
 
 const activitiesReducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(fetchCategories.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(fetchCategories.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.categories = action.payload.items;
+      state.total = action.payload.totalFound;
+    })
+    .addCase(fetchCategories.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || "Failed to fetch activities";
+    });
+
   builder
     .addCase(fetchOneCategory.pending, (state) => {
       state.loading = true;

@@ -1,6 +1,6 @@
-import { useAppDispatch } from "../../hooks/redux";
+import { useAppDispatch } from "@/hooks/redux";
 import ModalContainer from "./ContainerModal";
-import { deleteMyAccount } from "../../store/reducers/userReducer";
+import { deleteMyAccount } from "@/store/reducers/userReducer";
 import { useState } from "react";
 
 interface DeleteMyAccountModalProps {

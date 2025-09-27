@@ -1,7 +1,7 @@
-import { useAppDispatch } from "../../hooks/redux";
+import { useAppDispatch } from "@/hooks/redux";
 import ModalContainer from "./ContainerModal";
 // importe bien ton thunk ou action creator
-import { resendEmailConfirmation } from "../../store/reducers/userReducer";
+import { resendEmailConfirmation } from "@/store/reducers/userReducer";
 import { useState } from "react";
 
 interface EmailConfirmationModalProps {
