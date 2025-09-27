@@ -30,7 +30,7 @@ export default function OrderTemplatePast() {
             href="#"
             className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl font-extrabold text-white bg-green-600 hover:bg-green-500"
             >
-            Télécharger les billets (PDF)
+            Afficher ma réservation
           </a>
         </div>
       </div>

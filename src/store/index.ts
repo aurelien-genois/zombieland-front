@@ -2,9 +2,9 @@ import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./reducers/userReducer";
 import activitiesReducer from "./reducers/activitiesReducer";
 import categoriesReducer from "./reducers/categoriesReducer";
+import ordersReducer from "./reducers/ordersReducer"
 import adminReducer from "./reducers/adminReducer";
 import reservationReducer from "./reducers/reservationReducer";
-
 
 
 export const store = configureStore({
@@ -12,9 +12,9 @@ export const store = configureStore({
     userStore: userReducer,
     activitiesStore: activitiesReducer,
     categoriesStore: categoriesReducer,
+    ordersStore: ordersReducer,
     adminStore: adminReducer,
     reservationStore: reservationReducer,
-
   },
 });
 // Infer the `RootState` and `AppDispatch` types from the store itself
