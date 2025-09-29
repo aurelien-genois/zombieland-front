@@ -303,7 +303,7 @@ const userReducer = createReducer(initialState, (builder) => {
 
     // Get User Info
     .addCase(getUserInfo.pending, (state) => {
-      state.loading = true;
+      state.loading = false;
       state.error = null;
     })
     .addCase(getUserInfo.fulfilled, (state, action) => {
