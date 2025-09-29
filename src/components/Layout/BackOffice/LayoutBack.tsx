@@ -8,7 +8,7 @@ import ActivitiesManagement from "@/pages/BackOffice/ActivitiesManagement/Activi
 import ActivitiesManagementCreation from "@/pages/BackOffice/ActivitiesManagement/ActivitiesCreation";
 import ActivitiesManagementSingle from "@/pages/BackOffice/ActivitiesManagement/ActivitiesSingle";
 import OrdersManagement from "@/pages/BackOffice/OrdersManagement/OrdersManagement";
-
+import OrdersDetail from "@/pages/BackOffice/OrdersManagement/OrdersDetail";
 export default function LayoutBack() {
   return (
     <div className="flex h-screen">
@@ -31,6 +31,7 @@ export default function LayoutBack() {
               element={<ActivitiesManagementCreation />}
             />
             <Route path="management/orders" element={<OrdersManagement />} />
+            <Route path="management/orders/:id" element={<OrdersDetail />} />
           </Routes>
         </Main>
         <Footer />
