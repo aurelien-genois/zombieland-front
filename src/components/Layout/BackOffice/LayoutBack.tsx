@@ -4,6 +4,7 @@ import SideBar from "./SideBar/SideBar";
 import Footer from "./Footer/Footer";
 import Main from "./Main/Main";
 import UsersManagement from "@/pages/BackOffice/UsersManagement/UsersManagment";
+import UsersDetail from "@/pages/BackOffice/UsersManagement/UsersDetail";
 import ActivitiesManagement from "@/pages/BackOffice/ActivitiesManagement/ActivitiesManagement";
 import ActivitiesManagementCreation from "@/pages/BackOffice/ActivitiesManagement/ActivitiesCreation";
 import ActivitiesManagementSingle from "@/pages/BackOffice/ActivitiesManagement/ActivitiesSingle";
@@ -18,6 +19,7 @@ export default function LayoutBack() {
           <Routes>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="management/users" element={<UsersManagement />} />
+            <Route path="management/users/:id" element={<UsersDetail />} />
             <Route
               path="management/activities/:slug"
               element={<ActivitiesManagementSingle />}
