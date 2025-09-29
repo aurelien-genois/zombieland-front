@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "@/store";
 import { fetchProducts, createOrder } from "@/store/reducers/reservationReducer";
 import type { OrderLineInput } from "@/@types";
-import { useNavigate } from "react-router";
 
 function toISO(dateStr: string) {
   return new Date(`${dateStr}T00:00:00`).toISOString();
@@ -11,7 +10,6 @@ function toISO(dateStr: string) {
 
 export default function CheckoutPage() {
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
   const { products, loadingProducts, productsError, creating } = useSelector(
     (s: RootState) => s.reservationStore
   );
@@ -79,9 +77,21 @@ export default function CheckoutPage() {
           order_lines,
         })
       ).unwrap();
+
+      // add redirection to stripe session
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/orders/${order.id}/checkout/stripe`,
+        { method: "POST", credentials: "include" }
+      );
+      if (!res.ok) {
+        const e = await res.json().catch(() => ({}));
+        throw new Error(e?.message || `HTTP ${res.status}`);
+      }
+      const { url } = await res.json();
   
       localStorage.removeItem(LS_KEY);
-      navigate(`/checkout/confirmation/${order.id}`);
+
+      window.location.href = url;
     } catch (err) {
       alert(typeof err === "string" ? err : "Une erreur est survenue lors de la création de la commande.");
     }
