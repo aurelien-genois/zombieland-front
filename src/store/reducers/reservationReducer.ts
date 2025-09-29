@@ -3,10 +3,21 @@ import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
 import { axiosInstance } from "@/api/axiosInstance";
 import type { AxiosError } from "axios";
 
-import type { Product, CreateOrderPayload, IOrder } from "@/@types";
+import type { Product, CreateOrderPayload, IOrder, OrderStatus, OrdersSort, IMeta } from "@/@types";
 
 // **********************************************************************************
 // ** Types & Initial State
+// **********************************************************************************
+
+type FetchArgs = {
+  page?: number;
+  limit?: number;
+  search?: string;
+  status?: OrderStatus;
+  order?: OrdersSort;
+};
+type OrdersResponse = { data: IOrder[]; meta: IMeta };
+
 // **********************************************************************************
 
 type ReservationState = {
@@ -20,7 +31,18 @@ type ReservationState = {
 
   loadingOrder: boolean,
   orderError: string | null,
-  order: IOrder | null
+  order: IOrder | null,
+
+  orders: IOrder[],
+  loadingOrders: boolean;
+  ordersError: string | null;
+  // contrôles de liste
+  page: number;
+  limit: number;
+  search: string;
+  status: OrderStatus | "all";
+  orderSort: OrdersSort;
+  meta: IMeta | null;
 };
   
 const initialState: ReservationState = {
@@ -35,7 +57,20 @@ const initialState: ReservationState = {
   loadingOrder: false,
   orderError: null,
   order: null,
+
+  orders: [],
+  loadingOrders: false,
+  ordersError: null,
+
+  page: 1,
+  limit: 10,
+  search: "",
+  status: "all",
+  orderSort: "order_date:desc",
+
+  meta: null,
 };
+
 
 // **********************************************************************************
 // ** Actions (Async & Sync)
@@ -48,7 +83,7 @@ export const fetchProducts = createAsyncThunk<Product[], void, { rejectValue: st
       try {
         const { data } = await axiosInstance.get<Product[]>("/products/published");
         return data.map(p => ({ id: p.id, name: p.name, unit_price: p.price }));
-      } catch (e: any) {
+      } catch (e) {
         const err = e as AxiosError;
         return rejectWithValue(err.response?.data as string ?? "Failed to load products");
       }
@@ -62,10 +97,9 @@ export const createOrder = createAsyncThunk<IOrder, CreateOrderPayload, { reject
     try {
       const { data } = await axiosInstance.post<IOrder>("/orders", payload);
       return data;
-    } catch (e: any) {
+    } catch (e) {
       const err = e as AxiosError;
-      const msg = (err.response?.data as any)?.message || err.message || "Order creation failed";
-      return rejectWithValue(msg);
+      return rejectWithValue(err.response?.data as string ?? "Order creation failed");
     }
   }
 );
@@ -76,11 +110,31 @@ export const fetchOrderById = createAsyncThunk<IOrder, number, { rejectValue: st
     try {
       const { data } = await axiosInstance.get(`/orders/${id}`);
       return data as IOrder; 
-    } catch (e: any) {
-      return rejectWithValue(e?.response?.data?.error ?? "Unable to load order");
+    } catch (e) {
+      const err = e as AxiosError;
+      return rejectWithValue(err.response?.data as string ?? "Unable to load order");
     }
 });
 
+// GET /orders/all
+export const fetchAllOrders = createAsyncThunk<OrdersResponse,FetchArgs | void,{ rejectValue: string }>(
+  "orders/fetchAll", 
+  async (args, { rejectWithValue }) => {
+    try {
+      const params = {
+        page: args?.page ?? 1,
+        limit: args?.limit ?? 10,
+        search: args?.search ?? undefined,
+        status: args?.status ?? undefined,
+        order: args?.order ?? "order_date:desc",
+      };
+      const { data } = await axiosInstance.get("/orders", { params });
+      return data as OrdersResponse;
+    } catch (e) {
+      const err = e as AxiosError;
+      return rejectWithValue(err.response?.data as string ?? "Failed to fetch orders");
+  }
+});
 // **********************************************************************************
 // ** Reducer & Associated Cases
 // **********************************************************************************
@@ -101,6 +155,33 @@ const ordersReducer = createReducer(initialState, (builder) => {
     .addCase(fetchOrderById.pending,   (s)   => { s.loadingOrder = true;  s.orderError = null; s.order = null; })
     .addCase(fetchOrderById.fulfilled, (s,a) => { s.loadingOrder = false; s.order = a.payload; })
     .addCase(fetchOrderById.rejected,  (s,a) => { s.loadingOrder = false; s.orderError = a.payload || "Error"; })
+
+     // orders
+     .addCase(fetchAllOrders.pending, (s, a) => {
+        const args = a.meta.arg as FetchArgs | undefined;
+        if (args?.page) s.page = args.page;
+        if (args?.limit) s.limit = args.limit;
+        if (typeof args?.search === "string") s.search = args.search;
+        if (args?.status) s.status = args.status;
+        if (args?.order) s.orderSort = args.order;
+
+        s.loadingOrders = true;
+        s.ordersError = null;
+      })
+      .addCase(fetchAllOrders.fulfilled, (s, a) => {
+        s.loadingOrders = false;
+        s.orders = a.payload.data;
+        s.meta = a.payload.meta ?? null;
+        // meta peut remettre la page/limit si besoin
+        if (a.payload.meta) {
+          s.page = a.payload.meta.page;
+          s.limit = a.payload.meta.limit;
+        }
+      })
+      .addCase(fetchAllOrders.rejected, (s, a) => {
+        s.loadingOrders = false;
+        s.ordersError = a.payload || "Error";
+      });
 
     
 });

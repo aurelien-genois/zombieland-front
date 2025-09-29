@@ -1,6 +1,7 @@
 import logo from "@/assets/icon/logo.svg";
 import home from "@/assets/icon/home.svg";
 import user from "@/assets/icon/user.svg";
+import cart from "@/assets/icon/cart.svg";
 import activity from "@/assets/icon/activity.svg";
 import dashboard from "@/assets/icon/dashboard.svg";
 import NavLink from "@/components/UI/BackOffice/NavLink";
@@ -28,6 +29,12 @@ export default function SideBar() {
             iconSrc={user}
             to="/admin/management/users"
             label="Utilisateurs"
+          />
+          <NavLink
+            iconAlt="Order"
+            iconSrc={cart}
+            to="/admin/management/orders"
+            label="Reservations"
           />
           <NavLink iconAlt="Home" iconSrc={home} to="/" label="Home" />
         </nav>
