@@ -1,17 +1,23 @@
 
 export type Product = { id: number; name: string; unit_price: number };
-
+export type OrderStatus = "pending" | "confirmed" | "canceled" | "refund";
 export type OrderLineInput = { product_id: number; quantity: number };
-
 export type CreateOrderPayload = {
   visit_date: string;
   vat: number;
   order_lines: OrderLineInput[];
 };
+export type OrdersSort =
+  | "order_date:asc"
+  | "order_date:desc"
+  | "visit_date:asc"
+  | "visit_date:desc"
+  | "status:asc"
+  | "status:desc";
 
 export interface IOrder {
   id: number;
-  status: "pending" | "confirmed" | "canceled" | "refund";
+  status: OrderStatus;
   visit_date: string;
   vat: number;
   ticket_code: string;
@@ -28,3 +34,14 @@ export interface IOrderLine {
   quantity: number;
   product: { id: number; name: string };
 };
+
+
+
+export interface IMeta {
+  page: number;
+  limit: number;
+  totalCount: number;
+  totalPages: number;
+  hasPrev: boolean;
+  hasNext: boolean;
+}
