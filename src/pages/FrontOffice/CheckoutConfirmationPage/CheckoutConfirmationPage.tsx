@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router";
 import type { RootState, AppDispatch } from "@/store";
-import { fetchOrderById } from "@/store/reducers/reservationReducer";
+import { fetchOneOrder } from "@/store/reducers/ordersReducer";
 
 
 
@@ -12,13 +12,13 @@ import { fetchOrderById } from "@/store/reducers/reservationReducer";
 export default function CheckoutConfirmationPage() {
   const { id } = useParams();
   const dispatch = useDispatch<AppDispatch>();
-  const { loadingOrder, order, orderError } = useSelector((s: RootState) => s.reservationStore);
+  const { loadingOrder, order, orderError } = useSelector((s: RootState) => s.ordersStore);
 
   // charge la commande
   useEffect(() => {
     const orderId = Number(id);
     if (!Number.isFinite(orderId)) return;
-    dispatch(fetchOrderById(orderId));
+    dispatch(fetchOneOrder(orderId));
   }, [dispatch, id]);
 
   const lines = order?.order_lines ?? [];
