@@ -8,6 +8,7 @@ import {
   getUserById,
 } from "@/store/reducers/adminReducer";
 import { useEffect, useState } from "react";
+import Pagination from "@/components/UI/Pagination";
 
 export default function UsersManagement() {
   const dispatch = useAppDispatch();
@@ -268,36 +269,12 @@ export default function UsersManagement() {
         </table>
       </div>
 
-      {/*------------------------------------------------------ Pagination */}
-      <div className="mt-6 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            disabled={!users.meta.hasPrevPage}
-            className="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            ← Précédent
-          </button>
-
-          <span className="px-4 py-2 text-sm text-gray-700">
-            Page {users.meta.page} sur {users.meta.totalPages}
-          </span>
-
-          <button
-            onClick={() => setCurrentPage((prev) => prev + 1)}
-            disabled={!users.meta.hasNextPage}
-            className="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Suivant →
-          </button>
-        </div>
-
-        <div className="text-sm text-gray-500">
-          Affichage de {(users.meta.page - 1) * users.meta.limit + 1} à{" "}
-          {Math.min(users.meta.page * users.meta.limit, users.meta.total)} sur{" "}
-          {users.meta.total} résultats
-        </div>
-      </div>
+      <Pagination
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+        totalItems={users.meta.total}
+        itemsPerPage={limit}
+      />
     </div>
   );
 }

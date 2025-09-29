@@ -1,12 +1,23 @@
 import CardList from "./CardList";
 import FilterBar from "./FilterBar";
-import Pagination from "./Pagination";
+import Pagination from "@/components/UI/Pagination";
 import SearchForm from "./SearchForm";
 import { useActivities } from "@/hooks/activities";
 import { fetchPublishedActivities } from "@/store/reducers/activitiesReducer";
+import { useEffect, useState } from "react";
+import { useAppDispatch } from "@/hooks/redux";
 
 export default function ActivitiesPage() {
+  const dispatch = useAppDispatch();
+
   const { activities, page, perPage, total, loading, error } = useActivities();
+
+  const [currentPage, setCurrentPage] = useState(page);
+  const [limit, setLimit] = useState(perPage);
+
+  useEffect(() => {
+    dispatch(fetchPublishedActivities({ perPage: limit, page: currentPage }));
+  }, [dispatch, limit, currentPage]);
 
   if (loading) {
     return <div className="text-white">Loading...</div>;
@@ -51,10 +62,10 @@ export default function ActivitiesPage() {
               ))}
             </div>
             <Pagination
-              fetchItems={fetchPublishedActivities}
-              currentPage={page}
+              setCurrentPage={setCurrentPage}
+              currentPage={currentPage}
               totalItems={total}
-              itemsPerPage={perPage}
+              itemsPerPage={limit}
             />
           </div>
         </section>

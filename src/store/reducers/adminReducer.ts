@@ -129,7 +129,6 @@ export const deleteUser = createAsyncThunk<
 
 //
 const adminReducer = createReducer(initialState, (builder) => {
-  builder;
   // Get All Users
   builder.addCase(getAllUsers.pending, (state) => {
     state.loading = true;

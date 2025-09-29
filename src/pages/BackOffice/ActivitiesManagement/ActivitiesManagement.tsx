@@ -1,11 +1,21 @@
 import { useAllActivities } from "@/hooks/activities";
-import Pagination from "@/pages/FrontOffice/ActivitiesPage/Pagination";
+import Pagination from "@/components/UI/Pagination";
 import { Link } from "react-router";
+import { useEffect, useState } from "react";
+import { useAppDispatch } from "@/hooks/redux";
 import { fetchAllActivities } from "@/store/reducers/activitiesReducer";
 
 export default function ActivitiesManagement() {
+  const dispatch = useAppDispatch();
   const { activities, page, perPage, total, loading, error } =
     useAllActivities();
+
+  const [currentPage, setCurrentPage] = useState(page);
+  const [limit, setLimit] = useState(perPage);
+
+  useEffect(() => {
+    dispatch(fetchAllActivities({ perPage: limit, page: currentPage }));
+  }, [dispatch, limit, currentPage]);
 
   const displayActivitiesList = activities?.map((activity) => (
     <tr key={activity.id} className="hover:bg-gray-50 transition-colors">
@@ -45,7 +55,7 @@ export default function ActivitiesManagement() {
       {/* Colonne catégorie */}
       <td className="px-6 py-4">
         <div className="text-sm font-medium text-gray-900">
-          {activity.category.name}
+          {activity.category ? activity.category.name : ""}
         </div>
       </td>
 
@@ -160,10 +170,10 @@ export default function ActivitiesManagement() {
       </table>
 
       <Pagination
-        fetchItems={fetchAllActivities}
-        currentPage={page}
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
         totalItems={total}
-        itemsPerPage={perPage}
+        itemsPerPage={limit}
       />
     </div>
   );
