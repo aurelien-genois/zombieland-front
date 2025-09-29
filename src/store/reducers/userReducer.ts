@@ -303,14 +303,13 @@ const userReducer = createReducer(initialState, (builder) => {
 
     // Get User Info
     .addCase(getUserInfo.pending, (state) => {
-      state.loading = false;
+      state.loading = true;
       state.error = null;
     })
     .addCase(getUserInfo.fulfilled, (state, action) => {
       state.userInfo = action.payload;
       state.isAuth = true;
       state.loading = false;
-      console.log(">>>>>>isAuth:", state.isAuth);
     })
     .addCase(getUserInfo.rejected, (state) => {
       state.userInfo = null;

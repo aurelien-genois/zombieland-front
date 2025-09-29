@@ -27,7 +27,7 @@ const formatDateToFrench = (dateString: string) => {
   const day = String(date.getDate()).padStart(2, "0"); // On récupère le jour et on le formate à 2 chiffres
   const month = String(date.getMonth() + 1).padStart(2, "0"); // Le mois (on ajoute 1 car les mois sont indexés de 0)
   const year = date.getFullYear(); // L'année
-  
+
   return `${day}-${month}-${year}`; // Format DD-MM-YYYY
 };
 
@@ -43,82 +43,108 @@ const getStatusClass = (status: string) => {
 
 export default function OrderPage() {
   const params = useParams();
+  console.log(">>>>>>PARAMS", params);
   const orderId = Number(params.id);
-
+  console.log(">>>>>>ORDER ID", orderId);
   const dispatch = useAppDispatch();
 
-  const { currentOrder, loading, error } = useAppSelector((state) => state.ordersStore)
+  const { currentOrder, loading, error } = useAppSelector(
+    (state) => state.ordersStore
+  );
 
   useEffect(() => {
     if (orderId) {
-      dispatch(fetchOneOrder(Number(orderId)))
+      dispatch(fetchOneOrder(Number(orderId)));
     }
   }, [dispatch, orderId]);
 
   if (loading) {
     return <div className="text-white bg-gray-300">Loading...</div>;
-  };
+  }
 
   if (error) {
     return <div className="text-white bg-gray-300">Error: {error}</div>;
-  };
+  }
 
   if (!currentOrder) {
     return <div className="text-white bg-gray-300">Order not found</div>;
-  };
+  }
 
   const orderTotal = currentOrder.order_lines.reduce((total, line) => {
     return total + line.unit_price * line.quantity;
   }, 0);
   const roundedTotal = orderTotal.toFixed(2);
 
-  return(
+  return (
     <>
       <div className="mx-auto px-4 text-white text-center max-w-250">
-          <h1 className="pt-7 pb-7 text-3xl font-bold">Ma commande</h1>
-          <h2 className="pt-3 pb-7 text-xl font-bold">Détails de la commande numéro : {currentOrder.id}</h2>
-          <div className="grid grid-cols-2 pb-7"> 
-            <div className="text-lg">
-              <p>Statut : <span className={getStatusClass(currentOrder.status)}>{mapOrderStatus(currentOrder.status)}</span></p>
-              <p>Date de la commande : <span className="font-bold">{formatDateToFrench(currentOrder.order_date)}</span></p>
-            </div>
-            <div className="text-lg">
-              <p>Méthode de paiement : <span className="font-bold">{mapPaymentMethod(currentOrder.payment_method)}</span></p>
-              <p>Code Ticket : <span className="font-bold">{currentOrder.ticket_code}</span></p>
-            </div>
+        <h1 className="pt-7 pb-7 text-3xl font-bold">Ma commande</h1>
+        <h2 className="pt-3 pb-7 text-xl font-bold">
+          Détails de la commande numéro : {currentOrder.id}
+        </h2>
+        <div className="grid grid-cols-2 pb-7">
+          <div className="text-lg">
+            <p>
+              Statut :{" "}
+              <span className={getStatusClass(currentOrder.status)}>
+                {mapOrderStatus(currentOrder.status)}
+              </span>
+            </p>
+            <p>
+              Date de la commande :{" "}
+              <span className="font-bold">
+                {formatDateToFrench(currentOrder.order_date)}
+              </span>
+            </p>
           </div>
-          <div className="mt-7 max-w-200 mx-auto">
-            <h3 className="text-xl font-bold">Lignes de commande</h3>
-            <table className="min-w-full mt-4 table-auto">
-              <thead>
-                <tr>
-                  <th className="py-2 px-4">Produit</th>
-                  <th className="py-2 px-4">Prix unitaire</th>
-                  <th className="py-2 px-4">Quantité</th>
-                  <th className="py-2 px-4">Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentOrder.order_lines.map((line) => (
-                  <tr key={line.id}>
-                    <td className="py-2 px-4">{line.product.name}</td> {/* Affiche le product_id ou nom produit si tu l'as */}
-                    <td className="py-2 px-4">{line.unit_price} €</td>
-                    <td className="py-2 px-4">{line.quantity}</td>
-                    <td className="py-2 px-4">
-                      {line.unit_price * line.quantity} €
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-              <tfoot>
-                <tr className=" border-t">
-                  <td colSpan={3} className="py-2 px-4 font-bold text-right">Total :</td>
-                  <td className="py-2 px-4 font-bold">{roundedTotal} €</td>
-                </tr>
-              </tfoot>
-            </table>
+          <div className="text-lg">
+            <p>
+              Méthode de paiement :{" "}
+              <span className="font-bold">
+                {mapPaymentMethod(currentOrder.payment_method)}
+              </span>
+            </p>
+            <p>
+              Code Ticket :{" "}
+              <span className="font-bold">{currentOrder.ticket_code}</span>
+            </p>
           </div>
+        </div>
+        <div className="mt-7 max-w-200 mx-auto">
+          <h3 className="text-xl font-bold">Lignes de commande</h3>
+          <table className="min-w-full mt-4 table-auto">
+            <thead>
+              <tr>
+                <th className="py-2 px-4">Produit</th>
+                <th className="py-2 px-4">Prix unitaire</th>
+                <th className="py-2 px-4">Quantité</th>
+                <th className="py-2 px-4">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentOrder.order_lines.map((line) => (
+                <tr key={line.id}>
+                  <td className="py-2 px-4">{line.product.name}</td>{" "}
+                  {/* Affiche le product_id ou nom produit si tu l'as */}
+                  <td className="py-2 px-4">{line.unit_price} €</td>
+                  <td className="py-2 px-4">{line.quantity}</td>
+                  <td className="py-2 px-4">
+                    {line.unit_price * line.quantity} €
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr className=" border-t">
+                <td colSpan={3} className="py-2 px-4 font-bold text-right">
+                  Total :
+                </td>
+                <td className="py-2 px-4 font-bold">{roundedTotal} €</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
       </div>
     </>
-  )
+  );
 }

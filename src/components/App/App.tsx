@@ -1,12 +1,10 @@
-import { Navigate, Route, Routes } from "react-router";
+import { Route, Routes } from "react-router";
 import "./App.css";
 import LayoutFront from "@/components/Layout/FrontOffice/LayoutFront";
 import LayoutBack from "@/components/Layout/BackOffice/LayoutBack";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getUserInfo } from "@/store/reducers/userReducer";
-import { getAllOrders } from "@/store/reducers/ordersReducer";
-
 
 export default function App() {
   const dispatch = useAppDispatch();
@@ -14,16 +12,31 @@ export default function App() {
     (store) => store.userStore
   );
 
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   useEffect(() => {
-    dispatch(getUserInfo());
-  }, []);
+    const checkAuth = async () => {
+      try {
+        await dispatch(getUserInfo());
+      } catch (error) {
+        console.log("Authentication failed:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    useEffect(() => {
-      const orders = dispatch(getAllOrders());
-      console.log(">>>>>>ORDERS", orders)
-      
-  }, []);
+    checkAuth();
+  }, [dispatch]);
 
+  if (isLoading) {
+    return (
+      <div className="App">
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="App ">
@@ -39,7 +52,6 @@ export default function App() {
               <LayoutBack />
             ) : (
               <p>Access denied</p>
-              // <Navigate to="/" replace />
             )
           }
         />

@@ -2,7 +2,6 @@ import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
 import type { IPaginatedUsers, IUser } from "@/@types";
 import { axiosInstance } from "@/api/axiosInstance";
 import type { AxiosError } from "axios";
-import type { I } from "node_modules/react-router/dist/development/context-CIdFp11b.d.mts";
 
 // **********************************************************************************
 // ** Types & Initial State
