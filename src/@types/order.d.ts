@@ -43,13 +43,6 @@ export interface IOrderLine {
   order_id: number;
 }
 
-interface User {
-  id: number;
-  firstname: string;
-  lastname: string;
-  email: string;
-}
-
 export interface IOrder {
   computed_order_total_price: number;
   created_at: string;
@@ -60,7 +53,7 @@ export interface IOrder {
   status: OrderStatus;
   ticket_code: string;
   updated_at: string;
-  user: User;
+  user: IUser;
   user_id: number;
   vat: string;
   visit_date: string;
