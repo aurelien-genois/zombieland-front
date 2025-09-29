@@ -44,8 +44,10 @@ export default function Pagination({
       </button>
 
       {pagesArr.map((page, index) => {
-        return (
-          <>
+        if (pagesArr[index + 1] && page + 1 !== pagesArr[index + 1]) {
+          return <span key={page + 1}>...</span>;
+        } else {
+          return (
             <button
               key={page}
               className={`size-9 rounded-full font-bold ${
@@ -57,11 +59,8 @@ export default function Pagination({
             >
               {page}
             </button>
-            {pagesArr[index + 1] && page + 1 !== pagesArr[index + 1] ? (
-              <span>...</span>
-            ) : null}
-          </>
-        );
+          );
+        }
       })}
 
       <button
