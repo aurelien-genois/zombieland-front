@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "@/store";
-import { fetchProducts, createOrder } from "@/store/reducers/reservationReducer";
+import { fetchProducts, createOrder } from "@/store/reducers/ordersReducer";
 import type { OrderLineInput } from "@/@types";
 
 function toISO(dateStr: string) {
@@ -11,7 +11,7 @@ function toISO(dateStr: string) {
 export default function CheckoutPage() {
   const dispatch = useDispatch<AppDispatch>();
   const { products, loadingProducts, productsError, creating } = useSelector(
-    (s: RootState) => s.reservationStore
+    (s: RootState) => s.ordersStore
   );
   const LS_KEY = "checkout.cart";
   const [qty, setQty] = useState<Record<number, number>>({});
