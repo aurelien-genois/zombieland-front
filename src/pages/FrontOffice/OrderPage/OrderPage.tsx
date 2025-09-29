@@ -1,7 +1,7 @@
 import { useParams } from "react-router"
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { useEffect } from "react";
-import { fetchOneOrder } from "../../store/reducers/ordersReducer";
+import { fetchOneOrder } from "../../../store/reducers/ordersReducer";
 
 const mapPaymentMethod = (method: string) => {
   const paymentMethods: { [key: string]: string } = {
