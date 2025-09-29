@@ -9,7 +9,7 @@ import type { IOrder, IPaginatedOrders } from "../../@types";
 
 interface OrdersState {
   ordersList: IPaginatedOrders | null;
-  userOrdersList: IOrder | null;
+  userOrdersList: IOrder[] | null;
   currentOrder: IOrder | null;
   loading: boolean;
   error: string | null;
@@ -47,12 +47,12 @@ export const getAllOrders = createAsyncThunk<
   }
 });
 
-export const fetchUserOrders = createAsyncThunk(
+export const fetchUserOrders = createAsyncThunk<IOrder[], number, { rejectValue: string }>(
   "orders/fetchUserOrders",
   async (userId: number, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get(`/orders/user/${userId}`);
-      return response.data;
+      return response.data.data as IOrder[];
     } catch (error) {
       const axiosError = error as AxiosError;
       if (axiosError.response) {

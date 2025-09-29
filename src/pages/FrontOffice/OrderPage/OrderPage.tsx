@@ -1,7 +1,10 @@
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { useEffect } from "react";
 import { fetchOneOrder } from "@/store/reducers/ordersReducer";
+
+
+
 
 const mapPaymentMethod = (method: string) => {
   const paymentMethods: { [key: string]: string } = {
@@ -43,9 +46,7 @@ const getStatusClass = (status: string) => {
 
 export default function OrderPage() {
   const params = useParams();
-  console.log(">>>>>>PARAMS", params);
   const orderId = Number(params.id);
-  console.log(">>>>>>ORDER ID", orderId);
   const dispatch = useAppDispatch();
 
   const { currentOrder, loading, error } = useAppSelector(
@@ -70,11 +71,6 @@ export default function OrderPage() {
     return <div className="text-white bg-gray-300">Order not found</div>;
   }
 
-  const orderTotal = currentOrder.order_lines.reduce((total, line) => {
-    return total + line.unit_price * line.quantity;
-  }, 0);
-  const roundedTotal = orderTotal.toFixed(2);
-
   return (
     <>
       <div className="mx-auto px-4 text-white text-center max-w-250">
@@ -84,10 +80,11 @@ export default function OrderPage() {
         </h2>
         <div className="grid grid-cols-2 pb-7">
           <div className="text-lg">
+            
             <p>
-              Statut :{" "}
-              <span className={getStatusClass(currentOrder.status)}>
-                {mapOrderStatus(currentOrder.status)}
+              Nom de la commande :{" "}
+              <span className="font-bold">
+                {mapOrderStatus(currentOrder.user.firstname)} {mapOrderStatus(currentOrder.user.lastname)}
               </span>
             </p>
             <p>
@@ -96,8 +93,20 @@ export default function OrderPage() {
                 {formatDateToFrench(currentOrder.order_date)}
               </span>
             </p>
+            <p>
+              Date de visite :{" "}
+              <span className="font-bold">
+                {formatDateToFrench(currentOrder.visit_date)}
+              </span>
+            </p>
           </div>
           <div className="text-lg">
+            <p>
+              Statut :{" "}
+              <span className={getStatusClass(currentOrder.status)}>
+                {mapOrderStatus(currentOrder.status)}
+              </span>
+            </p>
             <p>
               Méthode de paiement :{" "}
               <span className="font-bold">
@@ -124,7 +133,7 @@ export default function OrderPage() {
             <tbody>
               {currentOrder.order_lines.map((line) => (
                 <tr key={line.id}>
-                  <td className="py-2 px-4">{line.product.name}</td>{" "}
+                  <td className="py-2 px-4">{line.product.name}</td>{""}
                   {/* Affiche le product_id ou nom produit si tu l'as */}
                   <td className="py-2 px-4">{line.unit_price} €</td>
                   <td className="py-2 px-4">{line.quantity}</td>
@@ -132,17 +141,41 @@ export default function OrderPage() {
                     {line.unit_price * line.quantity} €
                   </td>
                 </tr>
+                
               ))}
             </tbody>
             <tfoot>
-              <tr className=" border-t">
+              <tr className="border-t">
+                <td colSpan={3} className="py-2 px-4 font-bold text-right">
+                  TVA (5,5%) :
+                </td>
+                <td className="py-2 px-4 font-bold">{currentOrder.vat_amount} €</td>
+                <td colSpan={4}></td>
+              </tr>
+              <tr className="border-t">
                 <td colSpan={3} className="py-2 px-4 font-bold text-right">
                   Total :
                 </td>
-                <td className="py-2 px-4 font-bold">{roundedTotal} €</td>
+                <td className="py-2 px-4 font-bold">{currentOrder.total} €</td>
+                <td colSpan={4}></td>
               </tr>
             </tfoot>
           </table>
+          <div className="mt-15 flex sm:flex-row flex-col md:gap-2 gap-3 sm:text-lg text-xl text-center justify-center items-center mb-15">
+              <Link
+                to={`/account`}
+                className="w-80 justify-center gap-2 px-4 py-3 rounded-xl font-extrabold text-black bg-gray-400 hover:bg-gray-500"
+              >
+                Retour
+              </Link>
+              <Link
+                to="#"
+                className="w-80 justify-center gap-2 px-4 py-3 rounded-xl font-extrabold text-white bg-red-600 hover:bg-red-500"
+              >
+                Annuler la réservation
+              </Link>
+              
+            </div>
         </div>
       </div>
     </>
