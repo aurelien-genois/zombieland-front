@@ -5,10 +5,11 @@ import {
   changeUserRole,
   deleteUser,
   getAllUsers,
-  getUserById,
+  // getUserById,
 } from "@/store/reducers/adminReducer";
 import { useEffect, useState } from "react";
 import Pagination from "@/components/UI/Pagination";
+import { Link } from "react-router";
 
 export default function UsersManagement() {
   const dispatch = useAppDispatch();
@@ -27,7 +28,7 @@ export default function UsersManagement() {
         q: searchQuery || null,
       })
     );
-  }, [dispatch, currentPage, limit, searchQuery, changeUserRole]);
+  }, [dispatch, currentPage, limit, searchQuery]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -50,9 +51,9 @@ export default function UsersManagement() {
     dispatch(deleteUser({ userId }));
   }
 
-  function handleViewUser(userId: number) {
-    dispatch(getUserById({ userId }));
-  }
+  // function handleViewUser(userId: number) {
+  //   dispatch(getUserById({ userId }));
+  // }
 
   // ------------------------------------------------------ Display Users List ---------------------------------
 
@@ -93,12 +94,12 @@ export default function UsersManagement() {
       )}
       {/* ------------------ */}
       <TableData>
-        <button
-          onClick={() => handleViewUser(user.id)}
+        <Link
+          to={`/admin/management/users/${user.id}`}
           className="cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
         >
           View
-        </button>
+        </Link>
       </TableData>
       <TableData>
         <button
