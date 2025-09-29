@@ -3,7 +3,10 @@ import Pagination from "@/components/UI/Pagination";
 import { Link } from "react-router";
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "@/hooks/redux";
-import { fetchAllActivities } from "@/store/reducers/activitiesReducer";
+import {
+  fetchAllActivities,
+  deleteActivity,
+} from "@/store/reducers/activitiesReducer";
 
 export default function ActivitiesManagement() {
   const dispatch = useAppDispatch();
@@ -12,10 +15,24 @@ export default function ActivitiesManagement() {
 
   const [currentPage, setCurrentPage] = useState(page);
   const [limit, setLimit] = useState(perPage);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   useEffect(() => {
     dispatch(fetchAllActivities({ perPage: limit, page: currentPage }));
-  }, [dispatch, limit, currentPage]);
+  }, [dispatch, limit, currentPage, successMessage]);
+
+  const handleDeletion = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const activityId = Number(formData.get("activity_id"));
+    const activityName = formData.get("activity_name");
+
+    if (formData.get("activity_id") && activityId) {
+      dispatch(deleteActivity(activityId));
+      setSuccessMessage(`L'activité "${activityName}" a bien été supprimée.`);
+      e.currentTarget.closest("tr")?.remove();
+    }
+  };
 
   const displayActivitiesList = activities?.map((activity) => (
     <tr key={activity.id} className="hover:bg-gray-50 transition-colors">
@@ -92,10 +109,24 @@ export default function ActivitiesManagement() {
       <td className="px-6 py-4">
         <Link
           to={`/admin/management/activities/${activity.slug}`}
-          className="bg-blue-500 text-white hover:bg-cyan-400 py-2 px-3 font-bold rounded-lg"
+          className="cursor-pointer bg-blue-500 text-white hover:bg-cyan-400 py-2 px-3 font-bold rounded-lg"
         >
           Voir
         </Link>
+      </td>
+
+      {/* Colonne Action Detete */}
+      <td className="px-6 py-4">
+        <form onSubmit={handleDeletion}>
+          <input type="hidden" name="activity_name" value={activity.name} />
+          <input type="hidden" name="activity_id" value={activity.id} />
+          <input
+            type="submit"
+            name="delete"
+            value="Supprimer"
+            className="cursor-pointer bg-red-500 text-white hover:bg-red-200 py-2 px-3 font-bold rounded-lg"
+          />
+        </form>
       </td>
     </tr>
   ));
@@ -142,6 +173,12 @@ export default function ActivitiesManagement() {
         Créer une activité
       </Link>
 
+      {successMessage && (
+        <div className="mb-4 p-3 bg-red-100 border border-green-400 text-green-700 rounded">
+          {successMessage}
+        </div>
+      )}
+
       <table className="mt-8 bg-white shadow overflow-hidden sm:rounded-lg min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50 w-[10%]">
           <tr>
@@ -172,6 +209,7 @@ export default function ActivitiesManagement() {
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Updated at
             </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
           </tr>
         </thead>

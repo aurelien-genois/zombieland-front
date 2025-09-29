@@ -199,6 +199,21 @@ export const updateActivity = createAsyncThunk(
   }
 );
 
+export const deleteActivity = createAsyncThunk(
+  "activities/delete",
+  async (category_id: number, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.delete(`/activities/${category_id}`);
+      console.log("data :DELETE ACTIVITY:", data);
+
+      // TODO Axios errors
+      return data as IActivity;
+    } catch {
+      return rejectWithValue("Failed to fetch delete activity");
+    }
+  }
+);
+
 // **********************************************************************************
 // ** Reducer & Associated Cases
 // **********************************************************************************
@@ -299,7 +314,22 @@ const activitiesReducer = createReducer(initialState, (builder) => {
     })
     .addCase(updateActivity.rejected, (state, action) => {
       state.loading = false;
-      state.error = (action.payload as string) || "Mise à jour failed";
+      state.error = (action.payload as string) || "Update failed";
+    });
+
+  builder
+    .addCase(deleteActivity.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(deleteActivity.fulfilled, (state) => {
+      state.loading = false;
+      state.error = null;
+      state.currentActivity = undefined;
+    })
+    .addCase(deleteActivity.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || "Deletion failed";
     });
 });
 
