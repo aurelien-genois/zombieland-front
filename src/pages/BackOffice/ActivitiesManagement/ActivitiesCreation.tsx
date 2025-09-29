@@ -55,10 +55,14 @@ export default function ActivitiesCreation() {
         onSubmit={handleSubmit}
         className="mx-auto px-5 md:max-w-200 sm:max-w-150"
       >
-        {/* Affichage des erreurs */}
         {(formError || error) && (
           <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
             {formError || error}
+          </div>
+        )}
+        {successMessage && (
+          <div className="mb-4 p-3 bg-red-100 border border-green-400 text-green-700 rounded">
+            {successMessage}
           </div>
         )}
 
@@ -194,18 +198,18 @@ export default function ActivitiesCreation() {
 
         <input
           type="submit"
-          name="draft"
+          name="publish"
           disabled={loading}
-          className="w-50 bg-green-bg-btn hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl py-1 px-3 text-white font-bold border-3 text-2xl sm:text-lg border-grey-border-btn text-center block mx-auto"
-          value={loading ? "Enregistrement..." : "Enregistrer en brouillon"}
+          className="cursor-pointer w-50 bg-green-bg-btn hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl py-1 px-3 text-white font-bold border-3 text-2xl sm:text-lg border-grey-border-btn text-center block mx-auto"
+          value={loading ? "Enregistrement..." : "Publier"}
         />
 
         <input
           type="submit"
-          name="publish"
+          name="draft"
           disabled={loading}
-          className="w-50 bg-green-bg-btn hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl py-1 px-3 text-white font-bold border-3 text-2xl sm:text-lg border-grey-border-btn text-center block mx-auto"
-          value={loading ? "Enregistrement..." : "Publier"}
+          className="cursor-pointer w-50 bg-gray-700 hover:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl py-1 px-3 text-white font-bold border-3 text-2xl sm:text-lg border-grey-border-btn text-center block mx-auto"
+          value={loading ? "Enregistrement..." : "Enregistrer en brouillon"}
         />
       </form>
     </div>

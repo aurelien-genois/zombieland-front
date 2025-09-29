@@ -161,6 +161,44 @@ export const createActivity = createAsyncThunk(
   }
 );
 
+export const updateActivity = createAsyncThunk(
+  "activities/update",
+  async (
+    params: { formData: FormData; action: "draft" | "publish"; id: number },
+    { rejectWithValue }
+  ) => {
+    try {
+      const objData = Object.fromEntries(params.formData);
+      console.log("objData ::>>>>", objData);
+
+      const body = {
+        name: objData.name,
+        slogan: objData.slogan,
+        description: objData.description,
+        age_group: Number(objData.age_group),
+        duration: objData.duration,
+        disabled_access: objData.disabled_access === "on",
+        high_intensity: objData.high_intensity === "on",
+        image_url: objData.image_url,
+        category_id: Number(objData.category_id),
+        saved: params.action === "publish",
+      };
+      console.log("body ::>>>>", body);
+
+      const { data } = await axiosInstance.patch(
+        `/activities/${params.id}`,
+        body
+      );
+      console.log("data :UPDATE ACTIVITY:", data);
+
+      // TODO Axios errors
+      return data as IActivity;
+    } catch {
+      return rejectWithValue("Failed to fetch update activity");
+    }
+  }
+);
+
 // **********************************************************************************
 // ** Reducer & Associated Cases
 // **********************************************************************************
@@ -239,13 +277,29 @@ const activitiesReducer = createReducer(initialState, (builder) => {
       state.loading = true;
       state.error = null;
     })
-    .addCase(createActivity.fulfilled, (state) => {
+    .addCase(createActivity.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
+      state.currentActivity = action.payload;
     })
     .addCase(createActivity.rejected, (state, action) => {
       state.loading = false;
       state.error = (action.payload as string) || "Creation failed";
+    });
+
+  builder
+    .addCase(updateActivity.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(updateActivity.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.currentActivity = action.payload;
+    })
+    .addCase(updateActivity.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || "Mise à jour failed";
     });
 });
 
