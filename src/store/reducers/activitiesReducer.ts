@@ -101,6 +101,22 @@ export const fetchOnePublishedActivity = createAsyncThunk(
       const { data } = await axiosInstance.get(`/activities/${slug}`, {
         params: {},
       });
+      console.log("DATA FROM FETCH ONE PUBLISHED ACTIVITY: ", data);
+      // TODO Axios errors
+      return data as IActivity;
+    } catch {
+      return rejectWithValue("Failed to fetch one published activity");
+    }
+  }
+);
+
+export const fetchOneActivity = createAsyncThunk(
+  "activities/fetchOne",
+  async (slug: string, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get(`/activities/all/${slug}`, {
+        params: {},
+      });
       console.log("DATA FROM FETCH ONE ACTIVITY: ", data);
       // TODO Axios errors
       return data as IActivity;
@@ -109,8 +125,6 @@ export const fetchOnePublishedActivity = createAsyncThunk(
     }
   }
 );
-
-// TODO builder: one activity (admin)
 
 export const createActivity = createAsyncThunk(
   "activities/create",
@@ -188,7 +202,21 @@ const activitiesReducer = createReducer(initialState, (builder) => {
       state.error = (action.payload as string) || "Failed to fetch activities";
     });
 
-  // TODO builder: one activity (admin)
+  builder
+    .addCase(fetchOneActivity.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(fetchOneActivity.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.currentActivity = action.payload;
+    })
+    .addCase(fetchOneActivity.rejected, (state, action) => {
+      state.loading = false;
+      state.error =
+        (action.payload as string) || "Failed to fetch one activity";
+    });
 
   builder
     .addCase(fetchOnePublishedActivity.pending, (state) => {
@@ -203,7 +231,7 @@ const activitiesReducer = createReducer(initialState, (builder) => {
     .addCase(fetchOnePublishedActivity.rejected, (state, action) => {
       state.loading = false;
       state.error =
-        (action.payload as string) || "Failed to fetch one activity";
+        (action.payload as string) || "Failed to fetch one published activity";
     });
 
   builder

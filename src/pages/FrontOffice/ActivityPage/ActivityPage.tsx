@@ -1,13 +1,13 @@
 import { useParams } from "react-router";
 import ActivityCarousel from "./ActivityCarousel";
 import ActivityDetails from "./ActivityDetails";
-import { useActivity } from "@/hooks/activities";
+import { usePublishedActivity } from "@/hooks/activities";
 
 export default function ActivityPage() {
   const params = useParams();
   const slug = String(params.slug) || "";
 
-  const { currentActivity, loading, error } = useActivity(slug);
+  const { currentActivity, loading, error } = usePublishedActivity(slug);
 
   if (loading) {
     return <div className="text-white">Loading...</div>;

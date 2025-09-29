@@ -6,6 +6,7 @@ import Main from "./Main/Main";
 import UsersManagement from "@/pages/BackOffice/UsersManagement/UsersManagment";
 import ActivitiesManagement from "@/pages/BackOffice/ActivitiesManagement/ActivitiesManagement";
 import ActivitiesManagementCreation from "@/pages/BackOffice/ActivitiesManagement/ActivitiesCreation";
+import ActivitiesManagementSingle from "@/pages/BackOffice/ActivitiesManagement/ActivitiesSingle";
 import OrdersManagement from "@/pages/BackOffice/OrdersManagement/OrdersManagement";
 
 export default function LayoutBack() {
@@ -18,6 +19,10 @@ export default function LayoutBack() {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="management/users" element={<UsersManagement />} />
             <Route
+              path="management/activities/:slug"
+              element={<ActivitiesManagementSingle />}
+            />
+            <Route
               path="management/activities"
               element={<ActivitiesManagement />}
             />
@@ -27,7 +32,6 @@ export default function LayoutBack() {
             />
             <Route path="management/orders" element={<OrdersManagement />} />
           </Routes>
-          
         </Main>
         <Footer />
       </div>

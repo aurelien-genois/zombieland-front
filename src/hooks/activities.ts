@@ -4,7 +4,21 @@ import {
   fetchOnePublishedActivity,
   fetchPublishedActivities,
   fetchAllActivities,
+  fetchOneActivity,
 } from "@/store/reducers/activitiesReducer";
+
+export function usePublishedActivity(slug: string) {
+  const dispatch = useAppDispatch();
+  const { currentActivity, loading, error } = useAppSelector(
+    (state) => state.activitiesStore
+  );
+
+  useEffect(() => {
+    dispatch(fetchOnePublishedActivity(slug));
+  }, [dispatch, slug]);
+
+  return { currentActivity, loading, error };
+}
 
 export function useActivity(slug: string) {
   const dispatch = useAppDispatch();
@@ -13,7 +27,7 @@ export function useActivity(slug: string) {
   );
 
   useEffect(() => {
-    dispatch(fetchOnePublishedActivity(slug));
+    dispatch(fetchOneActivity(slug));
   }, [dispatch, slug]);
 
   return { currentActivity, loading, error };
