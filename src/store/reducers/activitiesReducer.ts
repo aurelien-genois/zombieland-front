@@ -54,6 +54,7 @@ export const fetchPublishedActivities = createAsyncThunk(
   async (params: IFetchActivitiesParams, { rejectWithValue }) => {
     try {
       // TODO manage params (category (id), age_group (0/1/2/3), high_intensity (bool), disabled_access (bool), limit (int), status, page (int), order (name:asc/name:desc))
+      // TODO as below
       const { data } = await axiosInstance.get("/activities", {
         params: {
           ...(params.perPage
@@ -79,7 +80,6 @@ export const fetchAllActivities = createAsyncThunk(
   "activities/fetchAll",
   async (params: IFetchActivitiesParams, { rejectWithValue }) => {
     try {
-      // TODO manage params (category (id), age_group (0/1/2/3), high_intensity (bool), disabled_access (bool), limit (int), status, page (int), order (name:asc/name:desc))
       const { data } = await axiosInstance.get("/activities/all", {
         params: {
           ...(params.perPage

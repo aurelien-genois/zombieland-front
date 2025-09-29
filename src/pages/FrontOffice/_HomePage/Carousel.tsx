@@ -1,10 +1,10 @@
 import HomeCard from "./HomeCard";
-import { useActivities } from "@/hooks/activities";
+import { usePublishedActivities } from "@/hooks/activities";
 import { HSCarousel, type ICarousel } from "preline";
 import { useEffect, useRef } from "react";
 
 export default function Carousel() {
-  const { activities, loading, error } = useActivities({ perPage: 6 });
+  const { activities, loading, error } = usePublishedActivities({ perPage: 6 });
 
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const carouselRefInstance = useRef<ICarousel | null>(null);

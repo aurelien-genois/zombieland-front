@@ -2,29 +2,90 @@ import CardList from "./CardList";
 import FilterBar from "./FilterBar";
 import Pagination from "@/components/UI/Pagination";
 import SearchForm from "./SearchForm";
-import { useActivities } from "@/hooks/activities";
+import { usePublishedActivities } from "@/hooks/activities";
 import { fetchPublishedActivities } from "@/store/reducers/activitiesReducer";
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "@/hooks/redux";
+import { useCategories } from "@/hooks/categories";
 
 export default function ActivitiesPage() {
   const dispatch = useAppDispatch();
 
-  const { activities, page, perPage, total, loading, error } = useActivities();
+  const { activities, page, perPage, total, loading, error } =
+    usePublishedActivities();
 
   const [currentPage, setCurrentPage] = useState(page);
   const [limit, setLimit] = useState(perPage);
 
-  useEffect(() => {
-    dispatch(fetchPublishedActivities({ perPage: limit, page: currentPage }));
-  }, [dispatch, limit, currentPage]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [categoryQuery, setCategoryQuery] = useState<number | undefined>(
+    undefined
+  );
+  const [orderQuery, setOrderQuery] = useState("");
+  const [ageGroupQuery, setAgeGroupQuery] = useState<number | undefined>(
+    undefined
+  );
+  const [disabledAccessQuery, setDisabledAccessQuery] = useState<
+    string | undefined
+  >(undefined);
+  const [highIntensityQuery, setHighIntensityAccessQuery] = useState<
+    string | undefined
+  >(undefined);
 
-  if (loading) {
-    return <div className="text-white">Loading...</div>;
-  }
-  if (error || !activities) {
-    return <div className="text-white">Error: {error}</div>;
-  }
+  const { categories } = useCategories();
+
+  useEffect(() => {
+    dispatch(
+      fetchPublishedActivities({
+        perPage: limit,
+        page: currentPage,
+        search: searchQuery,
+        age_group: ageGroupQuery,
+        category_id: categoryQuery,
+        disabled_access:
+          disabledAccessQuery !== undefined
+            ? disabledAccessQuery == "true"
+            : undefined,
+        high_intensity:
+          highIntensityQuery !== undefined
+            ? highIntensityQuery == "true"
+            : undefined,
+        order: orderQuery,
+      })
+    );
+  }, [
+    dispatch,
+    limit,
+    currentPage,
+    searchQuery,
+    categoryQuery,
+    ageGroupQuery,
+    disabledAccessQuery,
+    highIntensityQuery,
+    orderQuery,
+  ]);
+
+  const handleSearchSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch(
+      fetchPublishedActivities({
+        perPage: limit,
+        page: currentPage,
+        search: searchQuery,
+        age_group: ageGroupQuery,
+        category_id: categoryQuery,
+        disabled_access:
+          disabledAccessQuery !== undefined
+            ? disabledAccessQuery == "true"
+            : undefined,
+        high_intensity:
+          highIntensityQuery !== undefined
+            ? highIntensityQuery == "true"
+            : undefined,
+        order: orderQuery,
+      })
+    );
+  };
 
   return (
     <div className="bg-black-bg-main ">
@@ -35,6 +96,8 @@ export default function ActivitiesPage() {
               <h1 className="text-3xl sm:text-4xl font-extrabold text-green-text mb-6">
                 TOUTES LES ATTRACTIONS
               </h1>
+
+              {/* // TODO one forms as in ActivitiesManagement.tsx */}
               <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div>
                   <p className="text-white/70">24 résultats</p>
@@ -46,27 +109,36 @@ export default function ActivitiesPage() {
                 </div>
               </div>
             </div>
-            {/* Grille des cartes */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-7">
-              {activities.map((activity) => (
-                <CardList
-                  key={activity.id}
-                  name={activity.name}
-                  slug={activity.slug}
-                  slogan={activity.slogan}
-                  minimum_age={activity.minimum_age}
-                  high_intensity={activity.high_intensity}
-                  disabled_access={activity.disabled_access}
-                  image_url={activity.image_url}
+
+            {loading ? (
+              <div className="text-white">Loading...</div>
+            ) : error || !activities ? (
+              <div className="text-white">Error: {error}</div>
+            ) : (
+              <>
+                {/* Grille des cartes */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-7">
+                  {activities.map((activity) => (
+                    <CardList
+                      key={activity.id}
+                      name={activity.name}
+                      slug={activity.slug}
+                      slogan={activity.slogan}
+                      minimum_age={activity.minimum_age}
+                      high_intensity={activity.high_intensity}
+                      disabled_access={activity.disabled_access}
+                      image_url={activity.image_url}
+                    />
+                  ))}
+                </div>
+                <Pagination
+                  setCurrentPage={setCurrentPage}
+                  currentPage={currentPage}
+                  totalItems={total}
+                  itemsPerPage={limit}
                 />
-              ))}
-            </div>
-            <Pagination
-              setCurrentPage={setCurrentPage}
-              currentPage={currentPage}
-              totalItems={total}
-              itemsPerPage={limit}
-            />
+              </>
+            )}
           </div>
         </section>
       </main>
