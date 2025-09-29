@@ -25,8 +25,9 @@ export default function LayoutBack() {
               path="management/activities/creation"
               element={<ActivitiesManagementCreation />}
             />
+            <Route path="management/orders" element={<OrdersManagement />} />
           </Routes>
-          <Route path="management/orders" element={<OrdersManagement />} />
+          
         </Main>
         <Footer />
       </div>

@@ -1,4 +1,3 @@
-// src/pages/admin/OrdersManagementPage.tsx
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "@/store";
@@ -125,14 +124,14 @@ export default function OrdersManagementPage() {
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value as OrdersSort)}
-            className="rounded border border-gray-300 px-2 py-2"
+            className="no-arrow rounded border border-gray-300 py-2 pl-2 pr-8 bg-white focus:outline-none"
           >
-            <option value="order_date:desc">Order date ↓</option>
-            <option value="order_date:asc">Order date ↑</option>
-            <option value="visit_date:desc">Visit date ↓</option>
-            <option value="visit_date:asc">Visit date ↑</option>
-            <option value="status:asc">Status ↑</option>
-            <option value="status:desc">Status ↓</option>
+            <option value="order_date:desc">Order date</option>
+            <option value="order_date:asc">Order date</option>
+            <option value="visit_date:desc">Visit date</option>
+            <option value="visit_date:asc">Visit date</option>
+            <option value="status:asc">Status</option>
+            <option value="status:desc">Status</option>
           </select>
 
           <button
