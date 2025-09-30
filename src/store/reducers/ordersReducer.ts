@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { AxiosError } from "axios";
 import { axiosInstance } from "@/api/axiosInstance";
-
 import type {
   Product,
   CreateOrderPayload,
@@ -11,6 +10,26 @@ import type {
   IMeta,
   // IPaginatedOrders, // si tu l’as déjà, sinon IMeta + data:IOrder[]
 } from "@/@types";
+import type { IOrder, IPaginatedOrders } from "../../@types";
+
+// **********************************************************************************
+// ** Types & Initial State
+// **********************************************************************************
+
+interface OrdersState {
+  ordersList: IPaginatedOrders | null;
+  userOrdersList: IOrder[] | null;
+  currentOrder: IOrder | null;
+  loading: boolean;
+  error: string | null;
+}
+
+export const initialState: OrdersState = {
+  ordersList: null,
+  userOrdersList: null,
+  currentOrder: null,
+  loading: false,
+  error: null,
 
 /** ─────────────────────────────────────────────────────────────────────────────
  * STATE
@@ -108,6 +127,20 @@ export const fetchProducts = createAsyncThunk<Product[], void, { rejectValue: st
     }
   }
 );
+
+export const fetchUserOrders = createAsyncThunk<IOrder[], number, { rejectValue: string }>(
+  "orders/fetchUserOrders",
+  async (userId: number, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get(`/orders/user/${userId}`);
+      return response.data.data as IOrder[];
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      if (axiosError.response) {
+        return rejectWithValue(axiosError.response.data as string);
+      } else {
+        return rejectWithValue(axiosError.message);
+      };
 
 export const createOrder = createAsyncThunk<IOrder, CreateOrderPayload, { rejectValue: string }>(
   "orders/createOrder",
