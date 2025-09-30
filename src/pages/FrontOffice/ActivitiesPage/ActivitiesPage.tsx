@@ -114,6 +114,10 @@ export default function ActivitiesPage() {
                     setHighIntensityQuery={setHighIntensityQuery}
                     categoryQuery={categoryQuery}
                     setCategoryQuery={setCategoryQuery}
+                    limit={limit}
+                    setLimit={setLimit}
+                    orderQuery={orderQuery}
+                    setOrderQuery={setOrderQuery}
                   />
                 </div>
               </div>

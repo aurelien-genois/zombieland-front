@@ -13,6 +13,10 @@ interface IFilterBarProps {
   >;
   categoryQuery: number | undefined;
   setCategoryQuery: React.Dispatch<React.SetStateAction<number | undefined>>;
+  limit: number;
+  setLimit: React.Dispatch<React.SetStateAction<number>>;
+  orderQuery: string;
+  setOrderQuery: React.Dispatch<React.SetStateAction<string>>;
 }
 
 // orderQuery, limit
@@ -26,6 +30,10 @@ export default function FilterBar({
   setHighIntensityQuery,
   categoryQuery,
   setCategoryQuery,
+  limit,
+  setLimit,
+  orderQuery,
+  setOrderQuery,
 }: IFilterBarProps) {
   const { categories } = useCategories();
 
@@ -47,8 +55,8 @@ export default function FilterBar({
                     hover:border-red-border-filter-focus transition outline-none
                     focus-visible:ring-red-100/0"
           >
-            <option value="">-</option>
-            <option value="0">0 niveau de frousse</option>
+            <option value="">- niveau de frousse</option>
+            <option value="0">0 très léger</option>
             <option value="1">1 léger</option>
             <option value="2">2 tendu</option>
             <option value="3">3 très flippant</option>
@@ -111,6 +119,35 @@ export default function FilterBar({
             ))}
           </select>
         </label>
+
+        <label htmlFor="limit">
+          Nb par page
+          <select
+            name="limit"
+            value={String(limit)}
+            onChange={(e) => setLimit(Number(e.currentTarget.value))}
+            className="appearance-none px-4 pr-9 py-1.5 rounded-xl border border-green-border-filter bg-green-bg-filter text-green-text
+                    hover:border-red-border-filter-focus transition outline-none
+                    focus-visible:ring-red-100/0"
+          >
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+          </select>
+        </label>
+
+        <select
+          name="order"
+          value={orderQuery}
+          onChange={(e) => setOrderQuery(e.currentTarget.value)}
+          className="appearance-none px-4 pr-9 py-1.5 rounded-xl border border-green-border-filter bg-green-bg-filter text-green-text
+                    hover:border-red-border-filter-focus transition outline-none
+                    focus-visible:ring-red-100/0"
+        >
+          <option value="name:asc">Noms croissants</option>
+          <option value="name:desc">Noms décroissants</option>
+        </select>
 
         {/* // TODO RESET */}
         <button
