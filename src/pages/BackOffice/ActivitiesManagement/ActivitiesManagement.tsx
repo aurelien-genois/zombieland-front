@@ -415,7 +415,7 @@ export default function ActivitiesManagement() {
             <p className="text-gray-600">Error loading activities...</p>
           </div>
         </div>
-      ) : (
+      ) : activities.length ? (
         <>
           <table className="mt-8 bg-white shadow overflow-hidden sm:rounded-lg min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50 w-[10%]">
@@ -463,6 +463,8 @@ export default function ActivitiesManagement() {
             itemsPerPage={limit}
           />
         </>
+      ) : (
+        <p className="text-center">Aucune activité trouvée</p>
       )}
     </div>
   );
