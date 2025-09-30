@@ -48,7 +48,7 @@ export default function OrderPage() {
   console.log(">>>>>>ORDER ID", orderId);
   const dispatch = useAppDispatch();
 
-  const { currentOrder, loading, error } = useAppSelector(
+  const { order, loadingOrder, orderError } = useAppSelector(
     (state) => state.ordersStore
   );
 
@@ -58,19 +58,19 @@ export default function OrderPage() {
     }
   }, [dispatch, orderId]);
 
-  if (loading) {
+  if (loadingOrder) {
     return <div className="text-white bg-gray-300">Loading...</div>;
   }
 
-  if (error) {
-    return <div className="text-white bg-gray-300">Error: {error}</div>;
+  if (orderError) {
+    return <div className="text-white bg-gray-300">Error: {orderError}</div>;
   }
 
-  if (!currentOrder) {
+  if (!order) {
     return <div className="text-white bg-gray-300">Order not found</div>;
   }
 
-  const orderTotal = currentOrder.order_lines.reduce((total, line) => {
+  const orderTotal = order.order_lines.reduce((total, line) => {
     return total + line.unit_price * line.quantity;
   }, 0);
   const roundedTotal = orderTotal.toFixed(2);
@@ -80,20 +80,20 @@ export default function OrderPage() {
       <div className="mx-auto px-4 text-white text-center max-w-250">
         <h1 className="pt-7 pb-7 text-3xl font-bold">Ma commande</h1>
         <h2 className="pt-3 pb-7 text-xl font-bold">
-          Détails de la commande numéro : {currentOrder.id}
+          Détails de la commande numéro : {order.id}
         </h2>
         <div className="grid grid-cols-2 pb-7">
           <div className="text-lg">
             <p>
               Statut :{" "}
-              <span className={getStatusClass(currentOrder.status)}>
-                {mapOrderStatus(currentOrder.status)}
+              <span className={getStatusClass(order.status)}>
+                {mapOrderStatus(order.status)}
               </span>
             </p>
             <p>
               Date de la commande :{" "}
               <span className="font-bold">
-                {formatDateToFrench(currentOrder.order_date)}
+                {formatDateToFrench(order.order_date)}
               </span>
             </p>
           </div>
@@ -101,12 +101,12 @@ export default function OrderPage() {
             <p>
               Méthode de paiement :{" "}
               <span className="font-bold">
-                {mapPaymentMethod(currentOrder.payment_method)}
+                {mapPaymentMethod(order.payment_method)}
               </span>
             </p>
             <p>
               Code Ticket :{" "}
-              <span className="font-bold">{currentOrder.ticket_code}</span>
+              <span className="font-bold">{order.ticket_code}</span>
             </p>
           </div>
         </div>
@@ -122,7 +122,7 @@ export default function OrderPage() {
               </tr>
             </thead>
             <tbody>
-              {currentOrder.order_lines.map((line) => (
+              {order.order_lines.map((line) => (
                 <tr key={line.id}>
                   <td className="py-2 px-4">{line.product.name}</td>{" "}
                   {/* Affiche le product_id ou nom produit si tu l'as */}

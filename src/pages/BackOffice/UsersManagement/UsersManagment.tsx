@@ -1,14 +1,16 @@
 import TableData from "@/components/UI/BackOffice/Table/TableData";
 import TableRow from "@/components/UI/BackOffice/Table/TableRow";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import ChangeUserRoleModal from "@/components/Modals/ChangeUserRoleModal";
+import DeleteUserModal from "@/components/Modals/DeleteUserModal";
 import {
-  changeUserRole,
-  deleteUser,
   getAllUsers,
-  getUserById,
 } from "@/store/reducers/adminReducer";
 import { useEffect, useState } from "react";
 import Pagination from "@/components/UI/Pagination";
+import { Link } from "react-router";
+import type { IRole } from "@/@types";
+
 
 export default function UsersManagement() {
   const dispatch = useAppDispatch();
@@ -27,7 +29,15 @@ export default function UsersManagement() {
         q: searchQuery || null,
       })
     );
-  }, [dispatch, currentPage, limit, searchQuery, changeUserRole]);
+  }, [dispatch, currentPage, limit, searchQuery]);
+
+
+  type RoleName = IRole["name"];
+  const [isRoleModalOpen, setIsRoleModalOpen] = useState(false);
+  const [modalUserRole, setModalUserRole] = useState<{ id: number; role: RoleName } | null>(null);
+
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [deleteUserId, setDeleteUserId] = useState<number | null>(null);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -39,20 +49,18 @@ export default function UsersManagement() {
     setCurrentPage(1);
   };
 
-  function handleChangeRole(userId: number, currentRole: string) {
-    console.log("Change role for user:", userId, "current role:", currentRole);
-    const newRole = currentRole === "admin" ? "member" : "admin";
-
-    dispatch(changeUserRole({ userId, newRole }));
+  function handleChangeRole(userId: number, currentRole?: IRole | string | null) {
+    const name = typeof currentRole === "string" ? currentRole : currentRole?.name;
+    const safeRole: RoleName = name === "admin" ? "admin" : "member";
+    setModalUserRole({ id: userId, role: safeRole });
+    setIsRoleModalOpen(true);
   }
 
   function handleDeleteUser(userId: number) {
-    dispatch(deleteUser({ userId }));
+    setDeleteUserId(userId);
+    setIsDeleteOpen(true);
   }
 
-  function handleViewUser(userId: number) {
-    dispatch(getUserById({ userId }));
-  }
 
   // ------------------------------------------------------ Display Users List ---------------------------------
 
@@ -93,23 +101,23 @@ export default function UsersManagement() {
       )}
       {/* ------------------ */}
       <TableData>
-        <button
-          onClick={() => handleViewUser(user.id)}
+        <Link
+          to={`/admin/management/users/${user.id}`}
           className="cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
         >
           View
-        </button>
+        </Link>
       </TableData>
       <TableData>
         <button
-          onClick={() => handleChangeRole(user.id, user.role?.name || "user")}
-          className={` cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md ${
+          onClick={() => handleChangeRole(user.id, user.role?.name || "member")}
+          className={`cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md ${
             user.role?.name === "admin"
               ? "bg-red-100 text-red-800"
               : "bg-orange-100 text-orange-800"
           }`}
         >
-          {user?.role?.name || "N/A"}{" "}
+          {user?.role?.name || "member"}
         </button>
       </TableData>
 
@@ -275,6 +283,27 @@ export default function UsersManagement() {
         totalItems={users.meta.total}
         itemsPerPage={limit}
       />
+
+      {isRoleModalOpen && modalUserRole && (
+        <ChangeUserRoleModal
+          setIsModalOpen={setIsRoleModalOpen}
+          userId={modalUserRole.id}
+          currentRole={modalUserRole.role}
+          onChanged={() => {
+            // rafraîchir la liste après succès
+            dispatch(getAllUsers({ page: currentPage, limit, q: searchQuery || null }));
+          }}
+        />
+      )}
+      {isDeleteOpen && deleteUserId != null && (
+        <DeleteUserModal
+          setIsModalOpen={setIsDeleteOpen}
+          userId={deleteUserId}
+          page={currentPage}
+          limit={limit}
+          q={searchQuery || null}
+        />
+      )}
     </div>
   );
 }

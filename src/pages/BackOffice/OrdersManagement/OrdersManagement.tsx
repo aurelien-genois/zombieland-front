@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "@/store";
-import { fetchAllOrders } from "@/store/reducers/reservationReducer";
-import type { IOrder, OrderStatus, OrdersSort } from "@/@types/reservation";
+import { fetchAllOrders } from "@/store/reducers/ordersReducer";
+import type { IOrder, OrderStatus, OrdersSort } from "@/@types/order";
 import { Link } from "react-router";
+import Pagination from "@/components/UI/Pagination";
 
 const statusColor: Record<OrderStatus, string> = {
   pending:  "bg-yellow-100 text-yellow-800",
@@ -11,6 +12,7 @@ const statusColor: Record<OrderStatus, string> = {
   canceled: "bg-red-100 text-red-800",
   refund:   "bg-indigo-100 text-indigo-800",
 };
+
 
 function formatDate(d?: string) {
   if (!d) return "-";
@@ -31,60 +33,76 @@ function computeTotal(order: IOrder) {
 
 export default function OrdersManagementPage() {
   const dispatch = useDispatch<AppDispatch>();
-  const { orders, loadingOrders, ordersError, page, limit, search, status, orderSort, meta } =
-    useSelector((s: RootState) => s.reservationStore);
+  const {
+    orders,
+    loadingOrders,
+    ordersError,
+    page,
+    perPage,
+    total,
+    search,
+    status,
+    orderSort,
+    meta,
+  } = useSelector((s: RootState) => s.ordersStore);
 
-  const [q, setQ] = useState(search);
-  const [pageSize, setPageSize] = useState(limit);
+
+  const [currentPage, setCurrentPage] = useState(page || 1);
+  const [limit, setLimit] = useState(perPage || 10);
+
+  const [q, setQ] = useState(search ?? "");
   const [statusFilter, setStatusFilter] = useState<OrderStatus | "all">(status);
   const [sort, setSort] = useState<OrdersSort>(orderSort);
 
   useEffect(() => {
-    dispatch(fetchAllOrders({ page: 1, limit: pageSize, search: q || undefined, status: statusFilter !== "all" ? statusFilter : undefined, order: sort }));
-  }, []); // première charge
+      dispatch(fetchAllOrders({
+        perPage: limit, page: currentPage, search: q || undefined, status: statusFilter !== "all" ? statusFilter : undefined, order: sort,
+        total: 0,
+        totalCount: 0,
+        totalPages: 0,
+        hasPrev: false,
+        hasNext: false
+      }));
+    }, [dispatch, limit, currentPage, q, statusFilter, sort]);
 
-  function handleSearchSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    dispatch(fetchAllOrders({
-      page: 1,
-      limit: pageSize,
-      search: q || undefined,
-      status: statusFilter !== "all" ? statusFilter : undefined,
-      order: sort
-    }));
-  }
+    function handleSearchSubmit(e: React.FormEvent) {
+      e.preventDefault();
+      setCurrentPage(1); 
+      dispatch(fetchAllOrders({
+        page: 1,
+        perPage: limit,
+        search: q || undefined,
+        status: statusFilter !== "all" ? statusFilter : undefined,
+        order: sort,
+        total: 0,
+        totalCount: 0,
+        totalPages: 0,
+        hasPrev: false,
+        hasNext: false
+      }));
+    }
 
-  function resetFilters() {
-    setQ("");
-    setPageSize(10);
-    setStatusFilter("all");
-    setSort("order_date:desc");
-    dispatch(fetchAllOrders({ page: 1, limit: 10, order: "order_date:desc" }));
-  }
+    function resetFilters() {
+      setQ("");
+      setLimit(10);
+      setCurrentPage(1);
+      setStatusFilter("all");
+      setSort("order_date:desc");
+      dispatch(fetchAllOrders({
+        page: 1, perPage: 10, order: "order_date:desc",
+        total: 0,
+        totalCount: 0,
+        totalPages: 0,
+        hasPrev: false,
+        hasNext: false
+      }));
+    }
 
-  function changePage(p: number) {
-    dispatch(fetchAllOrders({
-      page: p,
-      limit: pageSize,
-      search: q || undefined,
-      status: statusFilter !== "all" ? statusFilter : undefined,
-      order: sort
-    }));
-  }
+    const totalItems = (typeof total === "number" ? total : (meta?.totalCount ?? orders.length)) || 0;
 
-  function changeLimit(newLimit: number) {
-    setPageSize(newLimit);
-    dispatch(fetchAllOrders({
-      page: 1,
-      limit: newLimit,
-      search: q || undefined,
-      status: statusFilter !== "all" ? statusFilter : undefined,
-      order: sort
-    }));
-  }
 
-  const totalCount = meta?.totalCount ?? orders.length;
-  const totalPages = meta?.totalPages ?? 1;
+
+
 
   const headerTitle = useMemo(
     () => `Orders Management`,
@@ -135,13 +153,6 @@ export default function OrdersManagementPage() {
           </select>
 
           <button
-            type="submit"
-            className="rounded bg-blue-600 text-white px-3 py-2 hover:bg-blue-700"
-          >
-            Voir tout le tableau
-          </button>
-
-          <button
             type="button"
             onClick={resetFilters}
             className="rounded border px-3 py-2"
@@ -153,8 +164,11 @@ export default function OrdersManagementPage() {
         <div className="flex items-center gap-2">
           <span className="text-sm text-gray-500">Afficher :</span>
           <select
-            value={pageSize}
-            onChange={(e) => changeLimit(Number(e.target.value))}
+            value={limit}
+            onChange={(e) => {
+              setLimit(Number(e.target.value));
+              setCurrentPage(1); // reset page quand on change le nombre par page
+            }}
             className="rounded border border-gray-300 px-2 py-2"
           >
             {[10, 25, 50].map(n => <option key={n} value={n}>{n}</option>)}
@@ -238,29 +252,12 @@ export default function OrdersManagementPage() {
         </table>
       </div>
 
-      {/* Pagination */}
-      <div className="mt-3 flex items-center justify-between text-sm text-gray-600">
-        <div>
-          Page {page} / {totalPages} — Total: {totalCount}
-        </div>
-
-        <div className="flex gap-2">
-          <button
-            disabled={page <= 1 || loadingOrders}
-            onClick={() => changePage(page - 1)}
-            className={`rounded border px-3 py-1.5 ${page <= 1 || loadingOrders ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-50"}`}
-          >
-            ← Précédent
-          </button>
-          <button
-            disabled={!!meta && !meta.hasNext || loadingOrders}
-            onClick={() => changePage(page + 1)}
-            className={`rounded border px-3 py-1.5 ${meta?.hasNext === false || loadingOrders ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-50"}`}
-          >
-            Suivant →
-          </button>
-        </div>
-      </div>
+      <Pagination
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+        itemsPerPage={limit}
+        totalItems={totalItems}
+      />
     </div>
   );
 }
