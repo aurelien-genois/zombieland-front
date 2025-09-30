@@ -78,7 +78,7 @@ export default function PasswordUpdate() {
             <div className="mb-6">
               <label
                 htmlFor="oldPassword"
-                className="block mb-0.5 text-lg md:text-sm font-bold ml-1.5"
+                className="block mb-0.5 text-xl md:text-base font-bold ml-1.5"
               >
                 Ancien mot de passe{" "}
                 <span className="text-red-500 font-normal">*</span>
@@ -86,7 +86,7 @@ export default function PasswordUpdate() {
               <input
                 type="password"
                 name="oldPassword"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
                 required
               />
               <p className="mb-1.5 text-lg md:text-sm ml-2 text-gray-300">
@@ -96,7 +96,7 @@ export default function PasswordUpdate() {
 
               <label
                 htmlFor="newPassword"
-                className="block mb-1.5 text-lg md:text-sm font-bold ml-1.5"
+                className="block mb-1.5 text-xl md:text-base font-bold ml-1.5"
               >
                 Nouveau mot de passe{" "}
                 <span className="text-red-500 font-normal">*</span>
@@ -104,13 +104,13 @@ export default function PasswordUpdate() {
               <input
                 type="password"
                 name="newPassword"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5 mb-1.5"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5 mb-1.5"
                 required
               />
 
               <label
                 htmlFor="confirmation"
-                className="block mb-0.5 text-lg md:text-sm font-bold ml-1.5"
+                className="block mb-0.5 text-xl md:text-base font-bold ml-1.5"
               >
                 Retapez le nouveau mot de passe{" "}
                 <span className="text-red-500 font-normal">*</span>
@@ -118,7 +118,7 @@ export default function PasswordUpdate() {
               <input
                 type="password"
                 name="confirmation"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
                 required
               />
             </div>

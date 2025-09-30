@@ -79,7 +79,7 @@ export default function InfosUpdate() {
           <div className="grid gap-1.5 md:gap-6 mb-3 grid-cols-1 md:grid-cols-2">
             <div>
               <label
-                className="block mb-0.5 text-lg md:text-sm font-bold ml-1.5"
+                className="block mb-0.5 text-xl md:text-base font-bold ml-1.5"
                 htmlFor="firstname"
               >
                 Prénom<span className="text-red-500 font-normal">*</span>
@@ -87,7 +87,7 @@ export default function InfosUpdate() {
               <input
                 type="text"
                 name="firstname"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
                 defaultValue={userInfo?.firstname || ""}
                 placeholder="Prénom"
                 disabled={loading}
@@ -96,7 +96,7 @@ export default function InfosUpdate() {
             </div>
             <div>
               <label
-                className="block mb-0.5 text-lg md:text-sm font-bold ml-1.5"
+                className="block mb-0.5 text-xl md:text-base font-bold ml-1.5"
                 htmlFor="lastname"
               >
                 Nom <span className="text-red-500 font-normal">*</span>
@@ -104,7 +104,7 @@ export default function InfosUpdate() {
               <input
                 type="text"
                 name="lastname"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
                 defaultValue={userInfo?.lastname || ""}
                 placeholder="Nom"
                 disabled={loading}
@@ -115,14 +115,14 @@ export default function InfosUpdate() {
 
           <label
             htmlFor="email"
-            className="block mb-0.5 text-lg md:text-sm font-bold ml-1.5"
+            className="block mb-0.5 text-xl md:text-base font-bold ml-1.5"
           >
             E-mail <span className="text-red-500 font-normal">*</span>
           </label>
           <input
             type="email"
             name="email"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
             defaultValue={userInfo?.email || ""}
             placeholder="monemail@host.com"
             disabled={loading}
@@ -134,14 +134,14 @@ export default function InfosUpdate() {
 
           <label
             htmlFor="telephone"
-            className="block mb-1.5 text-lg md:text-sm font-bold ml-1.5"
+            className="block mb-1.5 text-xl md:text-base font-bold ml-1.5"
           >
             Téléphone
           </label>
           <input
             type="tel"
             name="telephone"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5 mb-1.5"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5 mb-1.5"
             defaultValue={userInfo?.phone || ""}
             placeholder="Indicatif + Téléphone"
             disabled={loading}
@@ -149,7 +149,7 @@ export default function InfosUpdate() {
 
           <label
             htmlFor="birthdate"
-            className="block mb-0.5 text-lg md:text-sm font-bold ml-1.5"
+            className="block mb-0.5 text-xl md:text-base font-bold ml-1.5"
           >
             Date de naissance{" "}
             <span className="text-red-500 font-normal">*</span>
@@ -158,7 +158,7 @@ export default function InfosUpdate() {
             type="date"
             lang="fr"
             name="birthdate"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5 mb-7"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5 mb-7"
             defaultValue={
               userInfo?.birthday
                 ? new Date(userInfo.birthday).toISOString().split("T")[0]
