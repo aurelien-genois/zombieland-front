@@ -6,9 +6,48 @@ import { usePublishedActivities } from "@/hooks/activities";
 import { fetchPublishedActivities } from "@/store/reducers/activitiesReducer";
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "@/hooks/redux";
+import { useParams } from "react-router";
+import { useCategories } from "@/hooks/categories";
 
 export default function ActivitiesPage() {
   const dispatch = useAppDispatch();
+  const params = useParams();
+
+  // TODO optimize auto-filter on category (for example with a "getBySlug" at API side)
+  const { categories } = useCategories();
+  let categoryIdToFilter = undefined;
+  if (params.category !== undefined && typeof params.category === "string") {
+    const category = params.category;
+    const findCategory = categories.filter((cat) => {
+      const dbCategory = cat.name
+        .replace(/^\s+|\s+$/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-")
+        .toLowerCase()
+        .replace(/[éèêë]/g, "e")
+        .replace(/[ìï]/g, "i")
+        .replace(/[ôöò]/g, "o")
+        .replace(/[àää]/g, "a")
+        .replace(/[ùûü]/g, "u");
+      const urlCategory = category
+        .replace(/^\s+|\s+$/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-")
+        .toLowerCase()
+        .replace(/[éèêë]/g, "e")
+        .replace(/[ìï]/g, "i")
+        .replace(/[ôöò]/g, "o")
+        .replace(/[àää]/g, "a")
+        .replace(/[ùûü]/g, "u");
+
+      return urlCategory === dbCategory;
+    });
+
+    if (findCategory.length) {
+      categoryIdToFilter = Number(findCategory[0].id);
+      // setCategoryQuery(findCategory[0].id);
+    }
+  }
 
   const { activities, page, total, loading, error } = usePublishedActivities();
 
@@ -16,9 +55,15 @@ export default function ActivitiesPage() {
   const [limit, setLimit] = useState(9);
 
   const [searchQuery, setSearchQuery] = useState("");
+
   const [categoryQuery, setCategoryQuery] = useState<number | undefined>(
     undefined
   );
+  useEffect(() => {
+    // if current page url for a category, set filter (that will fetch activities)
+    setCategoryQuery(categoryIdToFilter);
+  }, [categoryIdToFilter]);
+
   const [orderQuery, setOrderQuery] = useState("");
   const [ageGroupQuery, setAgeGroupQuery] = useState<number | undefined>(
     undefined

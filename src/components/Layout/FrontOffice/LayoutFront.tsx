@@ -28,6 +28,7 @@ export default function LayoutFront() {
       <Main>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/activities/:category" element={<ActivitiesPage />} />
           <Route path="/activities" element={<ActivitiesPage />} />
           <Route path="/activity/:slug" element={<ActivityPage />} />
           <Route
