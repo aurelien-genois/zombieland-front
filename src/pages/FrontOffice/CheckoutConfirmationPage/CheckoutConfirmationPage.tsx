@@ -5,10 +5,6 @@ import type { RootState, AppDispatch } from "@/store";
 import { fetchOneOrder } from "@/store/reducers/ordersReducer";
 
 
-
-
-
-
 export default function CheckoutConfirmationPage() {
   const { id } = useParams();
   const dispatch = useDispatch<AppDispatch>();
@@ -98,8 +94,8 @@ export default function CheckoutConfirmationPage() {
           <div className="text-sm text-white/80">
             <p>
               Passée le{" "}
-              <time dateTime={order.visit_date}>
-                {new Date(order.visit_date).toLocaleDateString("fr")}
+              <time dateTime={order.order_date}>
+                {new Date(order.order_date).toLocaleDateString("fr")}
               </time>
             </p>
             <p>
@@ -179,7 +175,7 @@ export default function CheckoutConfirmationPage() {
             </a>
   
             <Link
-              to="/account/orders"
+              to={`/order/${order.id}`}
               className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl font-extrabold bg-white/10 hover:bg-white/15"
             >
               Voir mes réservations

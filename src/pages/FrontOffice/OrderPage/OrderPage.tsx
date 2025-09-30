@@ -3,9 +3,6 @@ import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { useEffect } from "react";
 import { fetchOneOrder } from "@/store/reducers/ordersReducer";
 
-
-
-
 const mapPaymentMethod = (method: string) => {
   const paymentMethods: { [key: string]: string } = {
     credit_card: "Carte de crédit",
@@ -71,6 +68,14 @@ export default function OrderPage() {
     return <div className="text-white bg-gray-300">Order not found</div>;
   }
 
+    const cancelOrder = (visitDateString: string) => {
+    const today = new Date();
+    const visitDate = new Date(visitDateString);
+    const diffDate = visitDate.getTime() - today.getTime();
+    const diffDays = diffDate / (1000 * 60 * 60 * 24);
+    return diffDays >= 10;
+  };
+
   return (
     <>
       <div className="mx-auto px-4 text-white text-center max-w-250">
@@ -84,7 +89,7 @@ export default function OrderPage() {
             <p>
               Nom de la commande :{" "}
               <span className="font-bold">
-                {mapOrderStatus(currentOrder.user.firstname)} {mapOrderStatus(currentOrder.user.lastname)}
+                {mapOrderStatus(order.user.firstname)} {mapOrderStatus(order.user.lastname)}
                 
               </span>
             </p>
@@ -97,15 +102,15 @@ export default function OrderPage() {
             <p>
               Date de visite :{" "}
               <span className="font-bold">
-                {formatDateToFrench(currentOrder.visit_date)}
+                {formatDateToFrench(order.visit_date)}
               </span>
             </p>
           </div>
           <div className="text-lg">
             <p>
               Statut :{" "}
-              <span className={getStatusClass(currentOrder.status)}>
-                {mapOrderStatus(currentOrder.status)}
+              <span className={getStatusClass(order.status)}>
+                {mapOrderStatus(order.status)}
               </span>
             </p>
             <p>
@@ -150,32 +155,34 @@ export default function OrderPage() {
                 <td colSpan={3} className="py-2 px-4 font-bold text-right">
                   TVA (5,5%) :
                 </td>
-                <td className="py-2 px-4 font-bold">{currentOrder.vat_amount} €</td>
+                <td className="py-2 px-4 font-bold">{order.vat} €</td>
                 <td colSpan={4}></td>
               </tr>
               <tr className="border-t">
                 <td colSpan={3} className="py-2 px-4 font-bold text-right">
                   Total :
                 </td>
-                <td className="py-2 px-4 font-bold">{currentOrder.total} €</td>
+                <td className="py-2 px-4 font-bold">{order.total} €</td>
                 <td colSpan={4}></td>
               </tr>
             </tfoot>
           </table>
           <div className="mt-15 flex sm:flex-row flex-col md:gap-2 gap-3 sm:text-lg text-xl text-center justify-center items-center mb-15">
               <Link
-                to={`/account`}
+                to="/account"
+                state={{ tab: "orders" }}
                 className="w-80 justify-center gap-2 px-4 py-3 rounded-xl font-extrabold text-black bg-gray-400 hover:bg-gray-500"
               >
                 Retour
               </Link>
-              <Link
-                to="#"
-                className="w-80 justify-center gap-2 px-4 py-3 rounded-xl font-extrabold text-white bg-red-600 hover:bg-red-500"
-              >
-                Annuler la réservation
-              </Link>
-              
+              {cancelOrder(order.visit_date) && (
+                <Link
+                  to="#"
+                  className="w-80 justify-center gap-2 px-4 py-3 rounded-xl font-extrabold text-white bg-red-600 hover:bg-red-500"
+                >
+                  Annuler la réservation
+                </Link>
+              )}
             </div>
         </div>
       </div>

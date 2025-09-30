@@ -54,7 +54,10 @@ export default function LayoutFront() {
               isAuth ? <AccountPage /> : <Navigate to="/login" replace />
             }
           />
-          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route 
+            path="/checkout" 
+            element={isAuth ? <CheckoutPage /> : <Navigate to="/login" replace/>} 
+          />
           <Route
             path="/checkout/confirmation/:id"
             element={<CheckoutConfirmationPage />}
