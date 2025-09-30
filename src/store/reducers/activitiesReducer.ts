@@ -229,6 +229,21 @@ export const updateActivity = createAsyncThunk(
   }
 );
 
+export const publishActivity = createAsyncThunk(
+  "activities/publish",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.patch(`/activities/${id}/publish`);
+      console.log("data :Publish ACTIVITY:", data);
+
+      // TODO Axios errors
+      return data as IActivity;
+    } catch {
+      return rejectWithValue("Failed to fetch publish activity");
+    }
+  }
+);
+
 export const deleteActivity = createAsyncThunk(
   "activities/delete",
   async (category_id: number, { rejectWithValue }) => {
@@ -345,6 +360,20 @@ const activitiesReducer = createReducer(initialState, (builder) => {
     .addCase(updateActivity.rejected, (state, action) => {
       state.loading = false;
       state.error = (action.payload as string) || "Update failed";
+    });
+
+  builder
+    .addCase(publishActivity.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(publishActivity.fulfilled, (state) => {
+      state.loading = false;
+      state.error = null;
+    })
+    .addCase(publishActivity.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || "Publish failed";
     });
 
   builder

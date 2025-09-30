@@ -1,11 +1,12 @@
 import { useAllActivities } from "@/hooks/activities";
 import Pagination from "@/components/UI/Pagination";
 import { Link } from "react-router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch } from "@/hooks/redux";
 import {
   fetchAllActivities,
   deleteActivity,
+  publishActivity,
 } from "@/store/reducers/activitiesReducer";
 import { useCategories } from "@/hooks/categories";
 
@@ -92,6 +93,12 @@ export default function ActivitiesManagement() {
     );
   };
 
+  const handlePublish = async (e: React.MouseEvent, activityId: number) => {
+    dispatch(publishActivity(activityId));
+    setSuccessMessage(`L'activité a bien été publiée.`);
+    e.currentTarget.remove();
+  };
+
   const handleReset = async () => {
     setLimit(10);
     setOrderQuery("");
@@ -176,7 +183,20 @@ export default function ActivitiesManagement() {
       {/* Colonne statut */}
       <td className="px-6 py-4">
         <div className="text-sm font-medium text-gray-900">
-          {activity.status}
+          {activity.status === "published" ? (
+            activity.status
+          ) : (
+            <>
+              {activity.status}
+              <button
+                type="button"
+                onClick={(e) => handlePublish(e, activity.id)}
+                className="bg-blue-500 cursor-pointer text-white hover:bg-cyan-400 py-2 px-3 font-bold rounded-lg"
+              >
+                Publier
+              </button>
+            </>
+          )}
         </div>
       </td>
 
