@@ -17,7 +17,7 @@ export default function ActivitiesManagementSingle() {
   const slug = String(params.slug) || "";
   const { currentActivity, loading, error } = useActivity(slug);
 
-  const [isEditing, setEditingMode] = useState(false);
+  const [isEditingMode, setEditingMode] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -52,7 +52,7 @@ export default function ActivitiesManagementSingle() {
 
     // TODO validation
 
-    dispatch(
+    await dispatch(
       updateActivity({
         formData,
         action: submitEvent.submitter?.name,
@@ -85,7 +85,7 @@ export default function ActivitiesManagementSingle() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto p-6">
+    <div className="max-w-7xl min-w-full mx-auto p-6">
       <Link
         to="/admin/management/activities"
         className="text-green-text font-bold"
@@ -110,7 +110,7 @@ export default function ActivitiesManagementSingle() {
         </div>
       )}
 
-      {isEditing ? (
+      {isEditingMode ? (
         <form
           onSubmit={handleSubmit}
           className="mx-auto px-5 md:max-w-200 sm:max-w-150"

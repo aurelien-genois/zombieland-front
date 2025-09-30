@@ -9,6 +9,7 @@ import type { IActivity } from "@/@types";
 
 interface DeleteActivityModalProps {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setActivityToDelete: React.Dispatch<React.SetStateAction<IActivity | null>>;
   activity: IActivity;
   // pour rafraîchir la liste après succès :
   queries: {
@@ -26,6 +27,7 @@ interface DeleteActivityModalProps {
 
 export default function DeleteActivityModal({
   setIsModalOpen,
+  setActivityToDelete,
   activity,
   queries,
 }: DeleteActivityModalProps) {
@@ -62,7 +64,10 @@ export default function DeleteActivityModal({
         })
       );
       // ferme après un petit délai (optionnel)
-      setTimeout(() => setIsModalOpen(false), 300);
+      setTimeout(() => {
+        setIsModalOpen(false);
+        setActivityToDelete(null);
+      }, 300);
     } catch {
       setMsg("Une erreur est survenue. Réessayez plus tard.");
     } finally {

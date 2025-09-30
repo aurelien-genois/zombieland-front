@@ -178,10 +178,9 @@ export const createActivity = createAsyncThunk(
         category_id: Number(objData.category_id),
         saved: params.action === "publish",
       };
-      console.log("body ::>>>>", body);
 
       const { data } = await axiosInstance.post("/activities", body);
-      console.log("data :CREATE ACTIVITY:", data);
+      console.log("data: CREATE ACTIVITY:", data);
 
       // TODO Axios errors
       return data as IActivity;
@@ -213,13 +212,12 @@ export const updateActivity = createAsyncThunk(
         category_id: Number(objData.category_id),
         saved: params.action === "publish",
       };
-      console.log("body ::>>>>", body);
 
       const { data } = await axiosInstance.patch(
         `/activities/${params.id}`,
         body
       );
-      console.log("data :UPDATE ACTIVITY:", data);
+      console.log("data: UPDATE ACTIVITY:", data);
 
       // TODO Axios errors
       return data as IActivity;
@@ -234,7 +232,7 @@ export const publishActivity = createAsyncThunk(
   async (id: number, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.patch(`/activities/${id}/publish`);
-      console.log("data :Publish ACTIVITY:", data);
+      console.log("data: Publish ACTIVITY:", data);
 
       // TODO Axios errors
       return data as IActivity;
@@ -246,10 +244,10 @@ export const publishActivity = createAsyncThunk(
 
 export const deleteActivity = createAsyncThunk(
   "activities/delete",
-  async (category_id: number, { rejectWithValue }) => {
+  async (id: number, { rejectWithValue }) => {
     try {
-      const { data } = await axiosInstance.delete(`/activities/${category_id}`);
-      console.log("data :DELETE ACTIVITY:", data);
+      const { data } = await axiosInstance.delete(`/activities/${id}`);
+      console.log("data: DELETE ACTIVITY:", data);
 
       // TODO Axios errors
       return data as IActivity;

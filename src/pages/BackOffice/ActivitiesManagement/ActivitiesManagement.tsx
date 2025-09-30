@@ -460,6 +460,7 @@ export default function ActivitiesManagement() {
           {isModalDeleteOpen && activityToDelete != null && (
             <DeleteActivityModal
               setIsModalOpen={setIsModalDeleteOpen}
+              setActivityToDelete={setActivityToDelete}
               activity={activityToDelete}
               queries={{
                 limit,
