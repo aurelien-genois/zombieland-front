@@ -17,10 +17,8 @@ export default function Banner() {
               Bienvenue à ZombieLand
             </h1>
             <p className="mt-3 text-sm sm:text-base md:text-lg text-center md:text-left">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorum
-              dolorem quia, unde nobis, veritatis modi exercitationem tempore
-              iure adipisci obcaecati illum aut natus velit soluta alias
-              distinctio, nulla iste? Est?
+              Bienvenue à <span className="text-red-500 font-extrabold italic">ZombieLand</span> ! Après la fuite d'un contaminant puissant, la population s'est quelque peu... Transformée.
+              Oserez-vous affronter vos peurs pour tenter de reprendre le contrôle ?
             </p>
             <div className="mt-4 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
               <Link

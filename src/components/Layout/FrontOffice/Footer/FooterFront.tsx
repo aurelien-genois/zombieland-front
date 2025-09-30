@@ -6,10 +6,10 @@ export default function FooterFront() {
         <div className="flex justify-between items-center">
           <div className="flex ml-10 w-40">
             <nav className="text-white text-l flex flex-col mt-3 ">
-              <a href="" className="hover:text-red-500">
+              <a href="/activities" className="hover:text-red-500">
                 Activités
               </a>
-              <a href="" className="hover:text-red-500">
+              <a href="/checkout" className="hover:text-red-500">
                 Réservation
               </a>
               <a href="" className="hover:text-red-500">
@@ -26,13 +26,13 @@ export default function FooterFront() {
               <a className="mr-1" href="">
                 <span
                   aria-hidden
-                  className="size-8 bg-white hover:bg-red-500 [mask:url(/icon/facebook-logo.svg)_no-repeat_center/contain] inline-block"
+                  className="size-8 bg-white hover:bg-red-500 [mask:url(/src/assets/icon/facebook-logo.svg)_no-repeat_center/contain] inline-block"
                 />
               </a>
               <a className="ml-1" href="">
                 <span
                   aria-hidden
-                  className="size-8 bg-white hover:bg-red-500 [mask:url(/icon/instagram-logo.svg)_no-repeat_center/contain] inline-block"
+                  className="size-8 bg-white hover:bg-red-500 [mask:url(/src/assets/icon/instagram-logo.svg)_no-repeat_center/contain] inline-block"
                 />
               </a>
             </div>

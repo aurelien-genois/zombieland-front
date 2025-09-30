@@ -35,14 +35,12 @@ const OrderHistory: React.FC = () => {
   const upcomingOrders = userOrdersList.filter((order) => {
     const visitDate = new Date(order.visit_date);
     const today = new Date();
-    visitDate.setHours(0, 0, 0, 0);
     return visitDate >= today;
   });
 
   const pastOrders = userOrdersList.filter((order) => {
     const visitDate = new Date(order.visit_date);
     const today = new Date();
-    visitDate.setHours(0, 0, 0, 0);
     return visitDate < today;
   });
 
@@ -54,12 +52,12 @@ const OrderHistory: React.FC = () => {
         <div className="rounded-2xl w-150 ring-1 p-5 sm:p-6 mx-4">
           <div className="flex sm:flex-row flex-col sm:items-center justify-between gap-3">
             <div>
-              <p className="sm:text-lg text-xl">N° de commande</p>
-              <p className="font-extrabold sm:text-lg text-2xl tracking-wide">
+              <p className="sm:text-base text-xl">N° de commande</p>
+              <p className="font-extrabold sm:text-base text-xl tracking-wide">
                 {order.ticket_code}
               </p>
             </div>
-            <div className="sm:text-lg text-xl">
+            <div className="sm:text-base text-xl">
               <p>
                 Passée le :{" "}
                 <time dateTime={order.order_date}>
@@ -75,7 +73,7 @@ const OrderHistory: React.FC = () => {
             </div>
           </div>
 
-          <div className="mt-5 grid md:gap-2 gap-3 sm:text-lg text-xl text-center">
+          <div className="mt-5 grid md:gap-2 gap-3 sm:text-base text-xl text-center">
             <Link
               to={`/order/${order.id}`}
               className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl font-extrabold text-white bg-green-600 hover:bg-green-500"
@@ -99,7 +97,7 @@ const OrderHistory: React.FC = () => {
 
   return (
     <div className="space-y-6 pb-15">
-      <h2 className="text-xl font-bold mx-auto text-center">Mes commandes</h2>
+      <h2 className="text-2xl font-bold mx-auto text-center">Mes commandes</h2>
 
       {upcomingOrders.length > 0 && (
         <div className="space-y-6">
@@ -107,7 +105,7 @@ const OrderHistory: React.FC = () => {
         </div>
       )}
 
-      <h2 className="text-xl font-bold mx-auto text-center">Historique des commandes</h2>
+      <h2 className="text-2xl font-bold mx-auto text-center">Historique des commandes</h2>
 
       {pastOrders.length > 0 && (
           <div className="space-y-6 opacity-70">

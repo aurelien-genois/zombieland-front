@@ -9,33 +9,67 @@ export default function HeaderFront() {
   return (
     <header className="fixed top-0 inset-x-0 z-50 border-b-3 shadow-md shadow-red-800 bg-black-bg-header/90 backdrop-blur">
       <div className="max-w-7xl mx-auto h-16 sm:h-20 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        <div className="max-w-150 justify-center">
+        <div className="w-120 flex justify-center mx-auto">
           <a href="/" className="shrink-0">
             <img className="h-8 sm:h-10" src={logo} alt="ZombieLand" />
           </a>
         </div>
-        <div className="max-w-150 justify-center">
+        <div className="flex justify-center mx-auto">
           <nav className="hidden md:block">
             <ul className="flex items-center gap-6 text-white text-sm font-bold lg:text-base">
-              <NavLink to={`/`} end className={"hover:text-red-500"}>
+              <NavLink
+                to={`/`}
+                end
+                className={({ isActive }) =>
+                  isActive ? "text-red-500" : "hover:text-red-500"
+                }
+              >
                 Accueil
               </NavLink>
 
-              <NavLink to={`/activities`} end className={"hover:text-red-500"}>
-                Attractions
+              <NavLink
+                to={`/activities`}
+                end
+                className={({ isActive }) =>
+                  isActive ? "text-red-500" : "hover:text-red-500"
+                }
+              >
+                Toutes les activités
               </NavLink>
 
-              <NavLink to={`/`} end className={"hover:text-red-500"}>
-                Restauration
+              <NavLink
+                to={`/activities/manege`}
+                end
+                className={({ isActive }) =>
+                  isActive ? "text-red-500" : "hover:text-red-500"
+                }
+              >
+                Manèges
               </NavLink>
 
-              <NavLink to={`/checkout`} end className={"hover:text-red-500"}>
+              <NavLink
+                to={`/activities/restaurant`}
+                end
+                className={({ isActive }) =>
+                  isActive ? "text-red-500" : "hover:text-red-500"
+                }
+              >
+                Restaurants
+              </NavLink>
+
+              <NavLink
+                to={`/checkout`}
+                end
+                className={({ isActive }) =>
+                  isActive ? "text-red-500" : "hover:text-red-500"
+                }
+              >
                 Réservation
               </NavLink>
             </ul>
           </nav>
         </div>
-        <div className="max-w-150 justify-center">
+        <div className="w-120 flex justify-center mx-auto">
           <div className="flex flex-col items-center ">
             <img className="h-8 sm:h-10 " src={account_zombie} alt="Compte" />
             <AccountMenu />

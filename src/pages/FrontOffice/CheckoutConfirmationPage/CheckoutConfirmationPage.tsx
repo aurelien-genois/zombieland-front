@@ -6,10 +6,6 @@ import { fetchOneOrder } from "@/store/reducers/ordersReducer";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import OrderPDF from "../OrderPage/OrderPDF";
 
-
-
-
-
 export default function CheckoutConfirmationPage() {
   const { id } = useParams();
   const dispatch = useDispatch<AppDispatch>();
