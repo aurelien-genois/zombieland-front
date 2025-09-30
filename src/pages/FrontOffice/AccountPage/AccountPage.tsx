@@ -10,7 +10,7 @@ export default function AccountPage() {
 
   return (
     <>
-      <div className="bg-gray-300">
+      <div className="text-white">
         <h1 className="text-center font-bold text-3xl pt-10 pb-8">
           Mon compte
         </h1>
