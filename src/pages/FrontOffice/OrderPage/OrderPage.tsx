@@ -2,6 +2,8 @@ import { Link, useParams } from "react-router";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { useEffect } from "react";
 import { fetchOneOrder } from "@/store/reducers/ordersReducer";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import OrderPDF from "./OrderPDF";
 
 const mapPaymentMethod = (method: string) => {
   const paymentMethods: { [key: string]: string } = {
@@ -171,17 +173,34 @@ export default function OrderPage() {
               <Link
                 to="/account"
                 state={{ tab: "orders" }}
-                className="w-80 justify-center gap-2 px-4 py-3 rounded-xl font-extrabold text-black bg-gray-400 hover:bg-gray-500"
+                className="w-65 justify-center gap-2 px-4 py-3 rounded-xl font-extrabold text-black bg-gray-400 hover:bg-gray-500"
+
               >
                 Retour
               </Link>
               {cancelOrder(order.visit_date) && (
                 <Link
                   to="#"
-                  className="w-80 justify-center gap-2 px-4 py-3 rounded-xl font-extrabold text-white bg-red-600 hover:bg-red-500"
+                  className="w-65 justify-center gap-2 px-4 py-3 rounded-xl font-extrabold text-white bg-red-600 hover:bg-red-500"
                 >
                   Annuler la réservation
-                </Link>
+              </Link>
+              )}
+              {order && (
+                <PDFDownloadLink
+                  document={<OrderPDF order={order} />}
+                  fileName={`commande-${order.id}.pdf`}
+                >
+                  {({ loading }) =>
+                    loading ? (
+                      <span className="text-gray-400">Préparation du PDF...</span>
+                    ) : (
+                      <button className="w-65 flex justify-center gap-2 px-4 py-3 rounded-xl font-extrabold text-white bg-green-600 hover:bg-green-500">
+                        Télécharger la facture
+                      </button>
+                    )
+                  }
+                </PDFDownloadLink>
               )}
             </div>
         </div>

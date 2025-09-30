@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router";
 import type { RootState, AppDispatch } from "@/store";
 import { fetchOneOrder } from "@/store/reducers/ordersReducer";
-
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import OrderPDF from "../OrderPage/OrderPDF";
 
 export default function CheckoutConfirmationPage() {
   const { id } = useParams();
@@ -63,7 +64,7 @@ export default function CheckoutConfirmationPage() {
     {/* Colonne 1-2 : contenu */}
     <section className="lg:col-span-2 space-y-6">
       {/* Bandeau succès */}
-      <div className="rounded-2xl bg-green-500/10 ring-1 ring-green-500/30 p-5 sm:p-6">
+      <div className="rounded-2xl bg-green-500/10 ring-1 ring-green-500/30 py-2 sm:py-6">
         <div className="flex items-start gap-4">
           <span
             aria-hidden
@@ -167,12 +168,22 @@ export default function CheckoutConfirmationPage() {
           </ul>
   
           <div className="mt-5 grid gap-2">
-            <a
-              href="#"
-              className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl font-extrabold bg-green-600 hover:bg-green-500"
-            >
-              Télécharger les billets (PDF)
-            </a>
+            {order && (
+                <PDFDownloadLink
+                  document={<OrderPDF order={order} />}
+                  fileName={`commande-${order.id}.pdf`}
+                >
+                  {({ loading }) =>
+                    loading ? (
+                      <span className="text-gray-400">Préparation du PDF...</span>
+                    ) : (
+                      <button className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl font-extrabold bg-green-600 hover:bg-green-500">
+                        Télécharger la facture
+                      </button>
+                    )
+                  }
+                </PDFDownloadLink>
+              )}
   
             <Link
               to={`/order/${order.id}`}
