@@ -6,8 +6,9 @@ export function useCategories() {
   const dispatch = useAppDispatch();
   const categoriesState = useAppSelector((state) => state.categoriesStore);
 
+  // get all (until 100)
   useEffect(() => {
-    dispatch(fetchCategories());
+    dispatch(fetchCategories({ perPage: 100 }));
   }, [dispatch]);
 
   return categoriesState;
