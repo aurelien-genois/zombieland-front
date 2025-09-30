@@ -17,19 +17,53 @@ export default function HeaderFront() {
         <div className="flex justify-center mx-auto">
           <nav className="hidden md:block">
             <ul className="flex items-center gap-6 text-white text-sm font-bold lg:text-base">
-              <NavLink to={`/`} end className={"hover:text-red-500"}>
+              <NavLink
+                to={`/`}
+                end
+                className={({ isActive }) =>
+                  isActive ? "text-red-500" : "hover:text-red-500"
+                }
+              >
                 Accueil
               </NavLink>
 
-              <NavLink to={`/activities`} end className={"hover:text-red-500"}>
-                Attractions
+              <NavLink
+                to={`/activities`}
+                end
+                className={({ isActive }) =>
+                  isActive ? "text-red-500" : "hover:text-red-500"
+                }
+              >
+                Toutes les activités
               </NavLink>
 
-              <NavLink to={`/`} end className={"hover:text-red-500"}>
-                Restauration
+              <NavLink
+                to={`/activities/manege`}
+                end
+                className={({ isActive }) =>
+                  isActive ? "text-red-500" : "hover:text-red-500"
+                }
+              >
+                Manèges
               </NavLink>
 
-              <NavLink to={`/checkout`} end className={"hover:text-red-500"}>
+              <NavLink
+                to={`/activities/restaurant`}
+                end
+                className={({ isActive }) =>
+                  isActive ? "text-red-500" : "hover:text-red-500"
+                }
+              >
+                Restaurants
+              </NavLink>
+
+              <NavLink
+                to={`/checkout`}
+                end
+                className={({ isActive }) =>
+                  isActive ? "text-red-500" : "hover:text-red-500"
+                }
+              >
                 Réservation
               </NavLink>
             </ul>
