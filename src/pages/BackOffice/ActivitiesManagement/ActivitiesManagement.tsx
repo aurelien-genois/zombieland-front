@@ -3,16 +3,22 @@ import Pagination from "@/components/UI/Pagination";
 import { Link } from "react-router";
 import React, { useEffect, useState } from "react";
 import { useAppDispatch } from "@/hooks/redux";
+import DeleteActivityModal from "@/components/Modals/DeleteActivityModal";
 import {
   fetchAllActivities,
-  deleteActivity,
   publishActivity,
 } from "@/store/reducers/activitiesReducer";
 import { useCategories } from "@/hooks/categories";
+import type { IActivity } from "@/@types";
 
 export default function ActivitiesManagement() {
   const dispatch = useAppDispatch();
   const { activities, page, total, loading, error } = useAllActivities();
+
+  const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
+  const [activityToDelete, setActivityToDelete] = useState<IActivity | null>(
+    null
+  );
 
   const [currentPage, setCurrentPage] = useState(page);
   const [limit, setLimit] = useState(10);
@@ -72,7 +78,7 @@ export default function ActivitiesManagement() {
 
   const handleSearchSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(
+    await dispatch(
       fetchAllActivities({
         perPage: limit,
         page: currentPage,
@@ -94,12 +100,12 @@ export default function ActivitiesManagement() {
   };
 
   const handlePublish = async (e: React.MouseEvent, activityId: number) => {
-    dispatch(publishActivity(activityId));
+    await dispatch(publishActivity(activityId));
     setSuccessMessage(`L'activité a bien été publiée.`);
     e.currentTarget.remove();
   };
 
-  const handleReset = async () => {
+  const handleReset = () => {
     setLimit(10);
     setOrderQuery("");
     setSearchQuery("");
@@ -110,17 +116,9 @@ export default function ActivitiesManagement() {
     setStatusQuery("");
   };
 
-  const handleDeletion = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const activityId = Number(formData.get("activity_id"));
-    const activityName = formData.get("activity_name");
-
-    if (formData.get("activity_id") && activityId) {
-      dispatch(deleteActivity(activityId));
-      setSuccessMessage(`L'activité "${activityName}" a bien été supprimée.`);
-      e.currentTarget.closest("tr")?.remove();
-    }
+  const handleDeletionModal = (activity: IActivity) => {
+    setActivityToDelete(activity);
+    setIsModalDeleteOpen(true);
   };
 
   const displayActivitiesList = activities?.map((activity) => (
@@ -219,16 +217,12 @@ export default function ActivitiesManagement() {
 
       {/* Colonne Action Detete */}
       <td className="px-6 py-4">
-        <form onSubmit={handleDeletion}>
-          <input type="hidden" name="activity_name" value={activity.name} />
-          <input type="hidden" name="activity_id" value={activity.id} />
-          <input
-            type="submit"
-            name="delete"
-            value="Supprimer"
-            className="cursor-pointer bg-red-500 text-white hover:bg-red-200 py-2 px-3 font-bold rounded-lg"
-          />
-        </form>
+        <button
+          onClick={() => handleDeletionModal(activity)}
+          className="cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
+        >
+          Delete
+        </button>
       </td>
     </tr>
   ));
@@ -415,7 +409,7 @@ export default function ActivitiesManagement() {
             <p className="text-gray-600">Error loading activities...</p>
           </div>
         </div>
-      ) : (
+      ) : activities.length ? (
         <>
           <table className="mt-8 bg-white shadow overflow-hidden sm:rounded-lg min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50 w-[10%]">
@@ -462,7 +456,27 @@ export default function ActivitiesManagement() {
             totalItems={total}
             itemsPerPage={limit}
           />
+
+          {isModalDeleteOpen && activityToDelete != null && (
+            <DeleteActivityModal
+              setIsModalOpen={setIsModalDeleteOpen}
+              activity={activityToDelete}
+              queries={{
+                limit,
+                currentPage,
+                searchQuery,
+                statusQuery,
+                categoryQuery,
+                ageGroupQuery,
+                disabledAccessQuery,
+                highIntensityQuery,
+                orderQuery,
+              }}
+            />
+          )}
         </>
+      ) : (
+        <p className="text-center">Aucune activité trouvée</p>
       )}
     </div>
   );

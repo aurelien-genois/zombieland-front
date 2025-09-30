@@ -3,6 +3,7 @@ import home from "@/assets/icon/home.svg";
 import user from "@/assets/icon/user.svg";
 import cart from "@/assets/icon/cart.svg";
 import activity from "@/assets/icon/activity.svg";
+import category from "@/assets/icon/activity.svg";
 import dashboard from "@/assets/icon/dashboard.svg";
 import NavLink from "@/components/UI/BackOffice/NavLink";
 
@@ -23,6 +24,12 @@ export default function SideBar() {
             iconSrc={activity}
             to="/admin/management/activities"
             label="Activités"
+          />
+          <NavLink
+            iconAlt="Category"
+            iconSrc={category}
+            to="/admin/management/categories"
+            label="Catégories"
           />
           <NavLink
             iconAlt="User"
