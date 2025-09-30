@@ -70,7 +70,7 @@ export default function InfosUpdate() {
 
   return (
     <>
-      <div className="pb-10">
+      <div className="pb-10 text-white">
         <form
           onSubmit={handleSubmit}
           method="post"
@@ -128,7 +128,7 @@ export default function InfosUpdate() {
             disabled={loading}
             required
           />
-          <p className="mb-3 text-lg md:text-sm ml-2 text-gray-600">
+          <p className="mb-3 text-lg md:text-sm ml-2 text-gray-300">
             Vous recevrez un email de confirmation pour valider le nouvel email.
           </p>
 

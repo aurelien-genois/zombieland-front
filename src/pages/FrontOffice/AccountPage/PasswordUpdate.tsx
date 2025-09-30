@@ -89,7 +89,7 @@ export default function PasswordUpdate() {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
                 required
               />
-              <p className="mb-1.5 text-lg md:text-sm ml-2 text-gray-600">
+              <p className="mb-1.5 text-lg md:text-sm ml-2 text-gray-300">
                 Le mot de passe doit contenir au minimum 10 caractères dont 1
                 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial.
               </p>

@@ -8,7 +8,7 @@ export default function DeleteMyAccount() {
     return <DeleteMyAccountModal setIsModalOpen={setShowDeleteModal} />;
   }
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100svh-5rem-1.45rem)] bg-gray-50 gap-7">
+    <div className="mt-10 flex flex-col items-center justify-center min-h-[calc(100svh-5rem-1.45rem) gap-7">
       <h1 className="text-2xl font-bold">Suppression de compte</h1>
       <p>Cette action est irréversible. Vous êtes sûr de vouloir continuer ?</p>
       <button
