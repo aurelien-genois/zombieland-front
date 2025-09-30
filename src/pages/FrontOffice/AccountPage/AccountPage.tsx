@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "react-router";
 import AccountTabs from "./AccountTabs";
 import InfosUpdate from "./InfosUpdate";
 import PasswordUpdate from "./PasswordUpdate";
@@ -6,7 +7,9 @@ import OrdersHistory from "./OrdersHistory";
 import DeleteMyAccount from "./DeleteMyAccount";
 
 export default function AccountPage() {
-  const [activeTab, setActiveTab] = useState("infos");
+  const location = useLocation();
+  const initialTab = location.state?.tab || "infos";
+  const [activeTab, setActiveTab] = useState(initialTab);
 
   return (
     <>
