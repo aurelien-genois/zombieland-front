@@ -11,8 +11,7 @@ import { useCategories } from "@/hooks/categories";
 
 export default function ActivitiesManagement() {
   const dispatch = useAppDispatch();
-  const { activities, page, perPage, total, loading, error } =
-    useAllActivities();
+  const { activities, page, total, loading, error } = useAllActivities();
 
   const [currentPage, setCurrentPage] = useState(page);
   const [limit, setLimit] = useState(10);
@@ -91,6 +90,17 @@ export default function ActivitiesManagement() {
         order: orderQuery,
       })
     );
+  };
+
+  const handleReset = async () => {
+    setLimit(10);
+    setOrderQuery("");
+    setSearchQuery("");
+    setAgeGroupQuery(undefined);
+    setDisabledAccessQuery(undefined);
+    setHighIntensityQuery(undefined);
+    setCategoryQuery(undefined);
+    setStatusQuery("");
   };
 
   const handleDeletion = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -355,8 +365,11 @@ export default function ActivitiesManagement() {
             <option value="name:desc">Noms décroissants</option>
           </select>
 
-          {/* // TODO RESET */}
-          <button type="button" className="rounded border px-3 py-2">
+          <button
+            type="button"
+            onClick={handleReset}
+            className="rounded border px-3 py-2 cursor-pointer"
+          >
             Reset
           </button>
         </div>

@@ -17,6 +17,8 @@ interface IFilterBarProps {
   setLimit: React.Dispatch<React.SetStateAction<number>>;
   orderQuery: string;
   setOrderQuery: React.Dispatch<React.SetStateAction<string>>;
+  handleSearchSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleReset: () => void;
 }
 
 // orderQuery, limit
@@ -34,12 +36,14 @@ export default function FilterBar({
   setLimit,
   orderQuery,
   setOrderQuery,
+  handleSearchSubmit,
+  handleReset,
 }: IFilterBarProps) {
   const { categories } = useCategories();
 
   return (
     <>
-      <div className="flex flex-wrap gap-2">
+      <form onSubmit={handleSearchSubmit} className="flex flex-wrap gap-2">
         <label htmlFor="age_group" className="relative">
           <select
             name="age_group"
@@ -149,14 +153,14 @@ export default function FilterBar({
           <option value="name:desc">Noms décroissants</option>
         </select>
 
-        {/* // TODO RESET */}
         <button
           type="button"
-          className="px-3 py-1.5 rounded-xl bg-red-bg-btn hover:brightness-110 font-semibold"
+          onClick={handleReset}
+          className="px-3 py-1.5 rounded-xl bg-red-bg-btn hover:brightness-110 font-semibold cursor-pointer"
         >
           RÉINITIALISER
         </button>
-      </div>
+      </form>
     </>
   );
 }

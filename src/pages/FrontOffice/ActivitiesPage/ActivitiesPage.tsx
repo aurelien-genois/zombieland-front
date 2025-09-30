@@ -10,8 +10,7 @@ import { useAppDispatch } from "@/hooks/redux";
 export default function ActivitiesPage() {
   const dispatch = useAppDispatch();
 
-  const { activities, page, perPage, total, loading, error } =
-    usePublishedActivities();
+  const { activities, page, total, loading, error } = usePublishedActivities();
 
   const [currentPage, setCurrentPage] = useState(page);
   const [limit, setLimit] = useState(9);
@@ -84,6 +83,16 @@ export default function ActivitiesPage() {
     );
   };
 
+  const handleReset = async () => {
+    setLimit(9);
+    setOrderQuery("");
+    setSearchQuery("");
+    setAgeGroupQuery(undefined);
+    setDisabledAccessQuery(undefined);
+    setHighIntensityQuery(undefined);
+    setCategoryQuery(undefined);
+  };
+
   return (
     <div className="bg-black-bg-main ">
       <main className="pt-16 sm:pt-20  min-h-[calc(100svh-5rem-1.45rem)]">
@@ -118,6 +127,8 @@ export default function ActivitiesPage() {
                     setLimit={setLimit}
                     orderQuery={orderQuery}
                     setOrderQuery={setOrderQuery}
+                    handleSearchSubmit={handleSearchSubmit}
+                    handleReset={handleReset}
                   />
                 </div>
               </div>
@@ -127,7 +138,7 @@ export default function ActivitiesPage() {
               <div className="text-white">Loading...</div>
             ) : error || !activities ? (
               <div className="text-white">Error: {error}</div>
-            ) : (
+            ) : activities.length ? (
               <>
                 {/* Grille des cartes */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-7">
@@ -151,6 +162,8 @@ export default function ActivitiesPage() {
                   itemsPerPage={limit}
                 />
               </>
+            ) : (
+              <p className="text-center">Aucune activité trouvée</p>
             )}
           </div>
         </section>
