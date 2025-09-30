@@ -26,7 +26,7 @@ export default function CardList({
       <div className="relative max-w-sm">
         <img
           className="rounded-xl relative h-80 w-full object-cover"
-          src={image_url ?? activity}
+          src={image_url?.length ? image_url : activity}
           alt={`Image de l'attraction ${name}`}
         />
         <div className="bg-black-500/70 absolute bottom-10 left-0 right-0 text-white text-center">
@@ -40,7 +40,7 @@ export default function CardList({
                 <span
                   key={index}
                   aria-hidden
-                  className=" block size-8 bg-white [mask:url(/icon/crane_zombie.svg)_no-repeat_center/contain]"
+                  className=" block size-8 bg-white [mask:url(/src/assets/icon/crane_zombie.svg)_no-repeat_center/contain]"
                 />
               ))}
             </div>
@@ -48,13 +48,13 @@ export default function CardList({
               {disabled_access && (
                 <span
                   aria-hidden
-                  className=" block size-8 bg-white [mask:url(/icon/RPM.svg)_no-repeat_center/contain]"
+                  className=" block size-8 bg-white [mask:url(/src/assets/icon/disabled.svg)_no-repeat_center/contain]"
                 />
               )}
               {high_intensity && (
                 <span
                   aria-hidden
-                  className=" block size-8 bg-white [mask:url(/icon/heart.svg)_no-repeat_center/contain]"
+                  className=" block size-8 bg-white [mask:url(/src/assets/icon/heart.svg)_no-repeat_center/contain]"
                 />
               )}
             </div>
