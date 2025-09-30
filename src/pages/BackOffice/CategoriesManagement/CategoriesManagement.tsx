@@ -1,4 +1,5 @@
 import Pagination from "@/components/UI/Pagination";
+import DeleteCategoryModal from "@/components/Modals/DeleteCategoryModal";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { useEffect, useState } from "react";
 import {
@@ -223,6 +224,17 @@ export default function CategoriesManagement() {
             totalItems={total}
             itemsPerPage={perPage}
           />
+
+          {isModalDeleteOpen && categoryToDelete != null && (
+            <DeleteCategoryModal
+              setIsModalOpen={setIsModalDeleteOpen}
+              setCategoryToDelete={setCategoryToDelete}
+              category={categoryToDelete}
+              queries={{
+                currentPage,
+              }}
+            />
+          )}
         </>
       ) : (
         <p className="text-center">Aucune catégorie trouvée</p>
