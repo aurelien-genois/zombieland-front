@@ -53,14 +53,24 @@ export const fetchPublishedActivities = createAsyncThunk(
   "activities/fetchAllPublished",
   async (params: IFetchActivitiesParams, { rejectWithValue }) => {
     try {
-      // TODO manage params (category (id), age_group (0/1/2/3), high_intensity (bool), disabled_access (bool), limit (int), status, page (int), order (name:asc/name:desc))
-      // TODO as below
       const { data } = await axiosInstance.get("/activities", {
         params: {
           ...(params.perPage
             ? { limit: params.perPage }
             : { limit: initialState.perPage }),
           ...(params.page && { page: params.page }),
+          ...(params.category_id && { category: params.category_id }),
+          ...(params.age_group !== undefined && {
+            age_group: params.age_group,
+          }),
+          ...(params.high_intensity !== undefined && {
+            high_intensity: params.high_intensity ? "true" : "false",
+          }),
+          ...(params.disabled_access !== undefined && {
+            disabled_access: params.disabled_access ? "true" : "false",
+          }),
+          ...(params.order && { order: params.order }),
+          ...(params.search && { search: params.search }),
         },
       });
       console.log("DATA FROM FETCH ACTIVITIES: ", data);
@@ -100,10 +110,6 @@ export const fetchAllActivities = createAsyncThunk(
           ...(params.status && { status: params.status }),
           ...(params.search && { search: params.search }),
         },
-
-        // status is an enum ("draft", "published")
-        // order is an enum ("name:asc", "name:desc")
-        // high_intensity, disabled_access are enum ("true","false")
       });
       console.log("DATA FROM FETCH ACTIVITIES: ", data);
       // TODO Axios errors

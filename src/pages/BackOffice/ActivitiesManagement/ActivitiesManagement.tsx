@@ -15,7 +15,7 @@ export default function ActivitiesManagement() {
     useAllActivities();
 
   const [currentPage, setCurrentPage] = useState(page);
-  const [limit, setLimit] = useState(perPage);
+  const [limit, setLimit] = useState(10);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -30,7 +30,7 @@ export default function ActivitiesManagement() {
   const [disabledAccessQuery, setDisabledAccessQuery] = useState<
     string | undefined
   >(undefined);
-  const [highIntensityQuery, setHighIntensityAccessQuery] = useState<
+  const [highIntensityQuery, setHighIntensityQuery] = useState<
     string | undefined
   >(undefined);
 
@@ -233,6 +233,7 @@ export default function ActivitiesManagement() {
             <label className="sr-only">Recherche</label>
             <input
               name="search"
+              type="search"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.currentTarget.value)}
               placeholder="Recherche"
@@ -299,7 +300,7 @@ export default function ActivitiesManagement() {
               name="hight_intensity"
               value={highIntensityQuery}
               onChange={(e) =>
-                setHighIntensityAccessQuery(
+                setHighIntensityQuery(
                   e.currentTarget.value !== ""
                     ? e.currentTarget.value
                     : undefined
@@ -338,7 +339,6 @@ export default function ActivitiesManagement() {
               onChange={(e) => setLimit(Number(e.currentTarget.value))}
               className="rounded border border-gray-300 px-2 py-2"
             >
-              <option value="9">9</option>
               <option value="10">10</option>
               <option value="20">20</option>
               <option value="30">30</option>
@@ -354,29 +354,11 @@ export default function ActivitiesManagement() {
             <option value="name:asc">Noms croissants</option>
             <option value="name:desc">Noms décroissants</option>
           </select>
-          {/*
-      
-      
-                <button
-                  type="button"
-                  onClick={resetFilters}
-                  className="rounded border px-3 py-2"
-                >
-                  Reset
-                </button>
-              </div>
-      
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-500">Afficher :</span>
-                <select
-                  value={pageSize}
-                  onChange={(e) => changeLimit(Number(e.target.value))}
-                  className="rounded border border-gray-300 px-2 py-2"
-                >
-                  {[10, 25, 50].map(n => <option key={n} value={n}>{n}</option>)}
-                </select>
-                <span className="text-sm text-gray-500">par page</span>
-                */}
+
+          {/* // TODO RESET */}
+          <button type="button" className="rounded border px-3 py-2">
+            Reset
+          </button>
         </div>
       </form>
 

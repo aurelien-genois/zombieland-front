@@ -6,7 +6,6 @@ import { usePublishedActivities } from "@/hooks/activities";
 import { fetchPublishedActivities } from "@/store/reducers/activitiesReducer";
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "@/hooks/redux";
-import { useCategories } from "@/hooks/categories";
 
 export default function ActivitiesPage() {
   const dispatch = useAppDispatch();
@@ -15,7 +14,7 @@ export default function ActivitiesPage() {
     usePublishedActivities();
 
   const [currentPage, setCurrentPage] = useState(page);
-  const [limit, setLimit] = useState(perPage);
+  const [limit, setLimit] = useState(9);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryQuery, setCategoryQuery] = useState<number | undefined>(
@@ -28,11 +27,9 @@ export default function ActivitiesPage() {
   const [disabledAccessQuery, setDisabledAccessQuery] = useState<
     string | undefined
   >(undefined);
-  const [highIntensityQuery, setHighIntensityAccessQuery] = useState<
+  const [highIntensityQuery, setHighIntensityQuery] = useState<
     string | undefined
   >(undefined);
-
-  const { categories } = useCategories();
 
   useEffect(() => {
     dispatch(
@@ -97,15 +94,27 @@ export default function ActivitiesPage() {
                 TOUTES LES ATTRACTIONS
               </h1>
 
-              {/* // TODO one forms as in ActivitiesManagement.tsx */}
               <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div>
-                  <p className="text-white/70">24 résultats</p>
-                  <SearchForm />
+                  <p className="text-white/70">{total} résultats</p>
+                  <SearchForm
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                    handleSearchSubmit={handleSearchSubmit}
+                  />
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
-                  <FilterBar />
+                  <FilterBar
+                    ageGroupQuery={ageGroupQuery}
+                    setAgeGroupQuery={setAgeGroupQuery}
+                    disabledAccessQuery={disabledAccessQuery}
+                    setDisabledAccessQuery={setDisabledAccessQuery}
+                    highIntensityQuery={highIntensityQuery}
+                    setHighIntensityQuery={setHighIntensityQuery}
+                    categoryQuery={categoryQuery}
+                    setCategoryQuery={setCategoryQuery}
+                  />
                 </div>
               </div>
             </div>
