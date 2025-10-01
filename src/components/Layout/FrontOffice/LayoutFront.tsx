@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router";
+import { Navigate, Route, Router, Routes } from "react-router";
 import FooterFront from "./Footer/FooterFront";
 import HeaderFront from "@/components/Layout/FrontOffice/Header/HeaderFront";
 import HomePage from "@/pages/FrontOffice/_HomePage/HomePage";
@@ -18,6 +18,7 @@ import Main from "./Main/Main";
 
 import { useAppSelector } from "@/hooks/redux";
 import ResetPassword from "@/pages/FrontOffice/ResetPassword/ResetPassword";
+import ConfirmationPage from "@/pages/FrontOffice/ConfirmationPage/ConfirmationPage";
 
 export default function LayoutFront() {
   const { isAuth } = useAppSelector((store) => store.userStore);
@@ -31,6 +32,7 @@ export default function LayoutFront() {
           <Route path="/activities/:category" element={<ActivitiesPage />} />
           <Route path="/activities" element={<ActivitiesPage />} />
           <Route path="/activity/:slug" element={<ActivityPage />} />
+          <Route path="/confirmation" element={<ConfirmationPage />} />
           <Route
             path="/register"
             element={!isAuth ? <RegisterPage /> : <Navigate to="/" replace />}
@@ -55,9 +57,11 @@ export default function LayoutFront() {
               isAuth ? <AccountPage /> : <Navigate to="/login" replace />
             }
           />
-          <Route 
-            path="/checkout" 
-            element={isAuth ? <CheckoutPage /> : <Navigate to="/login" replace/>} 
+          <Route
+            path="/checkout"
+            element={
+              isAuth ? <CheckoutPage /> : <Navigate to="/login" replace />
+            }
           />
           <Route
             path="/checkout/confirmation/:id"
