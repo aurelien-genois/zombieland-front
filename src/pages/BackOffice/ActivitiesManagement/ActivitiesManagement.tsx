@@ -2,7 +2,7 @@ import TableData from "@/components/UI/BackOffice/Table/TableData";
 import TableRow from "@/components/UI/BackOffice/Table/TableRow";
 import { useAllActivities } from "@/hooks/activities";
 import Pagination from "@/components/UI/Pagination";
-import { Link } from "react-router";
+import Button from "@/components/UI/BackOffice/Button";
 import React, { useEffect, useState } from "react";
 import { useAppDispatch } from "@/hooks/redux";
 import DeleteActivityModal from "@/components/Modals/DeleteActivityModal";
@@ -101,10 +101,9 @@ export default function ActivitiesManagement() {
     );
   };
 
-  const handlePublish = async (e: React.MouseEvent, activityId: number) => {
+  const handlePublish = async (activityId: number) => {
     await dispatch(publishActivity(activityId));
     setSuccessMessage(`L'activité a bien été publiée.`);
-    e.currentTarget.remove();
   };
 
   const handleReset = () => {
@@ -164,13 +163,9 @@ export default function ActivitiesManagement() {
         ) : (
           <>
             {activity.status}
-            <button
-              type="button"
-              onClick={(e) => handlePublish(e, activity.id)}
-              className="cursor-pointer px-3 py-1 border border-transparent text-xs font-medium rounded-md text-white bg-blue-500  hover:bg-cyan-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-            >
+            <Button color="blue" onClick={() => handlePublish(activity.id)}>
               Publier
-            </button>
+            </Button>
           </>
         )}
       </TableData>
@@ -180,18 +175,15 @@ export default function ActivitiesManagement() {
 
       {/* Colonne Actions */}
       <TableData nowrap={true}>
-        <Link
+        <Button
+          type="router-link"
           to={`/admin/management/activities/${activity.slug}`}
-          className="cursor-pointer bg-blue-500 text-white hover:bg-cyan-400 py-2 px-3 font-bold rounded-lg"
         >
           Voir
-        </Link>
-        <button
-          onClick={() => handleDeletionModal(activity)}
-          className="cursor-pointer px-3 py-1 border border-transparent text-xs font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
-        >
+        </Button>
+        <Button color="red" onClick={() => handleDeletionModal(activity)}>
           Delete
-        </button>
+        </Button>
       </TableData>
     </TableRow>
   ));
@@ -210,12 +202,9 @@ export default function ActivitiesManagement() {
         </div>
       </div>
 
-      <Link
-        to={"/admin/management/activities/creation"}
-        className="cursor-pointer px-3 py-1 border border-transparent text-xs font-medium rounded-md text-white bg-blue-500  hover:bg-cyan-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-      >
+      <Button type="router-link" to={"/admin/management/activities/creation"}>
         Créer une activité
-      </Link>
+      </Button>
 
       <form
         onSubmit={handleSearchSubmit}
@@ -351,13 +340,13 @@ export default function ActivitiesManagement() {
           <option value="name:desc">Noms décroissants</option>
         </select>
 
-        <button
-          type="button"
+        <Button
+          color="gray"
           onClick={handleReset}
-          className="rounded border px-3 py-2 cursor-pointer col-span-full w-max mx-auto "
+          additionalClasses="col-span-full w-max mx-auto"
         >
           Reset
-        </button>
+        </Button>
       </form>
 
       {successMessage && (
