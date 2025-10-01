@@ -1,11 +1,10 @@
-import { Navigate, Route, Router, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 import FooterFront from "./Footer/FooterFront";
 import HeaderFront from "@/components/Layout/FrontOffice/Header/HeaderFront";
 import HomePage from "@/pages/FrontOffice/_HomePage/HomePage";
 import ActivitiesPage from "@/pages/FrontOffice/ActivitiesPage/ActivitiesPage";
 import ActivityPage from "@/pages/FrontOffice/ActivityPage/ActivityPage";
 import RegisterPage from "@/pages/FrontOffice/RegisterPage/RegisterPage";
-import RegisterConfirmationPage from "@/pages/FrontOffice/RegisterConfirmationPage/RegisterConfirmationPage";
 import LoginPage from "@/pages/FrontOffice/LoginPage/LoginPage";
 import AccountPage from "@/pages/FrontOffice/AccountPage/AccountPage";
 import CheckoutPage from "@/pages/FrontOffice/CheckoutPage/CheckoutPage";
@@ -39,16 +38,6 @@ export default function LayoutFront() {
           <Route
             path="/register"
             element={!isAuth ? <RegisterPage /> : <Navigate to="/" replace />}
-          />
-          <Route
-            path="/register/confirmation"
-            element={
-              !isAuth ? (
-                <RegisterConfirmationPage />
-              ) : (
-                <Navigate to="/" replace />
-              )
-            }
           />
           <Route
             path="/login"
