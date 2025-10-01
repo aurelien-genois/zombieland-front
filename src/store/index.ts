@@ -4,6 +4,7 @@ import activitiesReducer from "./reducers/activitiesReducer";
 import categoriesReducer from "./reducers/categoriesReducer";
 import ordersReducer from "./reducers/ordersReducer"
 import adminReducer from "./reducers/adminReducer";
+import productsReducer from "./reducers/productsReducer";
 
 
 export const store = configureStore({
@@ -13,6 +14,7 @@ export const store = configureStore({
     categoriesStore: categoriesReducer,
     ordersStore: ordersReducer,
     adminStore: adminReducer,
+    productsStore: productsReducer,
   },
 });
 // Infer the `RootState` and `AppDispatch` types from the store itself

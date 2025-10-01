@@ -43,6 +43,12 @@ export default function SideBar() {
             to="/admin/management/orders"
             label="Reservations"
           />
+          <NavLink
+            iconAlt="Product"
+            iconSrc={cart}
+            to="/admin/management/products"
+            label="Produits"
+          />
           <NavLink iconAlt="Home" iconSrc={home} to="/" label="Home" />
         </nav>
       </div>
