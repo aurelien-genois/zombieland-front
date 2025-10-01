@@ -131,6 +131,11 @@ export default function LoginPage() {
             Confirmation email
           </Link>
         </div>
+        <div className="mt-2">
+          <Link to="/register" className="text-blue-500 hover:underline">
+            S'inscrire !
+          </Link>
+        </div>
       </div>
 
       {showConfirmationModal && (
