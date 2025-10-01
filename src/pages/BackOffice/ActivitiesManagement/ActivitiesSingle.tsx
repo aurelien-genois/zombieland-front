@@ -175,7 +175,7 @@ export default function ActivitiesManagementSingle() {
             htmlFor="age_group"
             className="block mt-0.5 text-lg md:text-sm font-bold ml-1.5"
           >
-            Groupe d'âge/niveau de frousse
+            Groupe d'âge <span className="text-xs">(frousse)</span>
             <span className="text-red-500 font-normal">*</span>
           </label>
           <input
@@ -270,7 +270,7 @@ export default function ActivitiesManagementSingle() {
             type="submit"
             name="publish"
             disabled={loading}
-            className="cursor-pointer w-50 bg-green-bg-btn hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl py-1 px-3 text-white font-bold border-3 text-2xl sm:text-lg border-grey-border-btn text-center block mx-auto"
+            className="my-4 cursor-pointer w-50 bg-green-bg-btn hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl py-1 px-3 text-white font-bold border-3 text-2xl sm:text-lg border-grey-border-btn text-center block mx-auto"
             value={
               loading
                 ? "Enregistrement..."
@@ -284,7 +284,7 @@ export default function ActivitiesManagementSingle() {
             type="submit"
             name="draft"
             disabled={loading}
-            className="cursor-pointer w-50 bg-gray-700 hover:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl py-1 px-3 text-white font-bold border-3 text-2xl sm:text-lg border-grey-border-btn text-center block mx-auto"
+            className="my-4 cursor-pointer w-50 bg-gray-700 hover:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl py-1 px-3 text-white font-bold border-3 text-2xl sm:text-lg border-grey-border-btn text-center block mx-auto"
             value={loading ? "Enregistrement..." : "Enregistrer en brouillon"}
           />
         </form>
@@ -313,7 +313,7 @@ export default function ActivitiesManagementSingle() {
             &nbsp;{currentActivity.category.name}
             <br />
             <h2 className="inline font-bold text-xl">
-              Groupe d'âge (niveau de frousse) :
+              Groupe d'âge <span className="text-xs">(frousse)</span> :
             </h2>
             &nbsp;{currentActivity.minimum_age}
             <br />

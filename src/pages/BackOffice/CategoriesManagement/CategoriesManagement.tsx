@@ -1,3 +1,5 @@
+import TableData from "@/components/UI/BackOffice/Table/TableData";
+import TableRow from "@/components/UI/BackOffice/Table/TableRow";
 import Pagination from "@/components/UI/Pagination";
 import DeleteCategoryModal from "@/components/Modals/DeleteCategoryModal";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
@@ -74,44 +76,39 @@ export default function CategoriesManagement() {
   };
 
   const displayCategoriesList = categories?.map((category) => (
-    <tr key={category.id} className="hover:bg-gray-50 transition-colors">
+    <TableRow key={category.id}>
       {/* Colonne Nom */}
-      <td className="px-6 py-4 w-[10%] ">
-        <div className="text-sm font-medium text-gray-900">{category.name}</div>
-      </td>
+      <TableData nowrap={false}>{category.name}</TableData>
 
       {/* Colonne Couleur */}
-      <td className="px-6 py-4 w-[10%] ">
-        <div className="text-sm font-medium text-gray-900">
-          {category.color}
-        </div>
-      </td>
+      <TableData nowrap={false}>{category.color}</TableData>
       {/* Colonne Actions */}
-      <td className="px-6 py-4 w-[10%] ">
-        <div className="text-sm font-medium text-gray-900">
-          <button
-            type="button"
-            onClick={() => {
-              setEditingMode(true);
-              setCategoryToEdit(category);
-            }}
-            className="cursor-pointer bg-blue-500 text-white hover:bg-cyan-400 py-2 px-3 font-bold rounded-lg"
-          >
-            Modifier
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setIsModalDeleteOpen(true);
-              setCategoryToDelete(category);
-            }}
-            className="cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
-          >
-            Supprimer
-          </button>
-        </div>
-      </td>
-    </tr>
+      <TableData nowrap={false}>
+        <button
+          type="button"
+          onClick={() => {
+            setEditingMode(true);
+            setCategoryToEdit(category);
+          }}
+          className="cursor-pointer px-3 py-1 border border-transparent text-xs font-medium rounded-md text-white bg-blue-500  hover:bg-cyan-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+        >
+          Modifier
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setIsModalDeleteOpen(true);
+            setCategoryToDelete(category);
+            setCategoryToEdit(null);
+            setEditingMode(false);
+            setCreatingMode(false);
+          }}
+          className="cursor-pointer px-3 py-1 border border-transparent text-xs font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
+        >
+          Supprimer
+        </button>
+      </TableData>
+    </TableRow>
   ));
 
   return (
@@ -130,8 +127,11 @@ export default function CategoriesManagement() {
 
       <button
         type="button"
-        onClick={() => setCreatingMode(true)}
-        className="cursor-pointer bg-blue-500 text-white hover:bg-cyan-400 py-2 px-3 font-bold rounded-lg"
+        onClick={() => {
+          setCreatingMode(true);
+          setCategoryToEdit(null);
+        }}
+        className="cursor-pointer px-3 py-1 border border-transparent text-xs font-medium rounded-md text-white bg-blue-500  hover:bg-cyan-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
       >
         Créer une catégorie
       </button>
@@ -145,8 +145,13 @@ export default function CategoriesManagement() {
       {isCreatingMode || (isEditingMode && categoryToEdit != null) ? (
         <form
           onSubmit={handleSubmit}
-          className="mx-auto px-5 md:max-w-200 sm:max-w-150"
+          className="mx-auto px-5 md:max-w-200 sm:max-w-150 flex gap-4 items-center"
         >
+          <p className="font-bold text-lg whitespace-nowrap">
+            {isEditingMode && categoryToEdit != null
+              ? `Édition (id ${categoryToEdit.id})`
+              : "Création"}
+          </p>
           {formError && (
             <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
               {formError}

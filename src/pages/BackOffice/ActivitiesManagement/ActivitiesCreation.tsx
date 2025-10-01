@@ -2,6 +2,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { createActivity } from "@/store/reducers/activitiesReducer";
 import { useState } from "react";
 import { useCategories } from "@/hooks/categories";
+import { Link } from "react-router";
 
 export default function ActivitiesCreation() {
   const dispatch = useAppDispatch();
@@ -49,8 +50,17 @@ export default function ActivitiesCreation() {
   };
 
   return (
-    <div>
-      <h1>Formulaire de création d'une activité</h1>
+    <div className="max-w-7xl min-w-full mx-auto p-6">
+      <Link
+        to="/admin/management/activities"
+        className="text-green-text font-bold"
+      >
+        Revenir à la liste
+      </Link>
+
+      <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        Formulaire de création d'une activité
+      </h1>
       <form
         onSubmit={handleSubmit}
         className="mx-auto px-5 md:max-w-200 sm:max-w-150"
@@ -110,7 +120,7 @@ export default function ActivitiesCreation() {
           htmlFor="age_group"
           className="block mt-0.5 text-lg md:text-sm font-bold ml-1.5"
         >
-          Groupe d'âge/niveau de frousse
+          Groupe d'âge <span className="text-xs">(frousse)</span>
           <span className="text-red-500 font-normal">*</span>
         </label>
         <input
@@ -200,7 +210,7 @@ export default function ActivitiesCreation() {
           type="submit"
           name="publish"
           disabled={loading}
-          className="cursor-pointer w-50 bg-green-bg-btn hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl py-1 px-3 text-white font-bold border-3 text-2xl sm:text-lg border-grey-border-btn text-center block mx-auto"
+          className="my-4 cursor-pointer w-50 bg-green-bg-btn hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl py-1 px-3 text-white font-bold border-3 text-2xl sm:text-lg border-grey-border-btn text-center block mx-auto"
           value={loading ? "Enregistrement..." : "Publier"}
         />
 
@@ -208,7 +218,7 @@ export default function ActivitiesCreation() {
           type="submit"
           name="draft"
           disabled={loading}
-          className="cursor-pointer w-50 bg-gray-700 hover:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl py-1 px-3 text-white font-bold border-3 text-2xl sm:text-lg border-grey-border-btn text-center block mx-auto"
+          className="my-4 cursor-pointer w-50 bg-gray-700 hover:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl py-1 px-3 text-white font-bold border-3 text-2xl sm:text-lg border-grey-border-btn text-center block mx-auto"
           value={loading ? "Enregistrement..." : "Enregistrer en brouillon"}
         />
       </form>

@@ -1,3 +1,5 @@
+import TableData from "@/components/UI/BackOffice/Table/TableData";
+import TableRow from "@/components/UI/BackOffice/Table/TableRow";
 import { useAllActivities } from "@/hooks/activities";
 import Pagination from "@/components/UI/Pagination";
 import { Link } from "react-router";
@@ -122,109 +124,76 @@ export default function ActivitiesManagement() {
   };
 
   const displayActivitiesList = activities?.map((activity) => (
-    <tr key={activity.id} className="hover:bg-gray-50 transition-colors">
+    <TableRow key={activity.id}>
       {/* Colonne Nom */}
-      <td className="px-6 py-4 w-[10%] ">
-        <div className="text-sm font-medium text-gray-900">{activity.name}</div>
-      </td>
-
-      {/* Colonne Slogan */}
-      <td className="px-6 py-4">
-        <div className="text-sm font-medium text-gray-900">
-          {activity.slogan}
-        </div>
-      </td>
+      <TableData nowrap={false}>{activity.name}</TableData>
 
       {/* Colonne Frousse/age minimum */}
-      <td className="px-6 py-4">
-        <div className="text-sm font-medium text-gray-900">
-          {activity.minimum_age}
-        </div>
-      </td>
+      <TableData nowrap={false}>{activity.minimum_age}</TableData>
 
       {/* Colonne Accès PMR */}
-      <td className="px-6 py-4">
-        <div className="text-sm font-medium text-gray-900">
-          {activity.disabled_access ? "OUI" : "NON"}
-        </div>
-      </td>
+      <TableData nowrap={false}>
+        {activity.disabled_access ? "OUI" : "NON"}
+      </TableData>
 
       {/* Colonne Haute intensité */}
-      <td className="px-6 py-4">
-        <div className="text-sm font-medium text-gray-900">
-          {activity.high_intensity ? "OUI" : "NON"}
-        </div>
-      </td>
+      <TableData nowrap={false}>
+        {activity.high_intensity ? "OUI" : "NON"}
+      </TableData>
 
       {/* Colonne catégorie */}
-      <td className="px-6 py-4">
-        <div className="text-sm font-medium text-gray-900">
-          {activity.category.name}
-        </div>
-      </td>
+      <TableData nowrap={false}>{activity.category.name}</TableData>
 
       {/* Colonne Image */}
-      <td className="px-6 py-4">
-        <div className="text-sm font-medium text-gray-900">
-          {activity.image_url ? (
-            <img
-              src={activity.image_url}
-              height="40"
-              className="h-10 max-w-20 "
-            />
-          ) : (
-            "Aucune image"
-          )}
-        </div>
-      </td>
+      <TableData nowrap={false}>
+        {activity.image_url ? (
+          <img
+            src={activity.image_url}
+            height="40"
+            className="h-10 max-w-20 "
+          />
+        ) : (
+          "Aucune image"
+        )}
+      </TableData>
 
       {/* Colonne statut */}
-      <td className="px-6 py-4">
-        <div className="text-sm font-medium text-gray-900">
-          {activity.status === "published" ? (
-            activity.status
-          ) : (
-            <>
-              {activity.status}
-              <button
-                type="button"
-                onClick={(e) => handlePublish(e, activity.id)}
-                className="bg-blue-500 cursor-pointer text-white hover:bg-cyan-400 py-2 px-3 font-bold rounded-lg"
-              >
-                Publier
-              </button>
-            </>
-          )}
-        </div>
-      </td>
+      <TableData nowrap={false}>
+        {activity.status === "published" ? (
+          activity.status
+        ) : (
+          <>
+            {activity.status}
+            <button
+              type="button"
+              onClick={(e) => handlePublish(e, activity.id)}
+              className="cursor-pointer px-3 py-1 border border-transparent text-xs font-medium rounded-md text-white bg-blue-500  hover:bg-cyan-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+            >
+              Publier
+            </button>
+          </>
+        )}
+      </TableData>
 
       {/* Colonne Updated at */}
-      <td className="px-6 py-4">
-        <div className="text-sm font-medium text-gray-900">
-          {activity.updated_at}
-        </div>
-      </td>
+      <TableData nowrap={false}>{activity.updated_at}</TableData>
 
-      {/* Colonne Action View */}
-      <td className="px-6 py-4">
+      {/* Colonne Actions */}
+      <TableData nowrap={true}>
         <Link
           to={`/admin/management/activities/${activity.slug}`}
           className="cursor-pointer bg-blue-500 text-white hover:bg-cyan-400 py-2 px-3 font-bold rounded-lg"
         >
           Voir
         </Link>
-      </td>
-
-      {/* Colonne Action Detete */}
-      <td className="px-6 py-4">
         <button
           onClick={() => handleDeletionModal(activity)}
-          className="cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
+          className="cursor-pointer px-3 py-1 border border-transparent text-xs font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
         >
           Delete
         </button>
-      </td>
-    </tr>
+      </TableData>
+    </TableRow>
   ));
 
   return (
@@ -243,150 +212,152 @@ export default function ActivitiesManagement() {
 
       <Link
         to={"/admin/management/activities/creation"}
-        className="bg-blue-500 text-white hover:bg-cyan-400 py-2 px-3 font-bold rounded-lg"
+        className="cursor-pointer px-3 py-1 border border-transparent text-xs font-medium rounded-md text-white bg-blue-500  hover:bg-cyan-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
       >
         Créer une activité
       </Link>
 
       <form
         onSubmit={handleSearchSubmit}
-        className="rounded-md border border-gray-200 bg-white p-4 mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-8 text-sm rounded-md bg-white p-4 mb-4 gap-3 w-max shadow border"
       >
-        <div className="flex-1 flex gap-2">
-          <div className="flex-1">
-            <label className="sr-only">Recherche</label>
-            <input
-              name="search"
-              type="search"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.currentTarget.value)}
-              placeholder="Recherche"
-              className="w-full rounded border border-gray-300 px-3 py-2 min-w-28 "
-            />
-          </div>
-
-          <select
-            name="status"
-            value={statusQuery}
-            onChange={(e) => setStatusQuery(e.currentTarget.value)}
-            className="rounded border border-gray-300 px-2 py-2"
-          >
-            <option value="">Tous les statuts</option>
-            <option value="published">Publiées</option>
-            <option value="draft">Brouillons</option>
-          </select>
-
-          <label htmlFor="age_group">
-            Groupe d'âge (niveau de frousse) ?
-            <select
-              name="age_group"
-              value={String(ageGroupQuery)}
-              onChange={(e) =>
-                setAgeGroupQuery(
-                  e.currentTarget.value !== ""
-                    ? Number(e.currentTarget.value)
-                    : undefined
-                )
-              }
-              className="rounded border border-gray-300 px-2 py-2"
-            >
-              <option value="">-</option>
-              <option value="0">0</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-            </select>
-          </label>
-
-          <label htmlFor="disabled_access">
-            Accès PMR ?
-            <select
-              name="disabled_access"
-              value={disabledAccessQuery}
-              onChange={(e) =>
-                setDisabledAccessQuery(
-                  e.currentTarget.value !== ""
-                    ? e.currentTarget.value
-                    : undefined
-                )
-              }
-              className="rounded border border-gray-300 px-2 py-2"
-            >
-              <option value="">-</option>
-              <option value="true">Oui</option>
-              <option value="false">Non</option>
-            </select>
-          </label>
-
-          <label htmlFor="hight_intensity">
-            Haute intensité ?
-            <select
-              name="hight_intensity"
-              value={highIntensityQuery}
-              onChange={(e) =>
-                setHighIntensityQuery(
-                  e.currentTarget.value !== ""
-                    ? e.currentTarget.value
-                    : undefined
-                )
-              }
-              className="rounded border border-gray-300 px-2 py-2"
-            >
-              <option value="">-</option>
-              <option value="true">Oui</option>
-              <option value="false">Non</option>
-            </select>
-          </label>
-
-          <label htmlFor="category">
-            Catégorie
-            <select
-              name="category"
-              value={String(categoryQuery)}
-              onChange={(e) => setCategoryQuery(Number(e.currentTarget.value))}
-              className="rounded border border-gray-300 px-2 py-2"
-            >
-              <option value="">-</option>
-              {categories?.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label htmlFor="limit">
-            Nb par page
-            <select
-              name="limit"
-              value={String(limit)}
-              onChange={(e) => setLimit(Number(e.currentTarget.value))}
-              className="rounded border border-gray-300 px-2 py-2"
-            >
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="30">30</option>
-            </select>
-          </label>
-
-          <select
-            name="order"
-            value={orderQuery}
-            onChange={(e) => setOrderQuery(e.currentTarget.value)}
-            className="rounded border border-gray-300 px-2 py-2"
-          >
-            <option value="name:asc">Noms croissants</option>
-            <option value="name:desc">Noms décroissants</option>
-          </select>
-
-          <button
-            type="button"
-            onClick={handleReset}
-            className="rounded border px-3 py-2 cursor-pointer"
-          >
-            Reset
-          </button>
+        <div className="flex-1">
+          <label className="sr-only">Recherche</label>
+          <input
+            name="search"
+            type="search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.currentTarget.value)}
+            placeholder="Recherche"
+            className="w-full rounded border border-gray-300 px-3 py-2 min-w-28 "
+          />
         </div>
+
+        <select
+          name="status"
+          value={statusQuery}
+          onChange={(e) => setStatusQuery(e.currentTarget.value)}
+          className="rounded border border-gray-300 px-2 py-2"
+        >
+          <option value="">Tous les statuts</option>
+          <option value="published">Publiées</option>
+          <option value="draft">Brouillons</option>
+        </select>
+
+        <label htmlFor="age_group" className="space-x-4 place-self-center">
+          <p className="inline">
+            Groupe d'âge <span className="text-xs">(frousse)</span> ?
+          </p>
+          <select
+            name="age_group"
+            value={String(ageGroupQuery)}
+            onChange={(e) =>
+              setAgeGroupQuery(
+                e.currentTarget.value !== ""
+                  ? Number(e.currentTarget.value)
+                  : undefined
+              )
+            }
+            className="rounded border border-gray-300 px-2 py-2 min-w-16"
+          >
+            <option value="">-</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
+        </label>
+
+        <label
+          htmlFor="disabled_access"
+          className="space-x-4 place-self-center"
+        >
+          <p className="inline">Accès PMR ?</p>
+          <select
+            name="disabled_access"
+            value={disabledAccessQuery}
+            onChange={(e) =>
+              setDisabledAccessQuery(
+                e.currentTarget.value !== "" ? e.currentTarget.value : undefined
+              )
+            }
+            className="rounded border border-gray-300 px-2 py-2 min-w-16"
+          >
+            <option value="">-</option>
+            <option value="true">Oui</option>
+            <option value="false">Non</option>
+          </select>
+        </label>
+
+        <label
+          htmlFor="hight_intensity"
+          className="space-x-4 place-self-center"
+        >
+          <p className="inline">Haute intensité ?</p>
+          <select
+            name="hight_intensity"
+            value={highIntensityQuery}
+            onChange={(e) =>
+              setHighIntensityQuery(
+                e.currentTarget.value !== "" ? e.currentTarget.value : undefined
+              )
+            }
+            className="rounded border border-gray-300 px-2 py-2 min-w-16"
+          >
+            <option value="">-</option>
+            <option value="true">Oui</option>
+            <option value="false">Non</option>
+          </select>
+        </label>
+
+        <label htmlFor="category" className="space-x-4 place-self-center">
+          <p className="inline">Catégorie</p>
+          <select
+            name="category"
+            value={String(categoryQuery)}
+            onChange={(e) => setCategoryQuery(Number(e.currentTarget.value))}
+            className="rounded border border-gray-300 px-2 py-2 min-w-16"
+          >
+            <option value="">-</option>
+            {categories?.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label htmlFor="limit" className="space-x-4 place-self-center">
+          <p className="inline">Nb par page</p>
+          <select
+            name="limit"
+            value={String(limit)}
+            onChange={(e) => setLimit(Number(e.currentTarget.value))}
+            className="rounded border border-gray-300 px-2 py-2 min-w-16"
+          >
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+          </select>
+        </label>
+
+        <select
+          name="order"
+          value={orderQuery}
+          onChange={(e) => setOrderQuery(e.currentTarget.value)}
+          className="rounded border border-gray-300 px-2 py-2"
+        >
+          <option value="name:asc">Noms croissants</option>
+          <option value="name:desc">Noms décroissants</option>
+        </select>
+
+        <button
+          type="button"
+          onClick={handleReset}
+          className="rounded border px-3 py-2 cursor-pointer col-span-full w-max mx-auto "
+        >
+          Reset
+        </button>
       </form>
 
       {successMessage && (
@@ -418,10 +389,9 @@ export default function ActivitiesManagement() {
                   Nom
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Slogan
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Age Group (niveau de frousse)
+                  Age Group
+                  <br />
+                  <span className="text-xs">(frousse)</span>
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Disabled access
@@ -441,8 +411,9 @@ export default function ActivitiesManagement() {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Updated at
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
