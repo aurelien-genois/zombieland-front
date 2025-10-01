@@ -1,3 +1,4 @@
+import Button from "@/components/UI/BackOffice/Button";
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "@/store";
@@ -28,7 +29,11 @@ export default function ProductsManagement() {
 
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<Product | null>(null);
-  const [draft, setDraft] = useState<Draft>({ name: "", price: "", status: "published" });
+  const [draft, setDraft] = useState<Draft>({
+    name: "",
+    price: "",
+    status: "published",
+  });
 
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
@@ -108,10 +113,14 @@ export default function ProductsManagement() {
 
   function StatusBadge({ status }: { status: "draft" | "published" | string }) {
     const isPublished = status === "published";
-    const cls = isPublished ? "bg-green-100 text-green-700" : "bg-gray-200 text-gray-700";
+    const cls = isPublished
+      ? "bg-green-100 text-green-700"
+      : "bg-gray-200 text-gray-700";
     const label = isPublished ? "Publié" : "Brouillon";
     return (
-      <span className={`inline-block px-2 py-0.5 rounded text-xs font-semibold ${cls}`}>
+      <span
+        className={`inline-block px-2 py-0.5 rounded text-xs font-semibold ${cls}`}
+      >
         {label}
       </span>
     );
@@ -122,12 +131,7 @@ export default function ProductsManagement() {
       <h1 className="text-2xl font-extrabold mb-1">{headerTitle}</h1>
       <p className="text-sm text-gray-500 mb-4">Gérez vos produits ici…</p>
 
-      <button
-        onClick={openCreate}
-        className="cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-yellow-700 bg-yellow-100 hover:bg-yellow-200 transition-colors"
-      >
-        Ajouter
-      </button>
+      <Button onClick={openCreate}>Ajouter</Button>
 
       {/* Tableau */}
       <div className="overflow-x-auto rounded-md border border-gray-200 bg-white mt-3">
@@ -184,33 +188,37 @@ export default function ProductsManagement() {
                     <td className="px-4 py-3">
                       <StatusBadge status={product.status} />
                     </td>
-                    <td className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      <button
+                    <td className="space-x-4 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <Button
                         onClick={() => openEdit(product)}
                         disabled={isDeleting}
-                        className="cursor-pointer inline-flex items-center px-3 py-1 mx-1 border border-transparent text-xs font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200 transition-colors disabled:opacity-50"
                       >
                         {isUpdating ? "…" : "Éditer"}
-                      </button>
+                      </Button>
 
-                      <button
+                      <Button
                         onClick={() => setDeleteId(product.id)}
                         disabled={isUpdating}
-                        className="cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 transition-colors disabled:opacity-50"
+                        color="red"
                       >
                         {isDeleting ? "…" : "Supprimer"}
-                      </button>
+                      </Button>
 
-                      <button
+                      <Button
                         onClick={() =>
-                          dispatch(toggleProductStatus({ id: product.id, nextStatus })).unwrap().catch(console.error)
+                          dispatch(
+                            toggleProductStatus({ id: product.id, nextStatus })
+                          )
+                            .unwrap()
+                            .catch(console.error)
                         }
                         disabled={isDeleting || isUpdating}
-                        className="cursor-pointer inline-flex items-center px-3 py-1 mx-1 border border-transparent text-xs font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 transition-colors disabled:opacity-50"
-                        title="Basculer le statut"
+                        color="green"
                       >
-                        {product.status === "published" ? "Mettre en brouillon" : "Publier"}
-                      </button>
+                        {product.status === "published"
+                          ? "Mettre en brouillon"
+                          : "Publier"}
+                      </Button>
                     </td>
                   </tr>
                 );
@@ -232,30 +240,41 @@ export default function ProductsManagement() {
                 <label className="block text-sm text-gray-600 mb-1">Nom</label>
                 <input
                   value={draft.name}
-                  onChange={(e) => setDraft((d) => ({ ...d, name: e.target.value }))}
+                  onChange={(e) =>
+                    setDraft((d) => ({ ...d, name: e.target.value }))
+                  }
                   className="w-full border rounded px-3 py-2"
                   placeholder="Nom du produit"
                 />
               </div>
               <div>
-                <label className="block text-sm text-gray-600 mb-1">Prix (€)</label>
+                <label className="block text-sm text-gray-600 mb-1">
+                  Prix (€)
+                </label>
                 <input
                   type="number"
                   step="0.01"
                   min="0"
                   value={draft.price}
-                  onChange={(e) => setDraft((d) => ({ ...d, price: e.target.value }))}
+                  onChange={(e) =>
+                    setDraft((d) => ({ ...d, price: e.target.value }))
+                  }
                   className="w-full border rounded px-3 py-2"
                   placeholder="0.00"
                 />
               </div>
 
               <div>
-                <label className="block text-sm text-gray-600 mb-1">Statut</label>
+                <label className="block text-sm text-gray-600 mb-1">
+                  Statut
+                </label>
                 <select
                   value={draft.status}
                   onChange={(e) =>
-                    setDraft((d) => ({ ...d, status: e.target.value as Draft["status"] }))
+                    setDraft((d) => ({
+                      ...d,
+                      status: e.target.value as Draft["status"],
+                    }))
                   }
                   className="w-full border rounded px-3 py-2"
                 >
@@ -265,22 +284,16 @@ export default function ProductsManagement() {
               </div>
 
               {(editing ? updateError : createError) && (
-                <p className="text-sm text-red-600">{editing ? updateError : createError}</p>
+                <p className="text-sm text-red-600">
+                  {editing ? updateError : createError}
+                </p>
               )}
 
               <div className="flex justify-end gap-2 pt-2">
-                <button
-                  type="button"
-                  onClick={closeForm}
-                  className="px-3 py-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-700"
-                >
+                <Button onClick={closeForm} color="gray">
                   Annuler
-                </button>
-                <button
-                  type="submit"
-                  disabled={creating || !!updatingId}
-                  className="px-3 py-2 rounded bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-50"
-                >
+                </Button>
+                <Button type="submit" disabled={creating || !!updatingId}>
                   {editing
                     ? updatingId
                       ? "Enregistrement…"
@@ -288,7 +301,7 @@ export default function ProductsManagement() {
                     : creating
                     ? "Création…"
                     : "Créer"}
-                </button>
+                </Button>
               </div>
             </form>
           </div>
@@ -301,23 +314,21 @@ export default function ProductsManagement() {
           <div className="bg-white rounded-lg shadow w-full max-w-md p-5">
             <h3 className="text-lg font-bold mb-3">Supprimer le produit</h3>
             <p className="text-sm text-gray-600">
-              Voulez-vous vraiment supprimer ce produit ? Cette action est irréversible.
+              Voulez-vous vraiment supprimer ce produit ? Cette action est
+              irréversible.
             </p>
 
             <div className="flex justify-end gap-2 pt-4">
-              <button
-                onClick={() => setDeleteId(null)}
-                className="px-3 py-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-700"
-              >
+              <Button onClick={() => setDeleteId(null)} color="gray">
                 Annuler
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={confirmDelete}
                 disabled={deletingId === deleteId}
-                className="px-3 py-2 rounded bg-red-600 hover:bg-red-500 text-white disabled:opacity-50"
+                color="red"
               >
                 {deletingId === deleteId ? "Suppression…" : "Supprimer"}
-              </button>
+              </Button>
             </div>
           </div>
         </div>

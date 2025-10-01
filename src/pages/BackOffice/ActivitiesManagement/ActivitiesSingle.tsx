@@ -87,12 +87,8 @@ export default function ActivitiesManagementSingle() {
 
   return (
     <div className="max-w-7xl min-w-full mx-auto p-6">
-      <Button
-        color="green"
-        type="router-link"
-        to="/admin/management/activities"
-      >
-        Revenir à la liste
+      <Button color="gray" type="router-link" to="/admin/management/activities">
+        ← Retour liste
       </Button>
 
       <div>

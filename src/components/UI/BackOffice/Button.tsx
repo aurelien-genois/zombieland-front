@@ -4,7 +4,7 @@ interface IButtonProps {
   onClick?: () => void;
   to?: string;
   children: React.ReactNode;
-  color?: "red" | "blue" | "green" | "gray";
+  color?: "red" | "blue" | "green" | "gray" | "orange";
   additionalClasses?: string;
   type?: "button" | "reset" | "submit" | "router-link";
   name?: string;
@@ -27,6 +27,8 @@ export default function Button({
   const colorStyles = {
     red: "text-red-700 bg-red-100 border-red-700 hover:bg-red-200 focus:ring-red-500",
     blue: "text-white bg-blue-500 border-blue-900 hover:bg-cyan-400 focus:ring-blue-500",
+    orange:
+      "text-orange-700 bg-orange-100 border-orange-700 hover:bg-orange-200 focus:ring-orange-500",
     green:
       "text-green-700 bg-green-100 border-green-700 hover:bg-green-200 focus:ring-green-500",
     gray: "text-white bg-gray-700 border-gray-900 hover:bg-gray-500 focus:ring-gray-700",

@@ -3,14 +3,11 @@ import TableRow from "@/components/UI/BackOffice/Table/TableRow";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import ChangeUserRoleModal from "@/components/Modals/ChangeUserRoleModal";
 import DeleteUserModal from "@/components/Modals/DeleteUserModal";
-import {
-  getAllUsers,
-} from "@/store/reducers/adminReducer";
+import { getAllUsers } from "@/store/reducers/adminReducer";
 import { useEffect, useState } from "react";
 import Pagination from "@/components/UI/Pagination";
-import { Link } from "react-router";
+import Button from "@/components/UI/BackOffice/Button";
 import type { IRole } from "@/@types";
-
 
 export default function UsersManagement() {
   const dispatch = useAppDispatch();
@@ -31,10 +28,12 @@ export default function UsersManagement() {
     );
   }, [dispatch, currentPage, limit, searchQuery]);
 
-
   type RoleName = IRole["name"];
   const [isRoleModalOpen, setIsRoleModalOpen] = useState(false);
-  const [modalUserRole, setModalUserRole] = useState<{ id: number; role: RoleName } | null>(null);
+  const [modalUserRole, setModalUserRole] = useState<{
+    id: number;
+    role: RoleName;
+  } | null>(null);
 
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [deleteUserId, setDeleteUserId] = useState<number | null>(null);
@@ -49,8 +48,12 @@ export default function UsersManagement() {
     setCurrentPage(1);
   };
 
-  function handleChangeRole(userId: number, currentRole?: IRole | string | null) {
-    const name = typeof currentRole === "string" ? currentRole : currentRole?.name;
+  function handleChangeRole(
+    userId: number,
+    currentRole?: IRole | string | null
+  ) {
+    const name =
+      typeof currentRole === "string" ? currentRole : currentRole?.name;
     const safeRole: RoleName = name === "admin" ? "admin" : "member";
     setModalUserRole({ id: userId, role: safeRole });
     setIsRoleModalOpen(true);
@@ -60,7 +63,6 @@ export default function UsersManagement() {
     setDeleteUserId(userId);
     setIsDeleteOpen(true);
   }
-
 
   // ------------------------------------------------------ Display Users List ---------------------------------
 
@@ -101,33 +103,23 @@ export default function UsersManagement() {
       )}
       {/* ------------------ */}
       <TableData>
-        <Link
-          to={`/admin/management/users/${user.id}`}
-          className="cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-        >
+        <Button type="router-link" to={`/admin/management/users/${user.id}`}>
           View
-        </Link>
+        </Button>
       </TableData>
       <TableData>
-        <button
+        <Button
           onClick={() => handleChangeRole(user.id, user.role?.name || "member")}
-          className={`cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md ${
-            user.role?.name === "admin"
-              ? "bg-red-100 text-red-800"
-              : "bg-orange-100 text-orange-800"
-          }`}
+          color={user.role?.name === "admin" ? "red" : "orange"}
         >
           {user?.role?.name || "member"}
-        </button>
+        </Button>
       </TableData>
 
       <TableData>
-        <button
-          onClick={() => handleDeleteUser(user.id)}
-          className="cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
-        >
+        <Button onClick={() => handleDeleteUser(user.id)} color="red">
           Delete
-        </button>
+        </Button>
       </TableData>
     </TableRow>
   ));
@@ -174,24 +166,18 @@ export default function UsersManagement() {
 
           {/*------------------------------------------------------ Bouton Reset */}
           <div>
-            <button
-              onClick={handleResetFilters}
-              className="w-full px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors"
-            >
+            <Button onClick={handleResetFilters} color="gray">
               Reset
-            </button>
+            </Button>
           </div>
         </div>
 
         {/*------------------------------------------------------ Compteurs et résultats */}
         <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-4 text-sm text-gray-600">
-            <button
-              onClick={() => setShowAllTable(!showAllTable)}
-              className="cursor-pointer px-2 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-            >
+            <Button onClick={() => setShowAllTable(!showAllTable)}>
               Voir tout le tableau
-            </button>
+            </Button>
             <span className="px-3 py-1 bg-blue-50 text-blue-800 rounded-full">
               Total: {users.meta.total}
             </span>
@@ -291,7 +277,9 @@ export default function UsersManagement() {
           currentRole={modalUserRole.role}
           onChanged={() => {
             // rafraîchir la liste après succès
-            dispatch(getAllUsers({ page: currentPage, limit, q: searchQuery || null }));
+            dispatch(
+              getAllUsers({ page: currentPage, limit, q: searchQuery || null })
+            );
           }}
         />
       )}
