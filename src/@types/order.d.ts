@@ -1,5 +1,3 @@
-// @/@types/order.d.ts
-
 // ──────────────────────────────────────────────────────────────────────────────
 // Statuts
 // ──────────────────────────────────────────────────────────────────────────────
@@ -12,6 +10,7 @@ export type OrderStatus = "pending" | "confirmed" | "canceled" | "refund";
 export type Product = {
   id: number;
   name: string;
+  unit_price: number;
   price: number;
   status?: "draft" | "published";
 };
@@ -26,7 +25,7 @@ export type CatalogProduct = {
 // ──────────────────────────────────────────────────────────────────────────────
 /** Lignes de commande */
 // ──────────────────────────────────────────────────────────────────────────────
-export type OrderLineInput = { product_id: number; quantity: number };
+export type OrderLineInput = { product_id: number; quantity: number; };
 
 export interface IOrderLine {
   id: number;
@@ -54,7 +53,7 @@ export type OrdersSort =
   | "status:asc"
   | "status:desc";
 
-// ⚠️ ton back renvoie des montants calculés (subtotal, vat_amount, total)
+// back renvoie des montants calculés (subtotal, vat_amount, total)
 export interface IOrder {
   id: number;
   status: OrderStatus;
@@ -72,16 +71,16 @@ export interface IOrder {
 
   order_lines: IOrderLine[];
 
-  // Montants calculés renvoyés par le back
+ 
   subtotal: number;
   vat_amount: number;
   total: number;
 
-  // champs temporels (optionnels selon tes selects)
+
   created_at?: string;
   updated_at?: string;
 
-  // (optionnel si tu gardes un champ custom legacy côté front)
+
   computed_order_total_price?: number;
 }
 

@@ -45,7 +45,7 @@ export default function OrderCreatePage() {
     () =>
       products
         .map((p) => {
-          const unit = (p as any).unit_price ?? (p as any).price ?? 0;
+          const unit = (p ).unit_price ?? (p).price ?? 0;
           const quantity = qty[p.id] ?? 0;
           const line_total = +(quantity * unit).toFixed(2);
           return { product_id: p.id, name: p.name, price: unit, quantity, line_total };
@@ -124,7 +124,7 @@ export default function OrderCreatePage() {
             {!loadingProducts && !productsError && (
               <div className="mt-4 divide-y">
                 {products.map((p) => {
-                  const unit = (p as any).unit_price ?? (p as any).price ?? 0;
+                  const unit = (p).unit_price ?? (p).price ?? 0;
                   const q = qty[p.id] ?? 0;
                   return (
                     <div
