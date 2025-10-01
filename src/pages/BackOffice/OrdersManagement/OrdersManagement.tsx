@@ -31,7 +31,7 @@ function computeTotal(order: IOrder) {
   return +(subtotal + vat).toFixed(2);
 }
 
-export default function OrdersManagementPage() {
+export default function OrdersManagement() {
   const dispatch = useDispatch<AppDispatch>();
   const {
     orders,
