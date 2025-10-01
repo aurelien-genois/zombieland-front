@@ -1,272 +1,216 @@
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "@/store";
-import { fetchAllOrders } from "@/store/reducers/ordersReducer";
-import type { IOrder, OrderStatus, OrdersSort } from "@/@types/order";
-import Button from "@/components/UI/BackOffice/Button";
-import Pagination from "@/components/UI/Pagination";
+import {
+  fetchProducts,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+  clearProductErrors,
+  type Product,
+  toggleProductStatus,
+} from "@/store/reducers/productsReducer";
 
-const statusColor: Record<OrderStatus, string> = {
-  pending: "bg-yellow-100 text-yellow-800",
-  confirmed: "bg-green-100 text-green-800",
-  canceled: "bg-red-100 text-red-800",
-  refund: "bg-indigo-100 text-indigo-800",
-};
+type Draft = { name: string; price: string; status: "draft" | "published" };
 
-function formatDate(d?: string) {
-  if (!d) return "-";
-  try {
-    return new Date(d).toLocaleDateString("fr-FR");
-  } catch {
-    return "-";
-  }
-}
-
-function computeTotal(order: IOrder) {
-  // fallback si le back ne renvoie pas total/subtotal
-  if (typeof order.total === "number") return order.total;
-  const subtotal = order.order_lines.reduce(
-    (s, l) => s + l.unit_price * l.quantity,
-    0
-  );
-  const vatRate = Number(order.vat) || 0;
-  const vat = +(subtotal * (vatRate / 100)).toFixed(2);
-  return +(subtotal + vat).toFixed(2);
-}
-
-export default function OrdersManagement() {
+export default function ProductsManagement() {
   const dispatch = useDispatch<AppDispatch>();
   const {
-    orders,
-    loadingOrders,
-    ordersError,
-    page,
-    perPage,
-    total,
-    search,
-    status,
-    orderSort,
-    meta,
-  } = useSelector((s: RootState) => s.ordersStore);
+    products,
+    loadingList,
+    listError,
+    creating,
+    createError,
+    updateError,
+    updatingId,
+    deletingId,
+  } = useSelector((s: RootState) => s.productsStore);
 
-  const [currentPage, setCurrentPage] = useState(page || 1);
-  const [limit, setLimit] = useState(perPage || 10);
+  const [showForm, setShowForm] = useState(false);
+  const [editing, setEditing] = useState<Product | null>(null);
+  const [draft, setDraft] = useState<Draft>({ name: "", price: "", status: "published" });
 
-  const [q, setQ] = useState(search ?? "");
-  const [statusFilter, setStatusFilter] = useState<OrderStatus | "all">(status);
-  const [sort, setSort] = useState<OrdersSort>(orderSort);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
 
   useEffect(() => {
-    dispatch(
-      fetchAllOrders({
-        perPage: limit,
-        page: currentPage,
-        search: q || undefined,
-        status: statusFilter !== "all" ? statusFilter : undefined,
-        order: sort,
-        total: 0,
-        totalCount: 0,
-        totalPages: 0,
-        hasPrev: false,
-        hasNext: false,
-      })
-    );
-  }, [dispatch, limit, currentPage, q, statusFilter, sort]);
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
-  function handleSearchSubmit(e: React.FormEvent) {
+  const headerTitle = useMemo(() => `Products Management`, []);
+
+  const openCreate = () => {
+    dispatch(clearProductErrors());
+    setEditing(null);
+    setDraft({ name: "", price: "", status: "published" });
+    setShowForm(true);
+  };
+
+  const openEdit = (p: Product) => {
+    dispatch(clearProductErrors());
+    setEditing(p);
+    setDraft({
+      name: p.name,
+      price: String(p.price),
+      status: (p.status as "draft" | "published") ?? "published",
+    });
+    setShowForm(true);
+  };
+
+  const closeForm = () => {
+    if (creating || updatingId) return; // évite de fermer pendant submit
+    setShowForm(false);
+    setEditing(null);
+    setDraft({ name: "", price: "", status: "published" });
+  };
+
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setCurrentPage(1);
-    dispatch(
-      fetchAllOrders({
-        page: 1,
-        perPage: limit,
-        search: q || undefined,
-        status: statusFilter !== "all" ? statusFilter : undefined,
-        order: sort,
-        total: 0,
-        totalCount: 0,
-        totalPages: 0,
-        hasPrev: false,
-        hasNext: false,
-      })
+    const name = draft.name.trim();
+    const price = Number(draft.price);
+
+    if (!name || !Number.isFinite(price) || price <= 0) {
+      alert("Nom et prix (> 0) requis.");
+      return;
+    }
+    try {
+      if (editing) {
+        await dispatch(
+          updateProduct({
+            id: editing.id,
+            patch: { name, price: +price.toFixed(2), status: draft.status },
+          })
+        ).unwrap();
+      } else {
+        await dispatch(
+          createProduct({
+            name,
+            price: +price.toFixed(2),
+            status: draft.status,
+          })
+        ).unwrap();
+      }
+      closeForm();
+    } catch (err) {
+      // les messages sont gérés via createError / updateError
+      console.log(err);
+    }
+  };
+
+  const confirmDelete = async () => {
+    if (deleteId == null) return;
+    try {
+      await dispatch(deleteProduct({ id: deleteId })).unwrap();
+      setDeleteId(null);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  function StatusBadge({ status }: { status: "draft" | "published" | string }) {
+    const isPublished = status === "published";
+    const cls = isPublished ? "bg-green-100 text-green-700" : "bg-gray-200 text-gray-700";
+    const label = isPublished ? "Publié" : "Brouillon";
+    return (
+      <span className={`inline-block px-2 py-0.5 rounded text-xs font-semibold ${cls}`}>
+        {label}
+      </span>
     );
   }
-
-  function resetFilters() {
-    setQ("");
-    setLimit(10);
-    setCurrentPage(1);
-    setStatusFilter("all");
-    setSort("order_date:desc");
-    dispatch(
-      fetchAllOrders({
-        page: 1,
-        perPage: 10,
-        order: "order_date:desc",
-        total: 0,
-        totalCount: 0,
-        totalPages: 0,
-        hasPrev: false,
-        hasNext: false,
-      })
-    );
-  }
-
-  const totalItems =
-    (typeof total === "number" ? total : meta?.totalCount ?? orders.length) ||
-    0;
-
-  const headerTitle = useMemo(() => `Orders Management`, []);
 
   return (
     <div className="p-6">
       <h1 className="text-2xl font-extrabold mb-1">{headerTitle}</h1>
-      <p className="text-sm text-gray-500 mb-4">Manage your orders here…</p>
+      <p className="text-sm text-gray-500 mb-4">Gérez vos produits ici…</p>
 
-      {/* Barre d’actions */}
-      <form
-        onSubmit={handleSearchSubmit}
-        className="rounded-md border border-gray-200 bg-white p-4 mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between"
+      <button
+        onClick={openCreate}
+        className="cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-yellow-700 bg-yellow-100 hover:bg-yellow-200 transition-colors"
       >
-        <div className="flex-1 flex gap-2">
-          <div className="flex-1">
-            <label className="sr-only">Recherche</label>
-            <input
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="Recherche (email, nom, moyen de paiement...)"
-              className="w-full rounded border border-gray-300 px-3 py-2"
-            />
-          </div>
-
-          <select
-            value={statusFilter}
-            onChange={(e) =>
-              setStatusFilter(e.target.value as OrderStatus | "all")
-            }
-            className="rounded border border-gray-300 px-2 py-2"
-          >
-            <option value="all">Tous les statuts</option>
-            <option value="pending">pending</option>
-            <option value="confirmed">confirmed</option>
-            <option value="canceled">canceled</option>
-            <option value="refund">refund</option>
-          </select>
-
-          <select
-            value={sort}
-            onChange={(e) => setSort(e.target.value as OrdersSort)}
-            className="no-arrow rounded border border-gray-300 py-2 pl-2 pr-8 bg-white focus:outline-none"
-          >
-            <option value="order_date:desc">Order date</option>
-            <option value="order_date:asc">Order date</option>
-            <option value="visit_date:desc">Visit date</option>
-            <option value="visit_date:asc">Visit date</option>
-            <option value="status:asc">Status</option>
-            <option value="status:desc">Status</option>
-          </select>
-
-          <Button color="gray" onClick={resetFilters}>
-            Reset
-          </Button>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-500">Afficher :</span>
-          <select
-            value={limit}
-            onChange={(e) => {
-              setLimit(Number(e.target.value));
-              setCurrentPage(1); // reset page quand on change le nombre par page
-            }}
-            className="rounded border border-gray-300 px-2 py-2"
-          >
-            {[10, 25, 50].map((n) => (
-              <option key={n} value={n}>
-                {n}
-              </option>
-            ))}
-          </select>
-          <span className="text-sm text-gray-500">par page</span>
-        </div>
-      </form>
+        Ajouter
+      </button>
 
       {/* Tableau */}
-      <div className="overflow-x-auto rounded-md border border-gray-200 bg-white">
+      <div className="overflow-x-auto rounded-md border border-gray-200 bg-white mt-3">
         <table className="min-w-full text-sm">
           <thead className="bg-gray-50 text-gray-600">
             <tr>
               <th className="px-4 py-3 text-left">#</th>
-              <th className="px-4 py-3 text-left">Client</th>
-              <th className="px-4 py-3 text-left">Status</th>
-              <th className="px-4 py-3 text-left">Visit</th>
-              <th className="px-4 py-3 text-left">Order</th>
-              <th className="px-4 py-3 text-left">Total</th>
-              <th className="px-4 py-3 text-left">Lines</th>
-              <th className="px-4 py-3 text-left">Détails</th>
+              <th className="px-4 py-3 text-left">Nom</th>
+              <th className="px-4 py-3 text-left">Prix</th>
+              <th className="px-4 py-3 text-left">Statut</th>
+              <th className="px-4 py-3 mx-2 text-center">Actions</th>
             </tr>
           </thead>
 
           <tbody>
-            {loadingOrders && (
+            {loadingList && (
               <tr>
                 <td colSpan={8} className="px-4 py-6 text-center text-gray-500">
-                  Chargement des commandes…
+                  Chargement des produits...
                 </td>
               </tr>
             )}
 
-            {!loadingOrders && ordersError && (
+            {!loadingList && listError && (
               <tr>
                 <td colSpan={8} className="px-4 py-6 text-center text-red-500">
-                  {ordersError}
+                  {listError}
                 </td>
               </tr>
             )}
 
-            {!loadingOrders && !ordersError && orders.length === 0 && (
+            {!loadingList && !listError && products.length === 0 && (
               <tr>
                 <td colSpan={8} className="px-4 py-6 text-center text-gray-500">
-                  Aucune commande.
+                  Aucun produit.
                 </td>
               </tr>
             )}
 
-            {!loadingOrders &&
-              !ordersError &&
-              orders.map((o) => {
-                const total = computeTotal(o);
-                const client = o.user
-                  ? `${o.user.firstname ?? ""} ${
-                      o.user.lastname ?? ""
-                    }`.trim() || o.user.email
-                  : "-";
+            {!loadingList &&
+              !listError &&
+              products.map((product) => {
+                const isUpdating = updatingId === product.id;
+                const isDeleting = deletingId === product.id;
+
+                const nextStatus: "draft" | "published" =
+                  product.status === "published" ? "draft" : "published";
+
                 return (
-                  <tr key={o.id} className="border-t">
-                    <td className="px-4 py-3">#{o.id}</td>
-                    <td className="px-4 py-3">{client}</td>
+                  <tr key={product.id} className="border-t">
+                    <td className="px-4 py-3">#{product.id}</td>
+                    <td className="px-4 py-3">{product.name}</td>
+                    <td className="px-4 py-3">{product.price.toFixed(2)}€</td>
                     <td className="px-4 py-3">
-                      <span
-                        className={`inline-flex items-center rounded px-2 py-0.5 text-xs font-semibold ${
-                          statusColor[o.status]
-                        }`}
-                      >
-                        {o.status}
-                      </span>
+                      <StatusBadge status={product.status} />
                     </td>
-                    <td className="px-4 py-3">{formatDate(o.visit_date)}</td>
-                    <td className="px-4 py-3">{formatDate(o.visit_date)}</td>
-                    <td className="px-4 py-3 tabular-nums">
-                      {total.toFixed(2)} €
-                    </td>
-                    <td className="px-4 py-3">{o.order_lines.length}</td>
-                    <td className="px-4 py-3">
-                      <Button
-                        type="router-link"
-                        to={`/admin/management/orders/${o.id}`}
+                    <td className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <button
+                        onClick={() => openEdit(product)}
+                        disabled={isDeleting}
+                        className="cursor-pointer inline-flex items-center px-3 py-1 mx-1 border border-transparent text-xs font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200 transition-colors disabled:opacity-50"
                       >
-                        View
-                      </Button>
+                        {isUpdating ? "…" : "Éditer"}
+                      </button>
+
+                      <button
+                        onClick={() => setDeleteId(product.id)}
+                        disabled={isUpdating}
+                        className="cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 transition-colors disabled:opacity-50"
+                      >
+                        {isDeleting ? "…" : "Supprimer"}
+                      </button>
+
+                      <button
+                        onClick={() =>
+                          dispatch(toggleProductStatus({ id: product.id, nextStatus })).unwrap().catch(console.error)
+                        }
+                        disabled={isDeleting || isUpdating}
+                        className="cursor-pointer inline-flex items-center px-3 py-1 mx-1 border border-transparent text-xs font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 transition-colors disabled:opacity-50"
+                        title="Basculer le statut"
+                      >
+                        {product.status === "published" ? "Mettre en brouillon" : "Publier"}
+                      </button>
                     </td>
                   </tr>
                 );
@@ -275,12 +219,109 @@ export default function OrdersManagement() {
         </table>
       </div>
 
-      <Pagination
-        setCurrentPage={setCurrentPage}
-        currentPage={currentPage}
-        itemsPerPage={limit}
-        totalItems={totalItems}
-      />
+      {/* Modal Add/Edit */}
+      {showForm && (
+        <div className="fixed inset-0 bg-black/60 grid place-items-center z-50">
+          <div className="bg-white rounded-lg shadow w-full max-w-md p-5">
+            <h3 className="text-lg font-bold mb-3">
+              {editing ? "Modifier un produit" : "Ajouter un produit"}
+            </h3>
+
+            <form onSubmit={onSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm text-gray-600 mb-1">Nom</label>
+                <input
+                  value={draft.name}
+                  onChange={(e) => setDraft((d) => ({ ...d, name: e.target.value }))}
+                  className="w-full border rounded px-3 py-2"
+                  placeholder="Nom du produit"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-600 mb-1">Prix (€)</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  value={draft.price}
+                  onChange={(e) => setDraft((d) => ({ ...d, price: e.target.value }))}
+                  className="w-full border rounded px-3 py-2"
+                  placeholder="0.00"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm text-gray-600 mb-1">Statut</label>
+                <select
+                  value={draft.status}
+                  onChange={(e) =>
+                    setDraft((d) => ({ ...d, status: e.target.value as Draft["status"] }))
+                  }
+                  className="w-full border rounded px-3 py-2"
+                >
+                  <option value="published">Publié</option>
+                  <option value="draft">Brouillon</option>
+                </select>
+              </div>
+
+              {(editing ? updateError : createError) && (
+                <p className="text-sm text-red-600">{editing ? updateError : createError}</p>
+              )}
+
+              <div className="flex justify-end gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={closeForm}
+                  className="px-3 py-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-700"
+                >
+                  Annuler
+                </button>
+                <button
+                  type="submit"
+                  disabled={creating || !!updatingId}
+                  className="px-3 py-2 rounded bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-50"
+                >
+                  {editing
+                    ? updatingId
+                      ? "Enregistrement…"
+                      : "Enregistrer"
+                    : creating
+                    ? "Création…"
+                    : "Créer"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Delete confirm */}
+      {deleteId != null && (
+        <div className="fixed inset-0 bg-black/60 grid place-items-center z-50">
+          <div className="bg-white rounded-lg shadow w-full max-w-md p-5">
+            <h3 className="text-lg font-bold mb-3">Supprimer le produit</h3>
+            <p className="text-sm text-gray-600">
+              Voulez-vous vraiment supprimer ce produit ? Cette action est irréversible.
+            </p>
+
+            <div className="flex justify-end gap-2 pt-4">
+              <button
+                onClick={() => setDeleteId(null)}
+                className="px-3 py-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-700"
+              >
+                Annuler
+              </button>
+              <button
+                onClick={confirmDelete}
+                disabled={deletingId === deleteId}
+                className="px-3 py-2 rounded bg-red-600 hover:bg-red-500 text-white disabled:opacity-50"
+              >
+                {deletingId === deleteId ? "Suppression…" : "Supprimer"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
