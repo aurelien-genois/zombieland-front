@@ -1,7 +1,8 @@
 import React, { type JSX } from "react";
 import { Page, Text, View, Document, StyleSheet, Image } from "@react-pdf/renderer";
 import type { IOrder } from "@/@types/order";
-import logoSrc from "@/assets/img/logo.png"; // ton logo PNG ou Base64
+import logoSrc from "@/assets/img/logo.png"; 
+import QRCode from "qrcode";
 
 const styles = StyleSheet.create({
   page: {
@@ -78,6 +79,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginBottom: 3,
   },
+  qrcode: {
+    width: 100,
+    marginBottom: 20,
+    alignSelf: "center",
+  }
 });
 
 interface OrderPDFProps {
@@ -93,11 +99,25 @@ const formatDateFrench = (dateString: string) => {
 };
 
 export default function OrderPDF({ order }: OrderPDFProps): JSX.Element {
+
+  const [qrDataUrl, setQrDataUrl] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (order?.ticket_code) {
+      QRCode.toDataURL(order.ticket_code, {
+        margin: 2,
+        errorCorrectionLevel: "H",
+        color: { dark: "#000000", light: "#FFFFFF" },
+      }).then(setQrDataUrl);
+    }
+  }, [order?.ticket_code]);
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        {/* Logo centré */}
         <Image src={logoSrc} style={styles.logo} />
+
+        {qrDataUrl && <Image src={qrDataUrl} style={styles.qrcode} />}
 
         <Text style={styles.title}>Facture</Text>
         <Text style={styles.subtitle}>Commande n°{order.id}</Text>
