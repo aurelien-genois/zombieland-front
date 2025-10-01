@@ -57,6 +57,7 @@ export interface IOrder {
   user_id: number;
   vat: string;
   visit_date: string;
+  vat_amount: number;
   total: number;
 }
 

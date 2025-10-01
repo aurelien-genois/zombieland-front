@@ -142,7 +142,7 @@ export default function OrderPDF({ order }: OrderPDFProps): JSX.Element {
 
         <View style={styles.totalSection}>
           <Text style={{ textAlign: "left", marginBottom: 5, fontSize: 12 }}>
-            TVA : {order.vat} €
+            TVA ({order.vat}%) : {order.vat_amount} €
           </Text>
           <Text style={{ textAlign: "left", fontSize: 12, fontWeight: "bold" }}>
             Total TTC : {order.total} €
