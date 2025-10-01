@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 
-export default function ConfirmationPage() {
+export default function ConfirmationEmailPage() {
   return (
     <>
       <div className="flex flex-col items-center justify-center">

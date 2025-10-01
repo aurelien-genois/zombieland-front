@@ -18,7 +18,7 @@ import Main from "./Main/Main";
 
 import { useAppSelector } from "@/hooks/redux";
 import ResetPassword from "@/pages/FrontOffice/ResetPassword/ResetPassword";
-import ConfirmationPage from "@/pages/FrontOffice/ConfirmationPage/ConfirmationPage";
+import ConfirmationEmailPage from "@/pages/FrontOffice/ConfirmationEmailPage/ConfirmationEmailPage";
 
 export default function LayoutFront() {
   const { isAuth } = useAppSelector((store) => store.userStore);
@@ -32,7 +32,10 @@ export default function LayoutFront() {
           <Route path="/activities/:category" element={<ActivitiesPage />} />
           <Route path="/activities" element={<ActivitiesPage />} />
           <Route path="/activity/:slug" element={<ActivityPage />} />
-          <Route path="/confirmation" element={<ConfirmationPage />} />
+          <Route
+            path="/email-confirmation"
+            element={<ConfirmationEmailPage />}
+          />
           <Route
             path="/register"
             element={!isAuth ? <RegisterPage /> : <Navigate to="/" replace />}
