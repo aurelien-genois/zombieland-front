@@ -1,9 +1,10 @@
 import { Link, useParams } from "react-router";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { fetchOneOrder } from "@/store/reducers/ordersReducer";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import OrderPDF from "./OrderPDF";
+import QRCode from "qrcode";
 
 const mapPaymentMethod = (method: string) => {
   const paymentMethods: { [key: string]: string } = {
@@ -47,10 +48,27 @@ export default function OrderPage() {
   const params = useParams();
   const orderId = Number(params.id);
   const dispatch = useAppDispatch();
+  const [qrDataUrl, setQrDataUrl] = useState<string>("");
 
   const { order, loadingOrder, orderError } = useAppSelector(
     (state) => state.ordersStore
   );
+
+  useEffect(() => {
+    if (order?.ticket_code) {
+      QRCode.toDataURL(order.ticket_code, {
+        color: {
+          dark: "#FFF",
+          light: "#131313"
+        },
+        width: 120,
+        margin: 2,
+        errorCorrectionLevel: "Q",
+      })
+        .then(setQrDataUrl)
+        .catch(console.error);
+    }
+  }, [order?.ticket_code]);
 
   useEffect(() => {
     if (orderId) {
@@ -127,6 +145,14 @@ export default function OrderPage() {
             </p>
           </div>
         </div>
+        <div>
+          <h3 className="text-xl font-bold mb-5">QR code des tickets</h3>
+          {qrDataUrl ? (
+            <img src={qrDataUrl} alt="QR Code" className="mx-auto" />
+          ) : (
+            <p>Chargement du QR code...</p>
+          )}
+        </div>
         <div className="mt-7 max-w-200 mx-auto">
           <h3 className="text-xl font-bold">Lignes de commande</h3>
           <table className="min-w-full mt-4 table-auto">
@@ -142,7 +168,6 @@ export default function OrderPage() {
               {order.order_lines.map((line) => (
                 <tr key={line.id}>
                   <td className="py-2 px-4">{line.product.name}</td>{""}
-                  {/* Affiche le product_id ou nom produit si tu l'as */}
                   <td className="py-2 px-4">{line.unit_price} €</td>
                   <td className="py-2 px-4">{line.quantity}</td>
                   <td className="py-2 px-4">
