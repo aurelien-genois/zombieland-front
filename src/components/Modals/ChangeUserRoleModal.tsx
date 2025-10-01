@@ -3,6 +3,7 @@ import ModalContainer from "./ContainerModal";
 import { useAppDispatch } from "@/hooks/redux";
 import { changeUserRole } from "@/store/reducers/adminReducer";
 import type { IRole } from "@/@types";
+import Button from "@/components/UI/BackOffice/Button";
 
 type RoleName = IRole["name"]; // "admin" | "member"
 
@@ -45,7 +46,9 @@ export default function ChangeUserRoleModal({
   return (
     <ModalContainer setIsModalOpen={setIsModalOpen}>
       <div className="space-y-4 bg-white p-4 rounded">
-        <h3 className="text-lg font-semibold">Changer le rôle de l’utilisateur</h3>
+        <h3 className="text-lg font-semibold">
+          Changer le rôle de l’utilisateur
+        </h3>
 
         <div className="text-sm text-gray-700">
           <div>
@@ -71,20 +74,16 @@ export default function ChangeUserRoleModal({
         {msg && <div className="text-sm text-blue-700">{msg}</div>}
 
         <div className="flex items-center justify-end gap-2">
-          <button
+          <Button
             onClick={() => setIsModalOpen(false)}
-            className="px-3 py-1.5 rounded border text-sm hover:text-red-700"
+            color="red"
             disabled={loading}
           >
             Annuler
-          </button>
-          <button
-            onClick={confirm}
-            className="px-3 py-1.5 rounded bg-blue-600 text-white text-sm hover:bg-blue-700 disabled:opacity-60"
-            disabled={loading}
-          >
+          </Button>
+          <Button onClick={confirm} disabled={loading}>
             {loading ? "Changement..." : "Confirmer"}
-          </button>
+          </Button>
         </div>
       </div>
     </ModalContainer>

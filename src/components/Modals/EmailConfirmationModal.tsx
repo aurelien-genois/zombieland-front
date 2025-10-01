@@ -3,6 +3,7 @@ import ModalContainer from "./ContainerModal";
 // importe bien ton thunk ou action creator
 import { resendEmailConfirmation } from "@/store/reducers/userReducer";
 import { useState } from "react";
+import Button from "@/components/UI/BackOffice/Button";
 
 interface EmailConfirmationModalProps {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -52,19 +53,10 @@ function EmailConfirmationModal({
         )}
 
         <div className="flex justify-end gap-2">
-          <button
-            type="button"
-            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
-            onClick={() => setIsModalOpen(false)}
-          >
+          <Button color="gray" onClick={() => setIsModalOpen(false)}>
             Annuler
-          </button>
-          <button
-            type="submit"
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-          >
-            Envoyer
-          </button>
+          </Button>
+          <Button type="submit">Envoyer</Button>
         </div>
       </form>
     </ModalContainer>
