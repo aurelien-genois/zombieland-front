@@ -10,6 +10,7 @@ function toISO(dateStr: string) {
 }
 
 export default function OrderCreatePage() {
+  const [formError, setFormError] = useState<string | null>(null);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
@@ -95,7 +96,7 @@ export default function OrderCreatePage() {
       const order = await dispatch(createOrder(payload)).unwrap();
       navigate(`/admin/management/orders/${order.id}`);
     } catch (err) {
-      console.error(err);
+      setFormError(typeof err === "string" ? err : "Une erreur est survenue");
     }
   }
 
@@ -115,10 +116,11 @@ export default function OrderCreatePage() {
             {loadingProducts && (
               <p className="mt-3 text-gray-500">Chargement des produits…</p>
             )}
-            {productsError && (
-              <p className="mt-3 text-red-600">Erreur : {productsError}</p>
+            {formError && (
+              <div className="mt-2 rounded bg-red-50 text-red-700 px-3 py-2 text-sm">
+                {formError}
+              </div>
             )}
-
             {!loadingProducts && !productsError && (
               <div className="mt-4 divide-y">
                 {products.map((p) => {

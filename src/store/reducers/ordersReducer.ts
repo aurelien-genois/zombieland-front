@@ -108,7 +108,7 @@ export const fetchProducts = createAsyncThunk<Product[], void, { rejectValue: st
   }
 );
 
-export const createOrder = createAsyncThunk<IOrder, CreateOrderPayload, { rejectValue: string }>(
+export const createOrder = createAsyncThunk<IOrder, CreateOrderPayload & { user_id?: number }, { rejectValue: string }>(
   "orders/createOrder",
   async (payload, { rejectWithValue }) => {
     try {
@@ -116,7 +116,12 @@ export const createOrder = createAsyncThunk<IOrder, CreateOrderPayload, { reject
       return data;
     } catch (e) {
       const err = e as AxiosError;
-      return rejectWithValue((err.response?.data as string) ?? "Order creation failed");
+      const msg =
+        (typeof err.response?.data === "object" && (err.response?.data as any)?.error) ||
+        (typeof err.response?.data === "string" ? err.response.data : undefined) ||
+        err.message ||
+        "Order creation failed";
+      return rejectWithValue(msg);
     }
   }
 );
