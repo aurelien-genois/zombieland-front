@@ -1,3 +1,4 @@
+import "./polyfills";
 import { createRoot } from "react-dom/client";
 import App from "./components/App/App.tsx";
 import { BrowserRouter } from "react-router";
