@@ -5,7 +5,6 @@ import HomePage from "@/pages/FrontOffice/_HomePage/HomePage";
 import ActivitiesPage from "@/pages/FrontOffice/ActivitiesPage/ActivitiesPage";
 import ActivityPage from "@/pages/FrontOffice/ActivityPage/ActivityPage";
 import RegisterPage from "@/pages/FrontOffice/RegisterPage/RegisterPage";
-import RegisterConfirmationPage from "@/pages/FrontOffice/RegisterConfirmationPage/RegisterConfirmationPage";
 import LoginPage from "@/pages/FrontOffice/LoginPage/LoginPage";
 import AccountPage from "@/pages/FrontOffice/AccountPage/AccountPage";
 import CheckoutPage from "@/pages/FrontOffice/CheckoutPage/CheckoutPage";
@@ -18,6 +17,7 @@ import Main from "./Main/Main";
 
 import { useAppSelector } from "@/hooks/redux";
 import ResetPassword from "@/pages/FrontOffice/ResetPassword/ResetPassword";
+import ConfirmationEmailPage from "@/pages/FrontOffice/ConfirmationEmailPage/ConfirmationEmailPage";
 
 export default function LayoutFront() {
   const { isAuth } = useAppSelector((store) => store.userStore);
@@ -32,18 +32,12 @@ export default function LayoutFront() {
           <Route path="/activities" element={<ActivitiesPage />} />
           <Route path="/activity/:slug" element={<ActivityPage />} />
           <Route
-            path="/register"
-            element={!isAuth ? <RegisterPage /> : <Navigate to="/" replace />}
+            path="/email-confirmation"
+            element={<ConfirmationEmailPage />}
           />
           <Route
-            path="/register/confirmation"
-            element={
-              !isAuth ? (
-                <RegisterConfirmationPage />
-              ) : (
-                <Navigate to="/" replace />
-              )
-            }
+            path="/register"
+            element={!isAuth ? <RegisterPage /> : <Navigate to="/" replace />}
           />
           <Route
             path="/login"
@@ -55,9 +49,11 @@ export default function LayoutFront() {
               isAuth ? <AccountPage /> : <Navigate to="/login" replace />
             }
           />
-          <Route 
-            path="/checkout" 
-            element={isAuth ? <CheckoutPage /> : <Navigate to="/login" replace/>} 
+          <Route
+            path="/checkout"
+            element={
+              isAuth ? <CheckoutPage /> : <Navigate to="/login" replace />
+            }
           />
           <Route
             path="/checkout/confirmation/:id"

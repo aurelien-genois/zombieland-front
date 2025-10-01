@@ -16,7 +16,7 @@ export default function UsersManagement() {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [showAllTable, setShowAllTable] = useState(true);
+  const [showAllTable, setShowAllTable] = useState(false);
 
   useEffect(() => {
     dispatch(
