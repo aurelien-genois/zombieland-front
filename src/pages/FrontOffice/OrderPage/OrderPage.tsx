@@ -157,7 +157,7 @@ export default function OrderPage() {
                 <td colSpan={3} className="py-2 px-4 font-bold text-right">
                   TVA (5,5%) :
                 </td>
-                <td className="py-2 px-4 font-bold">{order.vat} €</td>
+                <td className="py-2 px-4 font-bold">{order.vat_amount} €</td>
                 <td colSpan={4}></td>
               </tr>
               <tr className="border-t">
@@ -193,7 +193,7 @@ export default function OrderPage() {
                 >
                   {({ loading }) =>
                     loading ? (
-                      <span className="text-gray-400">Préparation du PDF...</span>
+                      <span className="w-65 flex justify-center gap-2 px-4 py-3 rounded-xl font-extrabold bg-green-600 hover:bg-green-500 text-gray-400 opacity-70">Préparation du PDF...</span>
                     ) : (
                       <button className="w-65 flex justify-center gap-2 px-4 py-3 rounded-xl font-extrabold text-white bg-green-600 hover:bg-green-500">
                         Télécharger la facture
