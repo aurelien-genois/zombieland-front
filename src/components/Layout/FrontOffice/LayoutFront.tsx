@@ -14,7 +14,6 @@ import ContactPage from "@/pages/FrontOffice/ContactPage/ContactPage";
 import PrivacyPage from "@/pages/FrontOffice/PrivacyPage/PrivacyPage";
 import LegalPage from "@/pages/FrontOffice/LegalPage/LegalPage";
 import Main from "./Main/Main";
-
 import { useAppSelector } from "@/hooks/redux";
 import ResetPassword from "@/pages/FrontOffice/ResetPassword/ResetPassword";
 import ConfirmationEmailPage from "@/pages/FrontOffice/ConfirmationEmailPage/ConfirmationEmailPage";
