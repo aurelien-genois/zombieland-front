@@ -16,7 +16,6 @@
     "@reduxjs/toolkit": "^2.9.0",
     "@tailwindcss/vite": "^4.1.13",
     "axios": "^1.12.2",
-    "buffer": "^6.0.3",
     "preline": "^3.2.3",
     "qrcode": "^1.5.4",
     "react": "^19.1.1",
