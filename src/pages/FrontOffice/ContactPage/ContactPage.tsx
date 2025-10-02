@@ -1,3 +1,4 @@
+import { axiosInstance } from "@/api/axiosInstance";
 import { useState, type FormEvent } from "react";
 
 export default function ContactPage() {
@@ -20,9 +21,16 @@ export default function ContactPage() {
       return;
     }
 
-    console.log("Form Data Submitted:", jsonData);
-    setSubmitted(true);
-    setIsLoading(false);
+    await axiosInstance
+      .post("/administration/contact", jsonData)
+      .then(() => {
+        setIsLoading(false);
+        setSubmitted(true);
+      })
+      .catch(() => {
+        setIsLoading(false);
+        setErrorMessage("Une erreur est survenue, veuillez réessayer.");
+      });
   };
   return (
     <div className=" max-w-lg mx-auto p-6 bg-gray-800 rounded shadow mt-30">
@@ -58,8 +66,9 @@ export default function ContactPage() {
               className="mt-1 p-2 w-full rounded bg-gray-700 text-white"
             >
               <option value="">Sélectionnez un sujet</option>
-              <option value="support">Support</option>
-              <option value="info">Informations</option>
+              <option value="info">Information générale</option>
+              <option value="sav">SAV</option>
+              <option value="support">Support technique</option>
               <option value="autre">Autre</option>
             </select>
           </label>
