@@ -23,7 +23,7 @@ export default function LayoutFront() {
   const { isAuth } = useAppSelector((store) => store.userStore);
 
   return (
-    <div className="bg-black-bg-main ">
+    <div className="bg-black-bg-main flex flex-col min-h-screen">
       <HeaderFront />
       <Main>
         <Routes>
