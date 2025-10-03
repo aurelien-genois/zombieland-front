@@ -33,7 +33,7 @@ export default function Pagination({
   return (
     <nav className="mt-8 flex items-center justify-center gap-2 sm:gap-3">
       <button
-        className="size-9 group grid place-items-center cursor-pointer bg-black rounded-full border border-transparent hover:bg-white/10 hover:border-black disabled:pointer-events-none disabled:opacity-50"
+        className="size-9 group grid place-items-center cursor-pointer bg-grey-menu rounded-full border border-transparent hover:bg-white/10 hover:border-black disabled:pointer-events-none disabled:opacity-0"
         onClick={() => setCurrentPage(currentPage > 1 ? currentPage - 1 : 1)}
         disabled={currentPage === 1}
       >
@@ -52,8 +52,8 @@ export default function Pagination({
               key={page}
               className={`size-9 rounded-full font-bold ${
                 page === currentPage
-                  ? "bg-brand text-green-text"
-                  : "hover:text-red-text cursor-pointer"
+                  ? "bg-brand text-xl text-blue-900"
+                  : "hover:text-blue-700 cursor-pointer text-gray-500"
               }`}
               onClick={() => setCurrentPage(page)}
             >
@@ -64,7 +64,7 @@ export default function Pagination({
       })}
 
       <button
-        className="group size-9 grid place-items-center cursor-pointer bg-black rounded-full border border-transparent hover:bg-white/10 hover:border-black disabled:pointer-events-none disabled:opacity-50"
+        className="group size-9 grid place-items-center cursor-pointer bg-grey-menu rounded-full border border-transparent hover:bg-white/10 hover:border-black disabled:pointer-events-none disabled:opacity-0"
         onClick={() =>
           setCurrentPage(currentPage < nbPages ? currentPage + 1 : nbPages)
         }

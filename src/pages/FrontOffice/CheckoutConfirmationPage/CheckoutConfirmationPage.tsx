@@ -60,39 +60,30 @@ export default function CheckoutConfirmationPage() {
  
   return(
 
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8 text-white">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8 text-grey-menu">
     {/* Colonne 1-2 : contenu */}
     <section className="lg:col-span-2 space-y-6">
       {/* Bandeau succès */}
-      <div className="rounded-2xl bg-green-500/10 ring-1 ring-green-500/30 py-2 sm:py-6">
-        <div className="flex items-start gap-4">
-          <span
-            aria-hidden
-            className="inline-block size-8 bg-green-400 rounded-full shrink-0
-            [mask:url(/icon/check.svg)_no-repeat_center/60%]"
-          />
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-wide">
-              Commande confirmée !
-            </h1>
-            <p className="text-white/80 mt-1">
-              Merci pour votre réservation. Vous recevrez un email de confirmation avec vos billets.
-            </p>
-          </div>
-        </div>
+      <div className="rounded-2xl bg-green-800/80 ring-1 ring-green-500/30 p-4 sm:py-6 flex flex-col items-start gap-4">
+          <h1 className="text-2xl text-white-bg sm:text-3xl font-extrabold tracking-wide">
+            Commande confirmée !
+          </h1>
+          <p className="text-white-bg font-bold mt-1">
+            Merci pour votre réservation. Vous recevrez un email de confirmation avec vos billets.
+          </p>
       </div>
   
       {/* En-tête commande */}
-      <div className="rounded-2xl ring-1 ring-white/10 bg-black/40 p-5 sm:p-6">
+      <div className="rounded-2xl ring-1 ring-white/10 bg-black/10 p-5 sm:p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-white/60 text-sm">N° de commande</p>
+            <p className="text-grey-menu text-sm">N° de commande</p>
             <p className="font-extrabold text-lg tracking-wide">
               {order.ticket_code ?? `#${order.id}`}
             </p>
           </div>
   
-          <div className="text-sm text-white/80">
+          <div className="text-sm text-grey-menu">
             <p>
               Passée le{" "}
               <time dateTime={order.order_date}>
@@ -108,7 +99,7 @@ export default function CheckoutConfirmationPage() {
           </div>
         </div>
   
-        <div className="mt-4 text-sm text-white/70">
+        <div className="mt-4 text-sm text-grey-menu">
           <p>
             Acheteur :{" "}
             <strong>
@@ -120,7 +111,7 @@ export default function CheckoutConfirmationPage() {
       </div>
   
       {/* Billets */}
-      <div className="rounded-2xl ring-1 ring-white/10 bg-black/40 p-5 sm:p-6">
+      <div className="rounded-2xl ring-1 ring-white/10 bg-black/10 p-5 sm:p-6">
         <h2 className="text-xl sm:text-2xl font-extrabold tracking-wide text-brand">
           Vos billets
         </h2>
@@ -130,7 +121,7 @@ export default function CheckoutConfirmationPage() {
             <li key={line.id} className="py-4 flex items-start justify-between gap-4">
               <div>
                 <p className="font-bold">{line.product?.name}</p>
-                <p className="text-sm text-white/70">
+                <p className="text-sm text-grey-menu">
                   Quantité : <span className="tabular-nums">{line.quantity}</span>
                   {" "}— Prix unitaire : {line.unit_price.toFixed(2)} €
                 </p>
@@ -149,16 +140,16 @@ export default function CheckoutConfirmationPage() {
     {/* Colonne 3 : récap sticky */}
     <aside className="lg:col-span-1">
       <div className="lg:sticky lg:top-24 space-y-4">
-        <div className="rounded-2xl ring-1 ring-white/10 bg-black/50 p-5 sm:p-6">
+        <div className="rounded-2xl ring-1 ring-white/10 bg-black/10 p-5 sm:p-6">
           <h3 className="text-lg font-extrabold tracking-wide">Récapitulatif</h3>
   
           <ul className="mt-3 space-y-2">
             <li className="flex justify-between text-sm">
-              <span className="text-white/70">Sous-total</span>
+              <span className="text-grey-menu">Sous-total</span>
               <span className="tabular-nums">{subtotal.toFixed(2)} €</span>
             </li>
             <li className="flex justify-between text-sm">
-              <span className="text-white/70">TVA ({Number(order.vat).toFixed(2)} %)</span>
+              <span className="text-grey-menu">TVA ({Number(order.vat).toFixed(2)} %)</span>
               <span className="tabular-nums">{vat_amount.toFixed(2)} €</span>
             </li>
             <li className="flex justify-between text-base font-bold pt-1 border-t border-white/10">
@@ -175,9 +166,9 @@ export default function CheckoutConfirmationPage() {
                 >
                   {({ loading }) =>
                     loading ? (
-                      <span className="text-gray-400">Préparation du PDF...</span>
+                      <span className="text-gray-6text-grey-menu00">Préparation du PDF...</span>
                     ) : (
-                      <button className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl font-extrabold bg-green-600 hover:bg-green-500">
+                      <button className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl font-extrabold text-white-bg bg-dark-blue-buttons hover:bg-blue-700">
                         Télécharger la facture
                       </button>
                     )
@@ -187,26 +178,26 @@ export default function CheckoutConfirmationPage() {
   
             <Link
               to={`/order/${order.id}`}
-              className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl font-extrabold bg-white/10 hover:bg-white/15"
+              className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl font-extrabold bg-gray-400 hover:bg-gray-300"
             >
               Voir mes réservations
             </Link>
   
             <Link
               to="/activities"
-              className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl font-extrabold bg-white/5 hover:bg-white/10"
+              className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl font-extrabold bg-gray-400 hover:bg-gray-300"
             >
               Continuer à explorer le parc
             </Link>
           </div>
   
-          <p className="mt-3 text-[12px] text-white/60">
+          <p className="mt-3 text-[12px] text-grey-menu">
             Un e-mail contenant votre reçu et vos billets a été envoyé à{" "}
             <strong>{order.user?.email}</strong>.
           </p>
         </div>
   
-        <div className="rounded-xl bg-white/5 p-4 text-sm text-white/70">
+        <div className="rounded-xl bg-white/5 p-4 text-sm text-grey-menu">
           <p>
             Rappel : l’annulation est possible jusqu’à <strong>48 h</strong> avant la date de visite.
             Pour toute question, contactez-nous via la page Contact.

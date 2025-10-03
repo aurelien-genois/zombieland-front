@@ -13,7 +13,7 @@ export default function AccountPage() {
 
   return (
     <>
-      <div className="text-white">
+      <div className="text-grey-menu">
         <h1 className="text-center font-bold text-3xl pt-10 pb-8">
           Mon compte
         </h1>

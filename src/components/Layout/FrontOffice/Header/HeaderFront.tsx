@@ -1,67 +1,45 @@
-import logo from "@/assets/icon/logo.svg";
 import account_zombie from "@/assets/icon/account_zombie.svg";
 import { useState } from "react";
 import { NavLink } from "react-router";
 import AccountMenu from "./AccountMenu";
+import DropdownMenu from "./DropdownAttractions";
+import DropdownStores from "./DropdownStores";
 export default function HeaderFront() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 border-b-3 shadow-md shadow-red-800 bg-black-bg-header/90 backdrop-blur">
+    <header className="fixed top-0 inset-x-0 z-50 bg-white-bg/50 border-b-0 shadow-md shadow-blue-border-banner backdrop-blur">
       <div className="max-w-7xl mx-auto h-16 sm:h-20 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        <div className="w-120 flex justify-center mx-auto">
-          <a href="/" className="shrink-0">
-            <img className="h-8 sm:h-10" src={logo} alt="ZombieLand" />
+        <div className="w-120 flex justify-start mx-auto">
+          <a href="/" className="shrink-0 w-60 h-16 flex justify-center">
+            <span
+              aria-hidden
+              className="bg-grey-menu [mask:url(@/assets/icon/logo.svg)_no-repeat_center/contain] inline-block w-full h-full"
+            />
           </a>
         </div>
-        <div className="flex justify-center mx-auto">
+        <div className="flex w-200 justify-center mx-auto">
           <nav className="hidden md:block">
-            <ul className="flex items-center gap-6 text-white text-sm font-bold lg:text-base">
+            <ul className="flex items-center gap-6 text-grey-menu text-sm lg:text-base">
               <NavLink
                 to={`/`}
                 end
                 className={({ isActive }) =>
-                  isActive ? "text-red-500" : "hover:text-red-500"
+                  `text-lg font-bold ${isActive ? 'text-dark-blue-buttons' : 'hover:text-dark-blue-buttons hover:shadow-text-md'} transition-all duration-200 ease-in-out`
                 }
               >
                 Accueil
               </NavLink>
 
-              <NavLink
-                to={`/activities`}
-                end
-                className={({ isActive }) =>
-                  isActive ? "text-red-500" : "hover:text-red-500"
-                }
-              >
-                Toutes les activités
-              </NavLink>
+              <DropdownMenu />
 
-              <NavLink
-                to={`/activities/manege`}
-                end
-                className={({ isActive }) =>
-                  isActive ? "text-red-500" : "hover:text-red-500"
-                }
-              >
-                Manèges
-              </NavLink>
-
-              <NavLink
-                to={`/activities/restaurant`}
-                end
-                className={({ isActive }) =>
-                  isActive ? "text-red-500" : "hover:text-red-500"
-                }
-              >
-                Restaurants
-              </NavLink>
+              <DropdownStores />
 
               <NavLink
                 to={`/checkout`}
                 end
                 className={({ isActive }) =>
-                  isActive ? "text-red-500" : "hover:text-red-500"
+                  `text-lg font-bold ${isActive ? 'text-dark-blue-buttons' : 'hover:text-dark-blue-buttons hover:shadow-text-md'} transition-all duration-200 ease-in-out`
                 }
               >
                 Réservation
@@ -69,9 +47,8 @@ export default function HeaderFront() {
             </ul>
           </nav>
         </div>
-        <div className="w-120 flex justify-center mx-auto">
+        <div className="w-120 flex justify-end mx-auto">
           <div className="flex flex-col items-center ">
-            <img className="h-8 sm:h-10 " src={account_zombie} alt="Compte" />
             <AccountMenu />
           </div>
           <button
@@ -104,7 +81,7 @@ export default function HeaderFront() {
           </NavLink>
 
           <NavLink to={`/`} end className={"block py-2"}>
-            Restauration
+            Boutiques
           </NavLink>
 
           <NavLink to={`/checkout`} end className={"block py-2"}>

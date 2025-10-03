@@ -10,10 +10,10 @@ export default function ActivityPage() {
   const { currentActivity, loading, error } = usePublishedActivity(slug);
 
   if (loading) {
-    return <div className="text-white">Loading...</div>;
+    return <div className="text-grey-menu">Loading...</div>;
   }
   if (error || !currentActivity) {
-    return <div className="text-white">Error: {error}</div>;
+    return <div className="text-grey-menu">Error: {error}</div>;
   }
 
   return (

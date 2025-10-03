@@ -68,7 +68,7 @@ export default function PasswordUpdate() {
 
   return (
     <>
-      <div className="pb-10">
+      <div className="pt-10 pb-10">
         <form
           method="patch"
           onSubmit={handleSubmit}
@@ -89,7 +89,7 @@ export default function PasswordUpdate() {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
                 required
               />
-              <p className="mb-1.5 text-lg md:text-sm ml-2 text-gray-300">
+              <p className="mb-1.5 text-lg md:text-sm ml-2 text-gray-700">
                 Le mot de passe doit contenir au minimum 10 caractères dont 1
                 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial.
               </p>
@@ -118,7 +118,7 @@ export default function PasswordUpdate() {
               <input
                 type="password"
                 name="confirmation"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5 pb-10"
                 required
               />
             </div>
@@ -137,10 +137,10 @@ export default function PasswordUpdate() {
 
           <button
             type="submit"
-            className={`w-50 rounded-xl py-1 px-3 text-white font-bold border-3 text-2xl sm:text-lg border-grey-border-btn text-center block mx-auto ${
+            className={`w-50 rounded-xl py-1 px-3 text-white hover:text-dark-blue-buttons font-bold text-2xl sm:text-lg text-center block mx-auto ${
               loading
                 ? "bg-gray-400 cursor-not-allowed"
-                : "bg-green-bg-btn hover:bg-green-500"
+                : "bg-dark-blue-buttons hover:bg-white-bg"
             }`}
             disabled={loading}
           >

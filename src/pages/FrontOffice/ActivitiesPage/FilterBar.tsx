@@ -43,7 +43,7 @@ export default function FilterBar({
 
   return (
     <>
-      <form onSubmit={handleSearchSubmit} className="flex flex-wrap gap-2">
+      <form onSubmit={handleSearchSubmit} className="flex items-center gap-2">
         <label htmlFor="age_group" className="relative">
           <select
             name="age_group"
@@ -55,15 +55,15 @@ export default function FilterBar({
                   : undefined
               )
             }
-            className="appearance-none px-4 pr-9 py-1.5 rounded-xl border border-green-border-filter bg-green-bg-filter text-green-text
-                    hover:border-red-border-filter-focus transition outline-none
-                    focus-visible:ring-red-100/0"
+            className="appearance-none px-4 pr-9 py-1.5 rounded-xl font-semibold bg-gray-300 text-dark-blue-buttons
+                    hover:border-blue-400 transition outline-none
+                    focus-visible:ring-blue-300"
           >
-            <option value="">- niveau de frousse</option>
-            <option value="0">0 très léger</option>
-            <option value="1">1 léger</option>
-            <option value="2">2 tendu</option>
-            <option value="3">3 très flippant</option>
+            <option value="">- Niveau de frousse</option>
+            <option value="0">0 Très léger</option>
+            <option value="1">1 Léger</option>
+            <option value="2">2 Tendu</option>
+            <option value="3">3 Très flippant</option>
           </select>
         </label>
 
@@ -76,11 +76,11 @@ export default function FilterBar({
                 e.currentTarget.value !== "" ? e.currentTarget.value : undefined
               )
             }
-            className="appearance-none px-4 pr-9 py-1.5 rounded-xl border border-green-border-filter bg-green-bg-filter text-green-text
-                    hover:border-red-border-filter-focus transition outline-none
-                    focus-visible:ring-red-100/0"
+            className="appearance-none px-4 pr-9 py-1.5 rounded-xl font-semibold bg-gray-300 text-dark-blue-buttons
+                    hover:border-blue-400 transition outline-none
+                    focus-visible:ring-blue-300"
           >
-            <option value="">- Niveau d'intensité -</option>
+            <option value="">- Intensité -</option>
             <option value="true">Intense</option>
             <option value="false">Non intense</option>
           </select>
@@ -95,25 +95,24 @@ export default function FilterBar({
                 e.currentTarget.value !== "" ? e.currentTarget.value : undefined
               )
             }
-            className="appearance-none px-4 pr-9 py-1.5 rounded-xl border border-green-border-filter bg-green-bg-filter text-green-text
-                    hover:border-red-border-filter-focus transition outline-none
-                    focus-visible:ring-red-100/0"
+            className="appearance-none px-4 pr-9 py-1.5 rounded-xl font-semibold bg-gray-300 text-dark-blue-buttons
+                    hover:border-blue-400 transition outline-none
+                    focus-visible:ring-blue-300"
           >
             <option value="">- Accès PMR -</option>
-            <option value="true">Accessible PMR</option>
-            <option value="false">Non accessible PMR</option>
+            <option value="true">Accessible</option>
+            <option value="false">Non accessible</option>
           </select>
         </label>
 
         <label htmlFor="category">
-          Catégorie
           <select
             name="category"
             value={String(categoryQuery)}
             onChange={(e) => setCategoryQuery(Number(e.currentTarget.value))}
-            className="appearance-none px-4 pr-9 py-1.5 rounded-xl border border-green-border-filter bg-green-bg-filter text-green-text
-                    hover:border-red-border-filter-focus transition outline-none
-                    focus-visible:ring-red-100/0"
+            className="appearance-none px-4 pr-9 py-1.5 rounded-xl font-semibold bg-gray-300 text-dark-blue-buttons
+                    hover:border-blue-400 transition outline-none
+                    focus-visible:ring-blue-300"
           >
             <option value="">- Catégorie -</option>
             {categories?.map((category) => (
@@ -124,34 +123,34 @@ export default function FilterBar({
           </select>
         </label>
 
-        <label htmlFor="limit">
+        {/* <label htmlFor="limit">
           Nb par page
           <select
             name="limit"
             value={String(limit)}
             onChange={(e) => setLimit(Number(e.currentTarget.value))}
-            className="appearance-none px-4 pr-9 py-1.5 rounded-xl border border-green-border-filter bg-green-bg-filter text-green-text
-                    hover:border-red-border-filter-focus transition outline-none
-                    focus-visible:ring-red-100/0"
+            className="appearance-none px-4 pr-9 py-1.5 rounded-xl font-semibold bg-gray-300 text-dark-blue-buttons
+                    hover:border-blue-400 transition outline-none
+                    focus-visible:ring-blue-300"
           >
             <option value="9">9</option>
             <option value="10">10</option>
             <option value="20">20</option>
             <option value="30">30</option>
           </select>
-        </label>
+        </label> */}
 
-        <select
+        {/* <select
           name="order"
           value={orderQuery}
           onChange={(e) => setOrderQuery(e.currentTarget.value)}
-          className="appearance-none px-4 pr-9 py-1.5 rounded-xl border border-green-border-filter bg-green-bg-filter text-green-text
-                    hover:border-red-border-filter-focus transition outline-none
-                    focus-visible:ring-red-100/0"
+          className="appearance-none px-4 pr-9 py-1.5 rounded-xl font-semibold bg-gray-300 text-dark-blue-buttons
+                    hover:border-blue-400 transition outline-none
+                    focus-visible:ring-blue-300"
         >
           <option value="name:asc">Noms croissants</option>
           <option value="name:desc">Noms décroissants</option>
-        </select>
+        </select> */}
 
         <button
           type="button"
