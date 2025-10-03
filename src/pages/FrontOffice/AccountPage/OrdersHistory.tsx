@@ -7,7 +7,7 @@ import { Link } from "react-router";
 const OrderHistory: React.FC = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.userStore.userInfo);
-  const { userOrdersList, loading, error } = useAppSelector(
+  const { userOrdersList, loadingUserOrders, userOrdersError } = useAppSelector(
     (state) => state.ordersStore
   );
 
@@ -17,9 +17,9 @@ const OrderHistory: React.FC = () => {
     }
   }, [dispatch, user]);
 
-  if (loading) return <p>Chargement des commandes...</p>;
+  if (loadingUserOrders) return <p>Chargement des commandes...</p>;
 
-  if (error) return <p className="text-red-500">{error}</p>;
+  if (userOrdersError) return <p className="text-red-500">{userOrdersError}</p>;
 
   if (!userOrdersList || userOrdersList.length === 0)
     return <p>Aucune commande pour l’instant.</p>;

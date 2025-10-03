@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchOneOrder } from "@/store/reducers/ordersReducer";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import OrderPDF from "./OrderPDF";
@@ -88,6 +88,10 @@ export default function OrderPage() {
     return <div className="text-white bg-gray-300">Order not found</div>;
   }
 
+  if (!order.payment_method) {
+    return <div className="text-white bg-gray-300">Paiement non renseigné</div>;
+  }
+
     const cancelOrder = (visitDateString: string) => {
     const today = new Date();
     const visitDate = new Date(visitDateString);
@@ -167,7 +171,7 @@ export default function OrderPage() {
             <tbody>
               {order.order_lines.map((line) => (
                 <tr key={line.id}>
-                  <td className="py-2 px-4">{line.product.name}</td>{""}
+                  <td className="py-2 px-4">{line.product?.name ?? "—"}</td>{""}
                   <td className="py-2 px-4">{line.unit_price} €</td>
                   <td className="py-2 px-4">{line.quantity}</td>
                   <td className="py-2 px-4">

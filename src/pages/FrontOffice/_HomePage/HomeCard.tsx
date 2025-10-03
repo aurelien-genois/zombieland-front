@@ -18,8 +18,8 @@ export default function HomeCard({
   slug,
   slogan,
   minimum_age,
-  high_intensity,
-  disabled_access,
+  // high_intensity,
+  // disabled_access,
   image_url,
 }: IHomeCardProps) {
   return (
