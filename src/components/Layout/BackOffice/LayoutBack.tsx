@@ -11,6 +11,7 @@ import ActivitiesManagementCreation from "@/pages/BackOffice/ActivitiesManagemen
 import ActivitiesManagementSingle from "@/pages/BackOffice/ActivitiesManagement/ActivitiesSingle";
 import OrdersManagement from "@/pages/BackOffice/OrdersManagement/OrdersManagement";
 import OrdersDetail from "@/pages/BackOffice/OrdersManagement/OrdersDetail";
+import OrdersCreation from "@/pages/BackOffice/OrdersManagement/OrdersCreation";
 import ProductsManagement from "@/pages/BackOffice/ProductsManagement/ProductsManagement";
 export default function LayoutBack() {
   return (
@@ -40,6 +41,7 @@ export default function LayoutBack() {
             />
             <Route path="management/orders" element={<OrdersManagement />} />
             <Route path="management/orders/:id" element={<OrdersDetail />} />
+            <Route path="management/orders/add" element={<OrdersCreation />} />
             <Route path="management/products/" element={<ProductsManagement />} />
           </Routes>
         </Main>

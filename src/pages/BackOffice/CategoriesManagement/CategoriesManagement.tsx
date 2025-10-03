@@ -4,6 +4,7 @@ import Pagination from "@/components/UI/Pagination";
 import DeleteCategoryModal from "@/components/Modals/DeleteCategoryModal";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { useEffect, useState } from "react";
+import Button from "@/components/UI/BackOffice/Button";
 import {
   createCategory,
   fetchCategories,
@@ -84,18 +85,16 @@ export default function CategoriesManagement() {
       <TableData nowrap={false}>{category.color}</TableData>
       {/* Colonne Actions */}
       <TableData nowrap={false}>
-        <button
-          type="button"
+        <Button
           onClick={() => {
             setEditingMode(true);
             setCategoryToEdit(category);
           }}
-          className="cursor-pointer px-3 py-1 border border-transparent text-xs font-medium rounded-md text-white bg-blue-500  hover:bg-cyan-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
         >
           Modifier
-        </button>
-        <button
-          type="button"
+        </Button>
+        <Button
+          color="red"
           onClick={() => {
             setIsModalDeleteOpen(true);
             setCategoryToDelete(category);
@@ -103,10 +102,9 @@ export default function CategoriesManagement() {
             setEditingMode(false);
             setCreatingMode(false);
           }}
-          className="cursor-pointer px-3 py-1 border border-transparent text-xs font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
         >
           Supprimer
-        </button>
+        </Button>
       </TableData>
     </TableRow>
   ));
@@ -125,16 +123,14 @@ export default function CategoriesManagement() {
         </div>
       </div>
 
-      <button
-        type="button"
+      <Button
         onClick={() => {
           setCreatingMode(true);
           setCategoryToEdit(null);
         }}
-        className="cursor-pointer px-3 py-1 border border-transparent text-xs font-medium rounded-md text-white bg-blue-500  hover:bg-cyan-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
       >
         Créer une catégorie
-      </button>
+      </Button>
 
       {successMessage && (
         <div className="mb-4 p-3 bg-red-100 border border-green-400 text-green-700 rounded">
@@ -178,13 +174,9 @@ export default function CategoriesManagement() {
             <input type="hidden" name="category_id" value={categoryToEdit.id} />
           )}
 
-          <input
-            type="submit"
-            name="save"
-            disabled={loading}
-            className="cursor-pointer w-50 bg-green-bg-btn hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl py-1 px-3 text-white font-bold border-3 text-2xl sm:text-lg border-grey-border-btn text-center block mx-auto"
-            value={loading ? "Enregistrement..." : "Enregistrer"}
-          />
+          <Button type="submit" color="green" name="save" disabled={loading}>
+            {loading ? "Enregistrement..." : "Enregistrer"}
+          </Button>
         </form>
       ) : null}
 

@@ -93,15 +93,14 @@ const initialState: OrdersState = {
 };
 
 /** ─────────────────────────────────────────────────────────────────────────────
- * THUNKS (URLs à adapter si besoin)
+ * THUNKS
  * ────────────────────────────────────────────────────────────────────────────*/
 export const fetchProducts = createAsyncThunk<Product[], void, { rejectValue: string }>(
   "orders/fetchProducts",
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.get<Product[]>("/products/published");
-      // on mappe vers ton format minimal utilisé côté front
-      return data.map((p) => ({ id: p.id, name: p.name, unit_price: p.price } as Product));
+      return data.map((p) => ({ id: p.id, name: p.name, unit_price: p.price } as unknown as Product));
     } catch (e) {
       const err = e as AxiosError;
       return rejectWithValue((err.response?.data as string) ?? "Failed to load products");
@@ -109,7 +108,7 @@ export const fetchProducts = createAsyncThunk<Product[], void, { rejectValue: st
   }
 );
 
-export const createOrder = createAsyncThunk<IOrder, CreateOrderPayload, { rejectValue: string }>(
+export const createOrder = createAsyncThunk<IOrder, CreateOrderPayload & { user_id?: number }, { rejectValue: string }>(
   "orders/createOrder",
   async (payload, { rejectWithValue }) => {
     try {
@@ -117,7 +116,12 @@ export const createOrder = createAsyncThunk<IOrder, CreateOrderPayload, { reject
       return data;
     } catch (e) {
       const err = e as AxiosError;
-      return rejectWithValue((err.response?.data as string) ?? "Order creation failed");
+      const msg =
+        (typeof err.response?.data === "object" && (err.response?.data as any)?.error) ||
+        (typeof err.response?.data === "string" ? err.response.data : undefined) ||
+        err.message ||
+        "Order creation failed";
+      return rejectWithValue(msg);
     }
   }
 );
@@ -163,7 +167,6 @@ export const fetchUserOrders = createAsyncThunk<IOrder[], number, { rejectValue:
   async (userId, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.get(`/orders/user/${userId}`);
-      // si ton endpoint renvoie {data: IOrder[]} ou autre, dis-moi le vrai shape
       return (Array.isArray(data) ? data : data?.data) as IOrder[];
     } catch (e) {
       const err = e as AxiosError;

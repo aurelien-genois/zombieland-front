@@ -1,7 +1,8 @@
 import { useAppDispatch } from "@/hooks/redux";
 import { useActivity } from "@/hooks/activities";
 import { updateActivity } from "@/store/reducers/activitiesReducer";
-import { Link, useParams } from "react-router";
+import { useParams } from "react-router";
+import Button from "@/components/UI/BackOffice/Button";
 import { useState } from "react";
 import { useCategories } from "@/hooks/categories";
 
@@ -86,12 +87,9 @@ export default function ActivitiesManagementSingle() {
 
   return (
     <div className="max-w-7xl min-w-full mx-auto p-6">
-      <Link
-        to="/admin/management/activities"
-        className="text-green-text font-bold"
-      >
-        Revenir à la liste
-      </Link>
+      <Button color="gray" type="router-link" to="/admin/management/activities">
+        ← Retour liste
+      </Button>
 
       <div>
         <h2 className="inline font-bold text-xl">Publié ? :</h2>
@@ -115,12 +113,9 @@ export default function ActivitiesManagementSingle() {
           onSubmit={handleSubmit}
           className="mx-auto px-5 md:max-w-200 sm:max-w-150"
         >
-          <button
-            onClick={() => setEditingMode(false)}
-            className="bg-blue-500 text-white hover:bg-cyan-400 py-2 px-3 font-bold rounded-lg"
-          >
+          <Button color="gray" onClick={() => setEditingMode(false)}>
             Annuler
-          </button>
+          </Button>
 
           {formError && (
             <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
@@ -265,37 +260,28 @@ export default function ActivitiesManagementSingle() {
               </option>
             ))}
           </select>
-
-          <input
-            type="submit"
-            name="publish"
-            disabled={loading}
-            className="my-4 cursor-pointer w-50 bg-green-bg-btn hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl py-1 px-3 text-white font-bold border-3 text-2xl sm:text-lg border-grey-border-btn text-center block mx-auto"
-            value={
-              loading
+          <div className="flex justify-center items-center gap-4 mt-8">
+            <Button
+              type="submit"
+              color="green"
+              name="publish"
+              disabled={loading}
+            >
+              {loading
                 ? "Enregistrement..."
                 : currentActivity.status == "published"
                 ? "Enregistrer"
-                : "Publier"
-            }
-          />
+                : "Publier"}
+            </Button>
 
-          <input
-            type="submit"
-            name="draft"
-            disabled={loading}
-            className="my-4 cursor-pointer w-50 bg-gray-700 hover:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl py-1 px-3 text-white font-bold border-3 text-2xl sm:text-lg border-grey-border-btn text-center block mx-auto"
-            value={loading ? "Enregistrement..." : "Enregistrer en brouillon"}
-          />
+            <Button type="submit" color="gray" name="draft" disabled={loading}>
+              {loading ? "Enregistrement..." : "Enregistrer en brouillon"}
+            </Button>
+          </div>
         </form>
       ) : (
         <>
-          <button
-            onClick={() => setEditingMode(true)}
-            className="bg-blue-500 text-white hover:bg-cyan-400 py-2 px-3 font-bold rounded-lg"
-          >
-            Modifier ?
-          </button>
+          <Button onClick={() => setEditingMode(true)}>Modifier ?</Button>
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
               {currentActivity.name}

@@ -113,6 +113,12 @@ export default function OrdersManagement() {
     <div className="p-6">
       <h1 className="text-2xl font-extrabold mb-1">{headerTitle}</h1>
       <p className="text-sm text-gray-500 mb-4">Manage your orders here…</p>
+      <Link
+        to={"/admin/management/orders/add"}
+        className="cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-yellow-700 bg-yellow-100 hover:bg-yellow-200 transition-colors"
+      >
+        Créer une réservation
+      </Link>
 
       {/* Barre d’actions */}
       <form onSubmit={handleSearchSubmit} className="rounded-md border border-gray-200 bg-white p-4 mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -234,7 +240,7 @@ export default function OrdersManagement() {
                     </span>
                   </td>
                   <td className="px-4 py-3">{formatDate(o.visit_date)}</td>
-                  <td className="px-4 py-3">{formatDate(o.visit_date)}</td>
+                  <td className="px-4 py-3">{formatDate(o.created_at)}</td>
                   <td className="px-4 py-3 tabular-nums">{total.toFixed(2)} €</td>
                   <td className="px-4 py-3">{o.order_lines.length}</td>
                   <td className="px-4 py-3">

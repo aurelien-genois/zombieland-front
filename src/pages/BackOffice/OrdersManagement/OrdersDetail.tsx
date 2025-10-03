@@ -1,24 +1,37 @@
 import { useEffect, useMemo } from "react";
-import { Link, useParams } from "react-router";
+import { useParams } from "react-router";
+import Button from "@/components/UI/BackOffice/Button";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { fetchOneOrder, updateOrderStatus } from "@/store/reducers/ordersReducer";
+import {
+  fetchOneOrder,
+  updateOrderStatus,
+} from "@/store/reducers/ordersReducer";
 import type { IOrder, OrderLineLike, OrderStatus } from "@/@types";
 
 const statusColor: Record<OrderStatus, string> = {
-  pending:  "bg-yellow-100 text-yellow-800",
-  confirmed:"bg-green-100 text-green-800",
+  pending: "bg-yellow-100 text-yellow-800",
+  confirmed: "bg-green-100 text-green-800",
   canceled: "bg-red-100 text-red-800",
-  refund:   "bg-indigo-100 text-indigo-800",
+  refund: "bg-indigo-100 text-indigo-800",
 };
 
 function formatDate(d?: string) {
   if (!d) return "-";
-  try { return new Date(d).toLocaleDateString("fr-FR"); } catch { return "-"; }
+  try {
+    return new Date(d).toLocaleDateString("fr-FR");
+  } catch {
+    return "-";
+  }
 }
-function euro(n: number) { return `${n.toFixed(2)} €`; }
+function euro(n: number) {
+  return `${n.toFixed(2)} €`;
+}
 
 function computeTotals(order: IOrder) {
-  const subtotal = order.order_lines.reduce((s, l) => s + l.unit_price * l.quantity, 0);
+  const subtotal = order.order_lines.reduce(
+    (s, l) => s + l.unit_price * l.quantity,
+    0
+  );
   const vatRate = Number(order.vat) || 0;
   const vat = +(subtotal * (vatRate / 100)).toFixed(2);
   const total = order.total ? order.total : +(subtotal + vat).toFixed(2);
@@ -30,7 +43,11 @@ export default function OrderDetailPage() {
   const orderId = Number(id);
   const dispatch = useAppDispatch();
 
-  const { order: o, loadingOrder, orderError } = useAppSelector(s => s.ordersStore);
+  const {
+    order: o,
+    loadingOrder,
+    orderError,
+  } = useAppSelector((s) => s.ordersStore);
 
   useEffect(() => {
     if (!Number.isNaN(orderId)) dispatch(fetchOneOrder(orderId));
@@ -40,7 +57,12 @@ export default function OrderDetailPage() {
 
   // -------- utils
   function safeLineName(l: OrderLineLike) {
-    return l?.product?.name ?? l?.product_name ?? l?.name ?? `#${l?.product_id ?? l?.id ?? "?"}`;
+    return (
+      l?.product?.name ??
+      l?.product_name ??
+      l?.name ??
+      `#${l?.product_id ?? l?.id ?? "?"}`
+    );
   }
   function safeUnitPrice(l: OrderLineLike) {
     const v = l?.unit_price ?? l?.product?.price ?? 0;
@@ -57,9 +79,9 @@ export default function OrderDetailPage() {
     <div className="p-6">
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-2xl font-extrabold">{header}</h1>
-        <Link to="/admin/management/orders" className="rounded border px-3 py-2 hover:bg-gray-50">
+        <Button type="router-link" to="/admin/management/orders" color="gray">
           ← Retour liste
-        </Link>
+        </Button>
       </div>
 
       {loadingOrder && (
@@ -80,11 +102,16 @@ export default function OrderDetailPage() {
           <section className="md:col-span-2 rounded-md border border-gray-200 bg-white overflow-hidden">
             <div className="border-b px-5 py-4">
               <div className="flex flex-wrap items-center gap-3">
-                <span className={`inline-flex items-center rounded px-2 py-0.5 text-xs font-semibold ${statusColor[o.status]}`}>
+                <span
+                  className={`inline-flex items-center rounded px-2 py-0.5 text-xs font-semibold ${
+                    statusColor[o.status]
+                  }`}
+                >
                   {o.status}
                 </span>
                 <span className="text-sm text-gray-500">
-                  Passée le <b>{formatDate(o.order_date ?? o.visit_date)}</b> — Visite le <b>{formatDate(o.visit_date)}</b>
+                  Passée le <b>{formatDate(o.order_date ?? o.visit_date)}</b> —
+                  Visite le <b>{formatDate(o.visit_date)}</b>
                 </span>
               </div>
             </div>
@@ -104,9 +131,13 @@ export default function OrderDetailPage() {
                   {(o.order_lines ?? []).map((l) => (
                     <tr key={l.id ?? `${safeLineName(l)}-${safeUnitPrice(l)}`}>
                       <td className="py-2 pr-2">{safeLineName(l)}</td>
-                      <td className="py-2 pr-2 tabular-nums">{euro(safeUnitPrice(l))}</td>
+                      <td className="py-2 pr-2 tabular-nums">
+                        {euro(safeUnitPrice(l))}
+                      </td>
                       <td className="py-2 pr-2">{l?.quantity ?? 0}</td>
-                      <td className="py-2 pr-2 tabular-nums">{euro(safeUnitPrice(l) * (l?.quantity ?? 0))}</td>
+                      <td className="py-2 pr-2 tabular-nums">
+                        {euro(safeUnitPrice(l) * (l?.quantity ?? 0))}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -124,10 +155,18 @@ export default function OrderDetailPage() {
               <div className="mt-2 text-sm text-gray-700">
                 {o.user ? (
                   <>
-                    <div>{[o.user.firstname, o.user.lastname].filter(Boolean).join(" ") || o.user.email}</div>
-                    {o.user.email && <div className="text-gray-500">{o.user.email}</div>}
+                    <div>
+                      {[o.user.firstname, o.user.lastname]
+                        .filter(Boolean)
+                        .join(" ") || o.user.email}
+                    </div>
+                    {o.user.email && (
+                      <div className="text-gray-500">{o.user.email}</div>
+                    )}
                   </>
-                ) : <div>-</div>}
+                ) : (
+                  <div>-</div>
+                )}
               </div>
             </div>
 
@@ -142,20 +181,20 @@ export default function OrderDetailPage() {
             <div>
               <h2 className="font-semibold mb-2">Actions</h2>
               <div className="flex flex-wrap gap-2">
-                <button
+                <Button
                   onClick={() => changeStatus("confirmed")}
-                  className="rounded bg-green-600 px-3 py-1.5 text-white hover:bg-green-700 disabled:opacity-50"
+                  color="green"
                   disabled={o.status === "confirmed" || o.status === "canceled"}
                 >
                   confirmé
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={() => changeStatus("canceled")}
-                  className="rounded bg-red-600 px-3 py-1.5 text-white hover:bg-red-700 disabled:opacity-50"
+                  color="red"
                   disabled={o.status === "canceled"}
                 >
                   Annuler
-                </button>
+                </Button>
               </div>
             </div>
           </aside>

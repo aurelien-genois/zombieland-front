@@ -6,6 +6,7 @@ import {
   fetchAllActivities,
 } from "@/store/reducers/activitiesReducer";
 import type { IActivity } from "@/@types";
+import Button from "@/components/UI/BackOffice/Button";
 
 interface DeleteActivityModalProps {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -88,21 +89,16 @@ export default function DeleteActivityModal({
 
         <form onSubmit={onSubmit}>
           <div className="flex justify-end gap-2 mt-4">
-            <button
-              type="button"
-              className="cursor-pointer px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+            <Button
+              color="gray"
               onClick={() => setIsModalOpen(false)}
               disabled={loading}
             >
               Annuler
-            </button>
-            <button
-              type="submit"
-              className="cursor-pointer px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-60"
-              disabled={loading}
-            >
+            </Button>
+            <Button type="submit" color="red" disabled={loading}>
               {loading ? "Suppression..." : "Supprimer"}
-            </button>
+            </Button>
           </div>
 
           {msg && <div className="mt-4 text-red-600">{msg}</div>}

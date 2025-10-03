@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { Link, useParams } from "react-router";
+import { useParams } from "react-router";
+import Button from "@/components/UI/BackOffice/Button";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { getUserById } from "@/store/reducers/adminReducer";
 import type { IOrder } from "@/@types";
@@ -7,21 +8,29 @@ import { fetchUserOrders } from "@/store/reducers/ordersReducer";
 
 function formatDate(d?: string) {
   if (!d) return "-";
-  try { return new Date(d).toLocaleDateString("fr-FR"); } catch { return "-"; }
+  try {
+    return new Date(d).toLocaleDateString("fr-FR");
+  } catch {
+    return "-";
+  }
 }
-function euro(n: number) { return `${n.toFixed(2)} €`; }
+function euro(n: number) {
+  return `${n.toFixed(2)} €`;
+}
 
 export default function UsersDetail() {
   const { id } = useParams();
   const userId = Number(id);
   const dispatch = useAppDispatch();
 
-  const { userDetails, loading, error } = useAppSelector(s => s.adminStore);
-  const { userOrdersList, loadingUserOrders, userOrdersError } = useAppSelector(s => s.ordersStore);
+  const { userDetails, loading, error } = useAppSelector((s) => s.adminStore);
+  const { userOrdersList, loadingUserOrders, userOrdersError } = useAppSelector(
+    (s) => s.ordersStore
+  );
 
   useEffect(() => {
     if (!Number.isNaN(userId)) {
-      dispatch(getUserById({userId}));
+      dispatch(getUserById({ userId }));
       dispatch(fetchUserOrders(userId));
     }
   }, [dispatch, userId]);
@@ -30,9 +39,9 @@ export default function UsersDetail() {
     <div className="p-6">
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-2xl font-extrabold">User #{id}</h1>
-        <Link to="/admin/management/users" className="rounded border px-3 py-2 hover:bg-gray-50">
+        <Button type="router-link" to="/admin/management/users" color="gray">
           ← Retour liste
-        </Link>
+        </Button>
       </div>
 
       {/* Infos utilisateur */}
@@ -42,10 +51,23 @@ export default function UsersDetail() {
         <div className="rounded-md border border-gray-200 bg-white p-5 mb-6">
           <h2 className="font-semibold mb-2">Infos utilisateur</h2>
           <div className="text-sm text-gray-700 space-y-1">
-            <div><b>ID :</b> {userDetails.id}</div>
-            <div><b>Nom :</b> {[userDetails.firstname, userDetails.lastname].filter(Boolean).join(" ")}</div>
-            <div><b>Email :</b> {userDetails.email}</div>
-            {userDetails.role && <div><b>Rôle :</b> {userDetails.role.name}</div>}
+            <div>
+              <b>ID :</b> {userDetails.id}
+            </div>
+            <div>
+              <b>Nom :</b>{" "}
+              {[userDetails.firstname, userDetails.lastname]
+                .filter(Boolean)
+                .join(" ")}
+            </div>
+            <div>
+              <b>Email :</b> {userDetails.email}
+            </div>
+            {userDetails.role && (
+              <div>
+                <b>Rôle :</b> {userDetails.role.name}
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -78,20 +100,25 @@ export default function UsersDetail() {
                   <td className="px-4 py-2">{o.status}</td>
                   <td className="px-4 py-2">{formatDate(o.order_date)}</td>
                   <td className="px-4 py-2">{formatDate(o.visit_date)}</td>
-                  <td className="px-4 py-2 tabular-nums">{o.total ? euro(o.total) : "-"}</td>
+                  <td className="px-4 py-2 tabular-nums">
+                    {o.total ? euro(o.total) : "-"}
+                  </td>
                   <td className="px-4 py-2">
-                    <Link
+                    <Button
+                      type="router-link"
                       to={`/admin/management/orders/${o.id}`}
-                      className="rounded bg-indigo-600 text-white px-3 py-1 hover:bg-indigo-700"
                     >
                       Voir
-                    </Link>
+                    </Button>
                   </td>
                 </tr>
               ))}
               {(!userOrdersList || userOrdersList.length === 0) && (
                 <tr>
-                  <td colSpan={6} className="px-4 py-6 text-center text-gray-500">
+                  <td
+                    colSpan={6}
+                    className="px-4 py-6 text-center text-gray-500"
+                  >
                     Aucune commande pour cet utilisateur.
                   </td>
                 </tr>

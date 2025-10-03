@@ -1,14 +1,50 @@
-export enum IStatus {
-  Pending,
-  Confirmed,
-  Canceled,
-  Refund
-}
+// ──────────────────────────────────────────────────────────────────────────────
+// Statuts
+// ──────────────────────────────────────────────────────────────────────────────
 export type OrderStatus = "pending" | "confirmed" | "canceled" | "refund";
+
+
+// ──────────────────────────────────────────────────────────────────────────────
+/** Produits (back-office / BDD) */
+// ──────────────────────────────────────────────────────────────────────────────
 export type Product = {
-  price: number; id: number; name: string; unit_price: number 
+  id: number;
+  name: string;
+  unit_price: number;
+  price: number;
+  status?: "draft" | "published";
 };
-export type OrderLineInput = { product_id: number; quantity: number };
+
+
+export type CatalogProduct = {
+  id: number;
+  name: string;
+  unit_price: number;
+};
+
+// ──────────────────────────────────────────────────────────────────────────────
+/** Lignes de commande */
+// ──────────────────────────────────────────────────────────────────────────────
+export type OrderLineInput = { product_id: number; quantity: number; };
+
+export interface IOrderLine {
+  id: number;
+  unit_price: number;
+  quantity: number;
+  product_id: number;
+  order_id?: number;
+
+  // côté back on inclut souvent le produit
+  product?: {
+    id: number;
+    name: string;
+    price: number;
+  };
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+/** Commande */
+// ──────────────────────────────────────────────────────────────────────────────
 export type OrdersSort =
   | "order_date:asc"
   | "order_date:desc"
@@ -17,12 +53,49 @@ export type OrdersSort =
   | "status:asc"
   | "status:desc";
 
+// back renvoie des montants calculés (subtotal, vat_amount, total)
+export interface IOrder {
+  id: number;
+  status: OrderStatus;
+
+  order_date: string; 
+  visit_date: string; 
+
+  vat: number; 
+  payment_method?: string | null;
+
+  ticket_code: string;
+
+  user_id: number;
+  user: IUser;       
+
+  order_lines: IOrderLine[];
+
+ 
+  subtotal: number;
+  vat_amount: number;
+  total: number;
+
+
+  created_at?: string;
+  updated_at?: string;
+
+
+  computed_order_total_price?: number;
+}
+
+// Payload création côté front (checkout) et côté back-office (admin)
 export type CreateOrderPayload = {
-  visit_date: string;
-  vat: number;
+  visit_date: string;           
+  vat: number;             
   order_lines: OrderLineInput[];
+  payment_method?: string;
+  user_id?: number;           
 };
 
+// ──────────────────────────────────────────────────────────────────────────────
+/** Pagination (aligne avec le back: page, limit, totalCount, totalPages, etc.) */
+// ──────────────────────────────────────────────────────────────────────────────
 export interface IMeta {
   page: number;
   perPage: number;
@@ -35,40 +108,18 @@ export interface IMeta {
   status?: OrderStatus; 
   order?: OrdersSort
 }
-export interface IOrderLine {
-  id: number;
-  unit_price: number;
-  quantity: number;
-  product_id: number;
-  order_id: number;
-}
 
-export interface IOrder {
-  computed_order_total_price: number;
-  created_at: string;
-  id: number;
-  order_date: string;
-  order_lines: OrderLine[];
-  payment_method: string;
-  status: OrderStatus;
-  ticket_code: string;
-  updated_at: string;
-  user: IUser;
-  user_id: number;
-  vat: string;
-  visit_date: string;
-  vat_amount: number;
-  total: number;
-}
-
-
+// Réponse paginée standard (alignée avec ton controller: { data, meta })
 export interface IPaginatedOrders {
-  ordersWithTotal: IOrders[];
-  TotalOrders: string;
+  data: IOrder[];
+  meta: IMeta;
 }
 
-type NumLike = number | `${number}`;
-type OrderLineLike = {
+// ──────────────────────────────────────────────────────────────────────────────
+// Types utilitaires (si tu en as encore besoin dans certains écrans)
+// ──────────────────────────────────────────────────────────────────────────────
+export type NumLike = number | `${number}`;
+export type OrderLineLike = {
   id?: number;
   quantity?: number;
   unit_price?: NumLike;

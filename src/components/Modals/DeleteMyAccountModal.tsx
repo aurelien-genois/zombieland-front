@@ -2,6 +2,7 @@ import { useAppDispatch } from "@/hooks/redux";
 import ModalContainer from "./ContainerModal";
 import { deleteMyAccount } from "@/store/reducers/userReducer";
 import { useState } from "react";
+import Button from "@/components/UI/BackOffice/Button";
 
 interface DeleteMyAccountModalProps {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -32,21 +33,16 @@ function DeleteMyAccountModal({ setIsModalOpen }: DeleteMyAccountModalProps) {
         <h1>êtes-vous sûr de vouloir supprimer votre compte ?</h1>
         <form onSubmit={handleSubmit}>
           <div className="flex justify-end gap-2 mt-4">
-            <button
-              type="button"
-              className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+            <Button
+              color="gray"
               onClick={() => setIsModalOpen(false)}
               disabled={loading}
             >
               Annuler
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-              disabled={loading}
-            >
+            </Button>
+            <Button type="submit" color="red" disabled={loading}>
               {loading ? "Suppression..." : "Supprimer"}
-            </button>
+            </Button>
           </div>
           {successMessage && (
             <div className="mt-4 text-red-600">{successMessage}</div>

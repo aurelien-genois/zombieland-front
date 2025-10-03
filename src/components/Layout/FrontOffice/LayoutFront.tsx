@@ -1,11 +1,10 @@
-import { Navigate, Route, Router, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 import FooterFront from "./Footer/FooterFront";
 import HeaderFront from "@/components/Layout/FrontOffice/Header/HeaderFront";
 import HomePage from "@/pages/FrontOffice/_HomePage/HomePage";
 import ActivitiesPage from "@/pages/FrontOffice/ActivitiesPage/ActivitiesPage";
 import ActivityPage from "@/pages/FrontOffice/ActivityPage/ActivityPage";
 import RegisterPage from "@/pages/FrontOffice/RegisterPage/RegisterPage";
-import RegisterConfirmationPage from "@/pages/FrontOffice/RegisterConfirmationPage/RegisterConfirmationPage";
 import LoginPage from "@/pages/FrontOffice/LoginPage/LoginPage";
 import AccountPage from "@/pages/FrontOffice/AccountPage/AccountPage";
 import CheckoutPage from "@/pages/FrontOffice/CheckoutPage/CheckoutPage";
@@ -15,7 +14,6 @@ import ContactPage from "@/pages/FrontOffice/ContactPage/ContactPage";
 import PrivacyPage from "@/pages/FrontOffice/PrivacyPage/PrivacyPage";
 import LegalPage from "@/pages/FrontOffice/LegalPage/LegalPage";
 import Main from "./Main/Main";
-
 import { useAppSelector } from "@/hooks/redux";
 import ResetPassword from "@/pages/FrontOffice/ResetPassword/ResetPassword";
 import ConfirmationEmailPage from "@/pages/FrontOffice/ConfirmationEmailPage/ConfirmationEmailPage";
@@ -24,7 +22,7 @@ export default function LayoutFront() {
   const { isAuth } = useAppSelector((store) => store.userStore);
 
   return (
-    <div className="bg-black-bg-main ">
+    <div className="bg-black-bg-main flex flex-col min-h-screen">
       <HeaderFront />
       <Main>
         <Routes>
@@ -39,16 +37,6 @@ export default function LayoutFront() {
           <Route
             path="/register"
             element={!isAuth ? <RegisterPage /> : <Navigate to="/" replace />}
-          />
-          <Route
-            path="/register/confirmation"
-            element={
-              !isAuth ? (
-                <RegisterConfirmationPage />
-              ) : (
-                <Navigate to="/" replace />
-              )
-            }
           />
           <Route
             path="/login"
