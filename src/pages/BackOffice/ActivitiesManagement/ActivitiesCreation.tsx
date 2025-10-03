@@ -15,7 +15,7 @@ export default function ActivitiesCreation() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const submitEvent = e.nativeEvent as SubmitEvent & {
-      submitter: HTMLElement & { name?: "draft" | "publish" };
+      submitter: HTMLElement & { name?: "draft" | "publish" | undefined };
     };
     const formData = new FormData(e.currentTarget);
 
