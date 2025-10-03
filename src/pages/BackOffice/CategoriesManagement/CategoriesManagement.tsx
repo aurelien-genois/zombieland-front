@@ -40,8 +40,8 @@ export default function CategoriesManagement() {
     const formData = new FormData(e.currentTarget);
 
     const {
-      name = "",
-      color = "",
+      // name = "",
+      // color = "",
       category_id = "",
     } = Object.fromEntries(formData) as {
       name?: string;
