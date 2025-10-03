@@ -1,15 +1,22 @@
 import { NavLink, useLocation } from "react-router";
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
-import { useState } from 'react';
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 
 export default function DropdownMenu() {
   const location = useLocation();
-  const isAnyCategoryActive = ['/activities/boutique', '/activities/restaurant'].includes(location.pathname);
+  const isAnyCategoryActive = [
+    "/activities/boutique",
+    "/activities/restaurant",
+  ].includes(location.pathname);
+
+  // TODO code function
+  function handleCategorySelect(cat: string) {
+    return cat;
+  }
 
   return (
     <Menu as="div" className="relative inline-block text-lg font-bold">
       <MenuButton
-        className={({ isActive }) =>
+        className={() =>
           isAnyCategoryActive
             ? "text-dark-blue-buttons font-extrabold"
             : "hover:font-bold block"
@@ -27,9 +34,11 @@ export default function DropdownMenu() {
             <NavLink
               to={`/activities/jeu`}
               end
-              onClick={() => handleCategorySelect('jeu')} 
+              onClick={() => handleCategorySelect("jeu")}
               className={({ isActive }) =>
-                isActive ? "text-dark-blue-buttons block font-extrabold px-4 py-2" : "hover:text-dark-blue-buttons hover:font-bold block px-4 py-2"
+                isActive
+                  ? "text-dark-blue-buttons block font-extrabold px-4 py-2"
+                  : "hover:text-dark-blue-buttons hover:font-bold block px-4 py-2"
               }
             >
               Jeux
@@ -39,9 +48,11 @@ export default function DropdownMenu() {
             <NavLink
               to={`/activities/spectacle`}
               end
-              onClick={() => handleCategorySelect('spectacle')}
+              onClick={() => handleCategorySelect("spectacle")}
               className={({ isActive }) =>
-                isActive ? "text-dark-blue-buttons block font-extrabold px-4 py-2" : "hover:text-dark-blue-buttons hover:font-bold block px-4 py-2"
+                isActive
+                  ? "text-dark-blue-buttons block font-extrabold px-4 py-2"
+                  : "hover:text-dark-blue-buttons hover:font-bold block px-4 py-2"
               }
             >
               Spectacles
@@ -51,9 +62,11 @@ export default function DropdownMenu() {
             <NavLink
               to={`/activities/manege`}
               end
-              onClick={() => handleCategorySelect('manege')}
+              onClick={() => handleCategorySelect("manege")}
               className={({ isActive }) =>
-                isActive ? "text-grey-menu block font-extrabold px-4 py-2" : "hover:text-dark-blue-buttons hover:font-bold block px-4 py-2"
+                isActive
+                  ? "text-grey-menu block font-extrabold px-4 py-2"
+                  : "hover:text-dark-blue-buttons hover:font-bold block px-4 py-2"
               }
             >
               Manèges
@@ -63,9 +76,11 @@ export default function DropdownMenu() {
             <NavLink
               to={`/activities/montagnerusse`}
               end
-              onClick={() => handleCategorySelect('montagnerusse')}
+              onClick={() => handleCategorySelect("montagnerusse")}
               className={({ isActive }) =>
-                isActive ? "text-grey-menu block font-extrabold px-4 py-2" : "hover:text-dark-blue-buttons hover:font-bold block px-4 py-2"
+                isActive
+                  ? "text-grey-menu block font-extrabold px-4 py-2"
+                  : "hover:text-dark-blue-buttons hover:font-bold block px-4 py-2"
               }
             >
               Montagnes Russes

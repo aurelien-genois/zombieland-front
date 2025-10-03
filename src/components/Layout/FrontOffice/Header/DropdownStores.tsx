@@ -1,15 +1,17 @@
 import { NavLink, useLocation } from "react-router";
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
-import { useState } from 'react';
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 
 export default function DropdownStores() {
   const location = useLocation();
-  const isAnyCategoryActive = ['/activities/boutique', '/activities/restaurant'].includes(location.pathname);
+  const isAnyCategoryActive = [
+    "/activities/boutique",
+    "/activities/restaurant",
+  ].includes(location.pathname);
 
   return (
     <Menu as="div" className="relative inline-block text-lg font-bold">
       <MenuButton
-        className={({ isActive }) =>
+        className={() =>
           // Appliquer la classe "font-extrabold" si une catégorie est active
           isAnyCategoryActive
             ? "text-dark-blue-buttons font-extrabold"
