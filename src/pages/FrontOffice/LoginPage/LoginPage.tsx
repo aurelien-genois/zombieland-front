@@ -70,7 +70,7 @@ export default function LoginPage() {
               type="email"
               name="email"
               placeholder="Email"
-              className="px-4 py-2 border border-gray-300 rounded w-full"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
               disabled={loading}
             />
           </div>
@@ -80,7 +80,7 @@ export default function LoginPage() {
               type="password"
               name="password"
               placeholder="Password"
-              className="px-4 py-2 border border-gray-300 rounded w-full"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
               disabled={loading}
             />
           </div>
@@ -97,10 +97,10 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className={`px-4 py-2 text-white rounded ${
+            className={`font-bold text-white w-50 rounded-xl py-1 px-3 text-2xl sm:text-lg text-center block mx-auto ${
               loading
                 ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-500 hover:bg-blue-600"
+                : "bg-dark-blue-buttons hover:bg-blue-700"
             }`}
           >
             {loading ? "Connexion en cours..." : "Connexion"}
@@ -110,7 +110,7 @@ export default function LoginPage() {
         <div className="mt-4">
           <Link
             to="/forgot-password"
-            className="text-blue-500 hover:underline"
+            className="text-dark-blue-buttons hover:underline"
             onClick={(e) => {
               e.preventDefault();
               setShowForgotPasswordModal(true);
@@ -122,7 +122,7 @@ export default function LoginPage() {
         <div className="mt-2">
           <Link
             to="/resend-email-confirmation"
-            className="text-blue-500 hover:underline"
+            className="text-dark-blue-buttons hover:underline"
             onClick={(e) => {
               e.preventDefault();
               setShowConfirmationModal(true);
@@ -132,7 +132,7 @@ export default function LoginPage() {
           </Link>
         </div>
         <div className="mt-2">
-          <Link to="/register" className="text-blue-500 hover:underline">
+          <Link to="/register" className="text-dark-blue-buttons hover:underline">
             S'inscrire !
           </Link>
         </div>

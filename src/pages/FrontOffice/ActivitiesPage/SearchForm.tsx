@@ -24,7 +24,7 @@ export default function SearchForm({
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.currentTarget.value)}
         placeholder="Rechercher une attraction"
-        className="w-full pl-10 pr-3 py-2 rounded-xl bg-black/40 border border-white/10 outline-none placeholder:text-white/40 hover:border-red-border-filter-focus focus:ring-red-border-filter-focus"
+        className="w-full pl-10 pr-3 py-2 rounded-xl bg-black/40 border border-white/10 outline-none placeholder:text-white/40 hover:border-blue-border-filter-focus focus:ring-red-border-filter-focus"
       />
     </form>
   );

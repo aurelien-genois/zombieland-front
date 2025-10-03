@@ -1,3 +1,3 @@
 export default function NotFoundPage() {
-  return <h1 className="text-white">Not found</h1>;
+  return <h1 className="text-grey-menu">Not found</h1>;
 }

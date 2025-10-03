@@ -58,8 +58,8 @@ export default function OrderPage() {
     if (order?.ticket_code) {
       QRCode.toDataURL(order.ticket_code, {
         color: {
-          dark: "#FFF",
-          light: "#131313"
+          dark: "#171717",
+          light: "#FFFFFF"
         },
         width: 120,
         margin: 2,
@@ -77,15 +77,15 @@ export default function OrderPage() {
   }, [dispatch, orderId]);
 
   if (loadingOrder) {
-    return <div className="text-white bg-gray-300">Loading...</div>;
+    return <div className="text-grey-menu bg-gray-300">Loading...</div>;
   }
 
   if (orderError) {
-    return <div className="text-white bg-gray-300">Error: {orderError}</div>;
+    return <div className="text-grey-menu bg-gray-300">Error: {orderError}</div>;
   }
 
   if (!order) {
-    return <div className="text-white bg-gray-300">Order not found</div>;
+    return <div className="text-grey-menu bg-gray-300">Order not found</div>;
   }
 
     const cancelOrder = (visitDateString: string) => {
@@ -98,7 +98,7 @@ export default function OrderPage() {
 
   return (
     <>
-      <div className="mx-auto px-4 text-white text-center max-w-250">
+      <div className="mx-auto px-4 text-grey-menu text-center max-w-250">
         <h1 className="pt-7 pb-7 text-3xl font-bold">Ma commande</h1>
         <h2 className="pt-3 pb-7 text-xl font-bold">
           Détails de la commande numéro : {order.id}
@@ -218,9 +218,9 @@ export default function OrderPage() {
                 >
                   {({ loading }) =>
                     loading ? (
-                      <span className="w-65 flex justify-center gap-2 px-4 py-3 rounded-xl font-extrabold bg-green-600 hover:bg-green-500 text-gray-400 opacity-70">Préparation du PDF...</span>
+                      <span className="w-65 flex justify-center gap-2 px-4 py-3 rounded-xl font-extrabold bg-dark-blue-buttons hover:bg-blue-700 text-gray-400 opacity-70">Préparation du PDF...</span>
                     ) : (
-                      <button className="w-65 flex justify-center gap-2 px-4 py-3 rounded-xl font-extrabold text-white bg-green-600 hover:bg-green-500">
+                      <button className="w-65 flex justify-center gap-2 px-4 py-3 rounded-xl font-extrabold text-white bg-dark-blue-buttons hover:bg-blue-700">
                         Télécharger la facture
                       </button>
                     )

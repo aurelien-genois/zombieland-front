@@ -140,17 +140,16 @@ export default function ActivitiesPage() {
 
   return (
     <div className="bg-black-bg-main ">
-      <main className="pt-16 sm:pt-20  min-h-[calc(100svh-5rem-1.45rem)]">
+      <main className="pt-10 sm:pt-10  min-h-[calc(100svh-5rem-1.45rem)]">
         <section className="bg-black-bg-main text-white">
-          <div className="max-w-7xl mx-auto pt-20 pb-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto pb-16 px-4 sm:px-6 lg:px-8">
             <div className="mb-6">
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-green-text mb-6">
-                TOUTES LES ATTRACTIONS
+              <h1 className="font-bebas text-3xl sm:text-4xl font-extrabold text-dark-blue-buttons mb-6">
+                LES ATTRACTIONS ET BOUTIQUES
               </h1>
 
               <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div>
-                  <p className="text-white/70">{total} résultats</p>
                   <SearchForm
                     searchQuery={searchQuery}
                     setSearchQuery={setSearchQuery}
@@ -178,11 +177,11 @@ export default function ActivitiesPage() {
                 </div>
               </div>
             </div>
-
+            <p className="text-dark-blue-buttons text-lg text-center font-bold my-3">{total} résultats</p>
             {loading ? (
-              <div className="text-white">Loading...</div>
+              <div className="text-grey-menu">Loading...</div>
             ) : error || !activities ? (
-              <div className="text-white">Error: {error}</div>
+              <div className="text-grey-menu">Error: {error}</div>
             ) : activities.length ? (
               <>
                 {/* Grille des cartes */}

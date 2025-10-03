@@ -70,7 +70,7 @@ export default function InfosUpdate() {
 
   return (
     <>
-      <div className="pb-10 text-white">
+      <div className="pt-10 pb-10 text-text-grey-menu">
         <form
           onSubmit={handleSubmit}
           method="post"
@@ -87,7 +87,7 @@ export default function InfosUpdate() {
               <input
                 type="text"
                 name="firstname"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5"
                 defaultValue={userInfo?.firstname || ""}
                 placeholder="Prénom"
                 disabled={loading}
@@ -104,7 +104,7 @@ export default function InfosUpdate() {
               <input
                 type="text"
                 name="lastname"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5"
                 defaultValue={userInfo?.lastname || ""}
                 placeholder="Nom"
                 disabled={loading}
@@ -122,13 +122,13 @@ export default function InfosUpdate() {
           <input
             type="email"
             name="email"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5"
             defaultValue={userInfo?.email || ""}
             placeholder="monemail@host.com"
             disabled={loading}
             required
           />
-          <p className="mb-3 text-lg md:text-sm ml-2 text-gray-300">
+          <p className="mb-3 text-lg md:text-sm ml-2 text-gray-700">
             Vous recevrez un email de confirmation pour valider le nouvel email.
           </p>
 
@@ -141,7 +141,7 @@ export default function InfosUpdate() {
           <input
             type="tel"
             name="telephone"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5 mb-1.5"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
             defaultValue={userInfo?.phone || ""}
             placeholder="Indicatif + Téléphone"
             disabled={loading}
@@ -158,7 +158,7 @@ export default function InfosUpdate() {
             type="date"
             lang="fr"
             name="birthdate"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5 mb-7"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-10"
             defaultValue={
               userInfo?.birthday
                 ? new Date(userInfo.birthday).toISOString().split("T")[0]
@@ -168,7 +168,6 @@ export default function InfosUpdate() {
             required
           />
 
-          {/* Affichage des erreurs */}
           {formError && (
             <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded text-center">
               <strong>Erreur :</strong> {formError}
@@ -182,10 +181,10 @@ export default function InfosUpdate() {
 
           <button
             type="submit"
-            className={`w-50 rounded-xl py-1 px-3 text-white font-bold border-3 text-2xl sm:text-lg border-grey-border-btn text-center block mx-auto ${
+            className={`w-50 rounded-xl py-1 px-3 text-white hover:text-dark-blue-buttons font-bold text-2xl sm:text-lg text-center block mx-auto ${
               loading
                 ? "bg-gray-400 cursor-not-allowed"
-                : "bg-green-bg-btn hover:bg-green-500"
+                : "bg-dark-blue-buttons hover:bg-white-bg"
             }`}
             disabled={loading}
           >

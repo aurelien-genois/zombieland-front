@@ -1,13 +1,13 @@
 export default function RegisterConfirmationPage() {
   return (
     <>
-      <div className="bg-gray-300 pt-16 sm:pt-20 min-h-[calc(100svh-5rem-1.45rem)] px-4">
+      <div className="pt-16 sm:pt-20 min-h-[calc(100svh-5rem-1.45rem)] px-4">
         <div className="max-w-200 mx-auto">
           <div className="flex items-center justify-center ">
             <span
               aria-hidden
               className="flex mt-3 size-12 bg-green-800 rounded-full shrink-0
-              [mask:url(/icon/check.svg)_no-repeat_center/60%] mb-4 sm:mb-0 sm:mr-4"
+              [mask:url(@/assets/icon/check.svg)_no-repeat_center/60%] mb-4 sm:mb-0 sm:mr-4"
             />
             <h1 className="text-center font-bold text-2xl sm:text-3xl pt-6 sm:pt-10 mb-7">
               Votre compte a été créé !
@@ -27,7 +27,7 @@ export default function RegisterConfirmationPage() {
               spam.
             </p>
 
-            <button className=" bg-green-bg-btn hover:bg-green-500 rounded-xl py-2 px-4 text-white font-bold border-3 border-grey-border-btn text-center text-lg md:text-sm block mx-auto mb-7">
+            <button className=" bg-dark-blue-buttons hover:bg-blue-700 rounded-xl py-2 px-4 text-white font-bold text-center text-lg md:text-base block mx-auto mb-7">
               Renvoyer l'e-mail
             </button>
           </div>

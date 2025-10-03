@@ -99,24 +99,24 @@ export default function CheckoutPage() {
 
   return(
 
-<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8 text-white">
+<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8 text-grey-menu">
   {/* COLONNE CONTENU */}
   <section className="lg:col-span-2 space-y-8">
-    <h1 className="text-3xl sm:text-4xl font-extrabold text-green-text mb-6">
+    <h1 className="text-3xl sm:text-4xl font-bebas font-extrabold text-dark-blue-buttons mb-6">
       RÉSERVEZ VOS BILLETS
     </h1>
-    <div className="rounded-2xl ring-1 ring-white/10 bg-black/40 p-5 sm:p-6">
+    <div className="rounded-2xl ring-1 ring-white/10 bg-black/10 p-5 sm:p-6">
       <h2 className="text-xl sm:text-2xl font-extrabold tracking-wide text-brand">
         Choisissez vos billets
       </h2>
       {loadingProducts && (
-        <p className="mt-4 text-white/70">Chargement des tarifs…</p>
+        <p className="mt-4 text-grey-menu">Chargement des tarifs…</p>
       )}
       {productsError && (
         <p className="mt-4 text-red-400">Erreur : {productsError}</p>
       )}
       {!loadingProducts && !productsError && (
-        <div className="mt-4 divide-y divide-white/5">
+        <div className="mt-4 divide-y divide-black/6">
           {products.map((product) => (
             <div key={product.id} className="py-4 flex items-center justify-between gap-3">
               <div>
@@ -124,14 +124,14 @@ export default function CheckoutPage() {
               </div>
 
               <div className="flex items-center gap-4">
-                <p className="tabular-nums text-white/90">
+                <p className="tabular-nums text-grey-menu">
                   {product.unit_price.toFixed(2)} €
                 </p>
 
                 <div className="inline-flex items-center rounded-full bg-white/5">
                   <button
                     onClick={() => dec(product.id)}
-                    className="w-9 h-9 grid place-items-center text-white/90 hover:bg-white/10 rounded-full"
+                    className="w-9 h-9 grid place-items-center text-grey-menu hover:bg-black/30 rounded-full"
                     aria-label={`Retirer un billet ${product.name}`}
                   >
                     −
@@ -141,7 +141,7 @@ export default function CheckoutPage() {
                   </span>
                   <button
                     onClick={() => inc(product.id)}
-                    className="w-9 h-9 grid place-items-center text-white/90 hover:bg-white/10 rounded-full"
+                    className="w-9 h-9 grid place-items-center text-grey-menu hover:bg-black/30 rounded-full"
                     aria-label={`Ajouter un billet ${product.name}`}
                   >
                     +
@@ -159,22 +159,22 @@ export default function CheckoutPage() {
     </div>
 
     {/* Date */}
-    <div className="rounded-2xl ring-1 ring-white/10 bg-black/40 p-5 sm:p-6">
+    <div className="rounded-2xl ring-1 ring-white/10 bg-black/10 p-5 sm:p-6">
       <h2 className="text-xl sm:text-2xl font-extrabold tracking-wide text-brand">
         Date &amp; horaire
       </h2>
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
         <label className="block">
-          <span className="text-sm text-white/70">Date de visite</span>
+          <span className="text-sm text-grey-menu">Date de visite</span>
           <input
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="mt-1 w-full px-3 py-2 rounded-xl bg-black/40 border border-white/10 outline-none focus:border-brand focus:ring-1 focus:ring-brand"
+            className="mt-1 w-full px-3 py-2 rounded-xl bg-black/20 border border-white/10 outline-none focus:border-brand focus:ring-1 focus:ring-brand"
           />
         </label>
       </div>
-      <p className="mt-3 text-xs text-white/60">
+      <p className="mt-3 text-xs text-grey-menu">
         * Dans la limite de la capacité du parc.
       </p>
     </div>
@@ -183,13 +183,13 @@ export default function CheckoutPage() {
   {/* COLONNE RÉCAP */}
   <aside className="lg:col-span-1">
     <div className="mt-16">
-      <div className="rounded-2xl ring-1 ring-white/10 bg-black/50 p-5 sm:p-6">
+      <div className="rounded-2xl ring-1 ring-white/10 bg-black/10 p-5 sm:p-6">
         <h3 className="text-lg font-extrabold tracking-wide">Récapitulatif</h3>
 
         <ul className="mt-3 space-y-2">
           {lines.map((line) => (
             <li key={line.product_id} className="flex justify-between text-sm">
-              <span className="text-white/85">
+              <span className="text-grey-menu">
                 {line.name} × {line.quantity}
               </span>
               <span className="tabular-nums">
@@ -200,11 +200,11 @@ export default function CheckoutPage() {
 
         {/* Sous-total / TVA / Total */}
           <li className="flex justify-between text-sm pt-2 border-t border-white/10">
-            <span className="text-white/70">Sous-total</span>
+            <span className="text-grey-menu">Sous-total</span>
             <span className="tabular-nums">{subtotal.toFixed(2)} €</span>
           </li>
           <li className="flex justify-between text-sm">
-            <span className="text-white/70">TVA (5,5%)</span>
+            <span className="text-grey-menu">TVA (5,5%)</span>
             <span className="tabular-nums">{tva.toFixed(2)} €</span>
           </li>
           <li className="flex justify-between text-base font-bold pt-1">
@@ -215,7 +215,7 @@ export default function CheckoutPage() {
 
         <button
           className={`mt-4 w-full px-4 py-3 rounded-xl font-extrabold border
-            ${canPay ? "bg-green-bg-btn border-white/10 hover:brightness-110" : "bg-white/10 border-white/10 text-white/50 cursor-not-allowed"}
+            ${canPay ? "bg-dark-blue-buttons hover:bg-white-bg text-white-bg hover:text-dark-blue-buttons border-white/10 hover:brightness-110" : "bg-white/10 border-white/10 text-white/50 cursor-not-allowed"}
           `}
           disabled={!canPay || creating}
           onClick={handlePay}
@@ -223,14 +223,14 @@ export default function CheckoutPage() {
           {creating ? "Création…" : "Passer au paiement"}
         </button>
 
-        <p className="mt-2 text-[12px] text-white/60">
+        <p className="mt-2 text-[12px] text-grey-menu">
           En cliquant, vous serez redirigé vers la page de paiement (Stripe).
         </p>
       </div>
 
-      <div className="rounded-xl bg-white/5 p-4 text-sm text-white/70">
+      <div className="rounded-xl bg-white/5 p-4 text-sm text-grey-menu">
         <p>
-          Annulation possible jusqu’à <strong>48h</strong> avant la date de visite.
+          Annulation possible jusqu’à <strong>10 jours</strong> avant la date de visite.
         </p>
       </div>
     </div>

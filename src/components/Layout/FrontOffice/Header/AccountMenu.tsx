@@ -40,7 +40,7 @@ export default function AccountMenu() {
         aria-haspopup="menu"
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
-        className=" w-30 mb-0 bg-red-bg-btn hover:bg-red-500 rounded-xl py-1 px-3 text-white font-bold border-3 border-grey-border-btn text-center text-xs sm:text-sm"
+        className=" w-40 mb-0 bg-dark-blue-buttons rounded-xl py-1 px-3 text-white font-bold text-center text-xs sm:text-lg"
       >
         Mon compte
       </button>

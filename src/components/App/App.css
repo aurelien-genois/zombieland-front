@@ -3,8 +3,38 @@
 /* Plugins */
 @plugin "@tailwindcss/forms";
 
+@font-face {
+  font-family: 'BebasNeue';
+  src: url('../../assets/fonts/BebasNeue-Regular.woff2') format('woff2'),
+       url('../../assets/fonts/BebasNeue-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BebasNeue';
+  src: url('../../assets/fonts/BebasNeue-Regular.woff2') format('woff2'),
+       url('../../assets/fonts/BebasNeue-Regular.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+.font-bebas {
+  font-family: 'BebasNeue', sans-serif;
+}
+
 @theme {
-  --color-red-text: #d90e0e;
+  --color-white-bg: #F9F9F6;
+  --color-dark-blue-buttons: #020286;
+  --color-blue-border-banner: #6794ce;
+  --color-blue-carousel: #f0f7fc;
+  --color-green-static: #f2fcf0;
+  --color-grey-menu: #171717;
+
+
   --color-green-text: #72e399;
 
   --color-red-bg-btn: #d90e0e;
@@ -17,12 +47,12 @@
   --color-grey-bg-filter: #080e0d;
   --color-grey-border-filter: #203a2f;
 
-  --color-red-border-banner: #d90e0e;
+  
 
   --color-black-500: #000000;
-  --color-black-bg-header: #090909;
+  
 
-  --color-black-bg-main: #131313;
+  --color-white-bg-main: #F9F9F6;
 
   --color-black-bg-carousel: #020202;
 
