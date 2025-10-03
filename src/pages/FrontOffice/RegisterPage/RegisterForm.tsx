@@ -18,7 +18,7 @@ export default function RegisterForm() {
       email = "",
       password = "",
       confirmation = "",
-      phone = "",
+      // phone = "",
       birthday = "",
     } = Object.fromEntries(formData) as {
       firstname?: string;
