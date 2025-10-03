@@ -1,4 +1,3 @@
-import account_zombie from "@/assets/icon/account_zombie.svg";
 import { useState } from "react";
 import { NavLink } from "react-router";
 import AccountMenu from "./AccountMenu";
@@ -25,7 +24,11 @@ export default function HeaderFront() {
                 to={`/`}
                 end
                 className={({ isActive }) =>
-                  `text-lg font-bold ${isActive ? 'text-dark-blue-buttons' : 'hover:text-dark-blue-buttons hover:shadow-text-md'} transition-all duration-200 ease-in-out`
+                  `text-lg font-bold ${
+                    isActive
+                      ? "text-dark-blue-buttons"
+                      : "hover:text-dark-blue-buttons hover:shadow-text-md"
+                  } transition-all duration-200 ease-in-out`
                 }
               >
                 Accueil
@@ -39,7 +42,11 @@ export default function HeaderFront() {
                 to={`/checkout`}
                 end
                 className={({ isActive }) =>
-                  `text-lg font-bold ${isActive ? 'text-dark-blue-buttons' : 'hover:text-dark-blue-buttons hover:shadow-text-md'} transition-all duration-200 ease-in-out`
+                  `text-lg font-bold ${
+                    isActive
+                      ? "text-dark-blue-buttons"
+                      : "hover:text-dark-blue-buttons hover:shadow-text-md"
+                  } transition-all duration-200 ease-in-out`
                 }
               >
                 Réservation

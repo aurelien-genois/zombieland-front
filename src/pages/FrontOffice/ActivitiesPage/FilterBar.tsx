@@ -32,10 +32,6 @@ export default function FilterBar({
   setHighIntensityQuery,
   categoryQuery,
   setCategoryQuery,
-  limit,
-  setLimit,
-  orderQuery,
-  setOrderQuery,
   handleSearchSubmit,
   handleReset,
 }: IFilterBarProps) {
