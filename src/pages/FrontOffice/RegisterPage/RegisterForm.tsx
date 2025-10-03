@@ -110,7 +110,7 @@ export default function RegisterForm() {
         <div className="grid gap-1.5 md:gap-6 mb-3 grid-cols-1 md:grid-cols-2">
           <div>
             <label
-              className="block mb-0.5 text-lg md:text-sm font-bold ml-1.5"
+              className="block mb-0.5 text-xl md:text-base font-bold ml-1.5"
               htmlFor="firstname"
             >
               Prénom <span className="text-red-500 font-normal">*</span>
@@ -118,7 +118,7 @@ export default function RegisterForm() {
             <input
               type="text"
               name="firstname"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
               placeholder="Prénom"
               required
               disabled={loading}
@@ -126,7 +126,7 @@ export default function RegisterForm() {
           </div>
           <div>
             <label
-              className="block mb-0.5 text-lg md:text-sm font-bold ml-1.5"
+              className="block mb-0.5 text-xl md:text-base font-bold ml-1.5"
               htmlFor="lastname"
             >
               Nom <span className="text-red-500 font-normal">*</span>
@@ -134,7 +134,7 @@ export default function RegisterForm() {
             <input
               type="text"
               name="lastname"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
               placeholder="Nom"
               required
               disabled={loading}
@@ -144,14 +144,14 @@ export default function RegisterForm() {
 
         <label
           htmlFor="email"
-          className="block mt-0.5 text-lg md:text-sm font-bold ml-1.5"
+          className="block mb-0.5 text-xl md:text-base font-bold ml-1.5"
         >
           E-mail <span className="text-red-500 font-normal">*</span>
         </label>
         <input
           type="email"
           name="email"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
           placeholder="monemail@host.com"
           required
           disabled={loading}
@@ -164,14 +164,14 @@ export default function RegisterForm() {
         <div className="mb-6">
           <label
             htmlFor="password"
-            className="block mb-0.5 text-lg md:text-sm font-bold ml-1.5"
+            className="block mb-0.5 text-xl md:text-base font-bold ml-1.5"
           >
             Mot de passe <span className="text-red-500 font-normal">*</span>
           </label>
           <input
             type="password"
             name="password"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
             required
             disabled={loading}
           />
@@ -181,7 +181,7 @@ export default function RegisterForm() {
           </p>
           <label
             htmlFor="confirmation"
-            className="block mb-0.5 text-lg md:text-sm font-bold ml-1.5"
+            className="block mb-0.5 text-xl md:text-base font-bold ml-1.5"
           >
             Retapez le mot de passe{" "}
             <span className="text-red-500 font-normal">*</span>
@@ -189,7 +189,7 @@ export default function RegisterForm() {
           <input
             type="password"
             name="confirmation"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5 mb-5"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
             required
             disabled={loading}
           />
@@ -197,34 +197,34 @@ export default function RegisterForm() {
 
         <label
           htmlFor="phone"
-          className="block mb-0.5 text-lg md:text-sm font-bold ml-1.5"
+          className="block mb-0.5 text-xl md:text-base font-bold ml-1.5"
         >
           Téléphone
         </label>
         <input
           type="tel"
           name="phone"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5 mb-3"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
           placeholder="Indicatif + Téléphone"
           disabled={loading}
         />
         <label
           htmlFor="birthdate"
-          className="block mb-0.5 text-lg md:text-sm font-bold ml-1.5"
+          className="block mb-0.5 text-xl md:text-base font-bold ml-1.5"
         >
           Date de naissance <span className="text-red-500 font-normal">*</span>
         </label>
         <input
           type="date"
           name="birthday"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-lg md:text-sm rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5 mb-7"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-10"
           required
           disabled={loading}
         />
         <button
           type="submit"
           disabled={loading}
-          className="w-50 bg-green-bg-btn hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl py-1 px-3 text-white font-bold border-3 text-2xl sm:text-lg border-grey-border-btn text-center block mx-auto"
+          className="w-50 bg-dark-blue-buttons hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl py-1 px-3 text-white font-bold text-2xl sm:text-lg text-center block mx-auto mb-10"
         >
           {loading ? "Inscription..." : "Envoyer"}
         </button>

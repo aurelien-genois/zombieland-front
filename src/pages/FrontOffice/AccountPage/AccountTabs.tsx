@@ -15,7 +15,7 @@ export default function AccountTabs({
           className={`mx-auto w-70 mb-5 text-center text-2xl sm:text-xl
             ${
               activeTab === "infos"
-                ? "border-b-2 border-red-500 font-bold"
+                ? "border-b-3 border-dark-blue-buttons font-bold"
                 : "cursor-pointer"
             }`}
         >
@@ -26,7 +26,7 @@ export default function AccountTabs({
           className={`mx-auto w-70 mb-5 text-center text-2xl sm:text-xl
             ${
               activeTab === "password"
-                ? "border-b-2 border-red-500 font-bold"
+                ? "border-b-3 border-dark-blue-buttons font-bold"
                 : "cursor-pointer"
             }`}
         >
@@ -37,7 +37,7 @@ export default function AccountTabs({
           className={`mx-auto w-70 mb-5 text-2xl sm:text-xl
             ${
               activeTab === "orders"
-                ? "border-b-2 border-red-500 font-bold"
+                ? "border-b-3 border-dark-blue-buttons font-bold"
                 : "cursor-pointer"
             }`}
         >
@@ -48,7 +48,7 @@ export default function AccountTabs({
           className={`mx-auto w-70 mb-5 text-2xl sm:text-xl
             ${
               activeTab === "delete"
-                ? "border-b-2 border-red-500 font-bold"
+                ? "border-b-3 border-dark-blue-buttons font-bold"
                 : "cursor-pointer"
             }`}
         >

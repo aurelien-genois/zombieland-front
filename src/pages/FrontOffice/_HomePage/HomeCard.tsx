@@ -30,23 +30,23 @@ export default function HomeCard({
         alt={`Image de l'attraction ${name}`}
       />
       <div className="bg-black-500/70 absolute bottom-10 left-0 right-0 text-white text-center">
-        <h2 className="z-10 mt-3 text-2xl font-bold text-white">{name}</h2>
-        <p className="z-10 gap-y-1 overflow-hidden min-h-12 text-sm font-bold leading-6 text-gray-300">
+        <h2 className="z-10 mt-3 text-3xl font-bold text-white">{name}</h2>
+        <p className="z-10 gap-y-1 overflow-hidden min-h-12 text-base font-bold leading-6 text-gray-300">
           {slogan}
         </p>
-        <div className="h-8">
+        <div className="h-11">
           {[...Array(minimum_age)].map((_, index) => (
             <img
               key={index}
               src={crane_zombie}
-              className="m-auto max-w-8 inline"
+              className="m-auto max-w-9 inline"
               alt="Niveau de frousse/groupe d'âge"
             />
           ))}
         </div>
 
         <div
-          className={`w-38 mb-3 bg-red-bg-btn hover:bg-red-500 rounded-xl py-1 text-white font-bold border-3 border-grey-border-btn m-auto`}
+          className={`w-38 mb-3 text-lg bg-white-bg-main hover:bg-dark-blue-buttons hover:text-white-bg-main rounded-xl py-1 text-dark-blue-buttons font-bold m-auto`}
         >
           <Link to={`/activity/${slug}`}>Découvrir...</Link>
         </div>

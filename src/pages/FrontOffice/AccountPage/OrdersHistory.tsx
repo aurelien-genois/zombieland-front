@@ -76,7 +76,7 @@ const OrderHistory: React.FC = () => {
           <div className="mt-5 grid md:gap-2 gap-3 sm:text-base text-xl text-center">
             <Link
               to={`/order/${order.id}`}
-              className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl font-extrabold text-white bg-green-600 hover:bg-green-500"
+              className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl font-extrabold text-white-bg hover:text-dark-blue-buttons bg-dark-blue-buttons hover:bg-dark-blue-buttons/500"
             >
               Afficher ma réservation
             </Link>
