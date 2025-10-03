@@ -80,7 +80,7 @@ export default function CheckoutPage() {
 
       // add redirection to stripe session
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/orders/${order.id}/checkout/stripe`,
+        `${import.meta.env.VITE_API_BASE_URL}/orders/${order.id}/checkout/stripe`,
         { method: "POST", credentials: "include" }
       );
       if (!res.ok) {
