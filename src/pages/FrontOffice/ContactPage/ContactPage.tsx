@@ -9,35 +9,65 @@ export default function ContactPage() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
+    setErrorMessage(null);
+
     const form = event.currentTarget;
     const formData = new FormData(form);
-    const jsonData = Object.fromEntries(formData.entries());
+    const jsonData = Object.fromEntries(formData.entries()) as {
+      email?: string;
+      subject?: string;
+      description?: string;
+    };
 
-    setErrorMessage(null);
-    console.log(jsonData);
-
+    // Validation minimale + focus sur le premier champ manquant
     if (!jsonData.email || !jsonData.subject || !jsonData.description) {
       setErrorMessage("Veuillez renseigner tous les champs.");
+      // remet l'état de chargement correctement
+      setIsLoading(false);
+
+      // focus intelligent
+      if (!jsonData.email) {
+        (form.querySelector("#email") as HTMLInputElement | null)?.focus();
+      } else if (!jsonData.subject) {
+        (form.querySelector("#subject") as HTMLSelectElement | null)?.focus();
+      } else {
+        (
+          form.querySelector("#description") as HTMLTextAreaElement | null
+        )?.focus();
+      }
       return;
     }
 
-    await axiosInstance
-      .post("/administration/contact", jsonData)
-      .then(() => {
-        setIsLoading(false);
-        setSubmitted(true);
-      })
-      .catch(() => {
-        setIsLoading(false);
-        setErrorMessage("Une erreur est survenue, veuillez réessayer.");
-      });
+    try {
+      await axiosInstance.post("/administration/contact", jsonData);
+      setSubmitted(true);
+    } catch {
+      setErrorMessage("Une erreur est survenue, veuillez réessayer.");
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  const formErrorId = "form-error-id";
+  // Quand un message d'erreur global existe, on le relie aux champs via cet id
+  const errorId = errorMessage ? formErrorId : undefined;
+
   return (
-    <div className=" max-w-lg mx-auto p-6 bg-gray-800 rounded shadow mt-30">
-      <h1 className="text-white text-2xl mb-6">Contactez-nous !</h1>
-      {errorMessage && <p className="text-red-400">{errorMessage}</p>}
+    <div className="max-w-lg mx-auto p-6 bg-gray-800 rounded shadow mt-30">
+      <h1 className="text-white text-2xl mb-6">Contactez-nous&nbsp;!</h1>
+
+      {/* Message global d'erreur annoncé immédiatement */}
+      {errorMessage && (
+        <p id={formErrorId} className="text-red-400 mb-2" role="alert">
+          {errorMessage}
+        </p>
+      )}
+
+      {/* Message de succès annoncé poliment */}
       {submitted ? (
-        <div className="text-green-400">Merci pour votre message !</div>
+        <div className="text-green-400" role="status" aria-live="polite">
+          Merci pour votre message&nbsp;!
+        </div>
       ) : (
         <form
           onSubmit={handleSubmit}
@@ -45,53 +75,65 @@ export default function ContactPage() {
           aria-busy={isLoading}
           noValidate
         >
+          {/* Zone de statut discrète pour l'état de chargement */}
+          {isLoading && (
+            <div role="status" aria-live="polite" className="sr-only">
+              Envoi en cours…
+            </div>
+          )}
+
           <label htmlFor="email" className="text-white">
             Email :
-            <input
-              id="email"
-              type="email"
-              name="email"
-              maxLength={100}
-              required
-              autoComplete="email"
-              className="mt-1 p-2 w-full rounded bg-gray-700 text-white"
-            />
           </label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            maxLength={254}
+            required
+            autoComplete="email"
+            inputMode="email"
+            className="mt-1 p-2 w-full rounded bg-gray-700 text-white"
+            aria-invalid={Boolean(errorMessage)}
+            aria-describedby={errorId}
+          />
+
           <label htmlFor="subject" className="text-white">
             Sujet :
-            <select
-              id="subject"
-              name="subject"
-              required
-              className="mt-1 p-2 w-full rounded bg-gray-700 text-white"
-            >
-              <option value="">Sélectionnez un sujet</option>
-              <option value="info">Information générale</option>
-              <option value="sav">SAV</option>
-              <option value="support">Support technique</option>
-              <option value="autre">Autre</option>
-            </select>
           </label>
+          <select
+            id="subject"
+            name="subject"
+            required
+            className="mt-1 p-2 w-full rounded bg-gray-700 text-white"
+            aria-invalid={Boolean(errorMessage)}
+            aria-describedby={errorId}
+          >
+            <option value="">Sélectionnez un sujet</option>
+            <option value="info">Information générale</option>
+            <option value="sav">SAV</option>
+            <option value="support">Support technique</option>
+            <option value="autre">Autre</option>
+          </select>
+
           <label htmlFor="description" className="text-white">
             Description :
-            <textarea
-              id="description"
-              name="description"
-              rows={4}
-              maxLength={500}
-              required
-              className="mt-1 p-2 w-full rounded bg-gray-700 text-white"
-            />
           </label>
-          {errorMessage && (
-            <p className="text-red-400" role="alert">
-              {errorMessage}
-            </p>
-          )}
+          <textarea
+            id="description"
+            name="description"
+            rows={4}
+            maxLength={500}
+            required
+            className="mt-1 p-2 w-full rounded bg-gray-700 text-white"
+            aria-invalid={Boolean(errorMessage)}
+            aria-describedby={errorId}
+          />
+
           <button
             type="submit"
             disabled={isLoading}
-            className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+            className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 disabled:opacity-60"
           >
             Envoyer
           </button>
