@@ -1,10 +1,16 @@
 import { axiosInstance } from "@/api/axiosInstance";
-import { useState, type FormEvent } from "react";
+import { useState, useRef, useEffect, type FormEvent } from "react";
 
 export default function ContactPage() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [submitted, setSubmitted] = useState<boolean>(false);
+
+  // focus automatique sur le champ email
+  const emailRef = useRef<HTMLInputElement | null>(null);
+  useEffect(() => {
+    emailRef.current?.focus();
+  }, []);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -53,25 +59,35 @@ export default function ContactPage() {
   const errorId = errorMessage ? formErrorId : undefined;
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-gray-800 rounded shadow mt-30">
-      <h1 className="text-white text-2xl mb-6">Contactez-nous&nbsp;!</h1>
+    <div className="bg-zinc-00 p-8 rounded shadow-md w-full max-w-md text-center border border-slate-600 mx-auto mt-8">
+      <h1 className="text-2xl font-bold mb-6 underline">
+        Contactez-nous&nbsp;!
+      </h1>
 
       {/* Message global d'erreur annoncé immédiatement */}
       {errorMessage && (
-        <p id={formErrorId} className="text-red-400 mb-2" role="alert">
+        <p
+          id={formErrorId}
+          className="p-3 bg-red-100 border border-red-400 text-red-700 rounded text-left"
+          role="alert"
+        >
           {errorMessage}
         </p>
       )}
 
       {/* Message de succès annoncé poliment */}
       {submitted ? (
-        <div className="text-green-400" role="status" aria-live="polite">
+        <div
+          className="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded text-left"
+          role="status"
+          aria-live="polite"
+        >
           Merci pour votre message&nbsp;!
         </div>
       ) : (
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col gap-4"
+          className="flex flex-col gap-3 mt-4 w-full max-w-md"
           aria-busy={isLoading}
           noValidate
         >
@@ -82,7 +98,7 @@ export default function ContactPage() {
             </div>
           )}
 
-          <label htmlFor="email" className="text-white">
+          <label htmlFor="email" className="text-left">
             Email :
           </label>
           <input
@@ -93,19 +109,20 @@ export default function ContactPage() {
             required
             autoComplete="email"
             inputMode="email"
-            className="mt-1 p-2 w-full rounded bg-gray-700 text-white"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
+            ref={emailRef}
             aria-invalid={Boolean(errorMessage)}
             aria-describedby={errorId}
           />
 
-          <label htmlFor="subject" className="text-white">
+          <label htmlFor="subject" className="text-left">
             Sujet :
           </label>
           <select
             id="subject"
             name="subject"
             required
-            className="mt-1 p-2 w-full rounded bg-gray-700 text-white"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
             aria-invalid={Boolean(errorMessage)}
             aria-describedby={errorId}
           >
@@ -125,7 +142,7 @@ export default function ContactPage() {
             rows={4}
             maxLength={500}
             required
-            className="mt-1 p-2 w-full rounded bg-gray-700 text-white"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-base md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
             aria-invalid={Boolean(errorMessage)}
             aria-describedby={errorId}
           />
@@ -133,7 +150,11 @@ export default function ContactPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 disabled:opacity-60"
+            className={`font-bold text-white w-50 rounded-xl py-1 px-3 text-2xl sm:text-lg text-center block mx-auto ${
+              isLoading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-dark-blue-buttons hover:bg-blue-700"
+            }`}
           >
             Envoyer
           </button>

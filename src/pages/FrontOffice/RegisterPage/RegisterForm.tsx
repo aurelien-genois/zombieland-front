@@ -1,12 +1,21 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { register } from "@/store/reducers/userReducer"; // ✅ Import correct
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export default function RegisterForm() {
   const dispatch = useAppDispatch();
   const { loading, error } = useAppSelector((state) => state.userStore);
   const [formError, setFormError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState<boolean>(false);
+
+  const formErrorId = "register-form-error-id";
+  const errorId = formError || error ? formErrorId : undefined;
+
+  // focus du premier champ (prénom) à l'affichage du formulaire
+  const firstNameRef = useRef<HTMLInputElement | null>(null);
+  useEffect(() => {
+    firstNameRef.current?.focus();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -81,7 +90,8 @@ export default function RegisterForm() {
 
     // Dispatch avec FormData pour l'inscription
     dispatch(register(formData));
-    setSuccessMessage("Veuillez valider votre email pour activer le compte.");
+    // Indique l'envoi réussi côté client (message de confirmation visible)
+    setSubmitted(true);
   };
 
   return (
@@ -90,9 +100,14 @@ export default function RegisterForm() {
       <h2 className="text-center font-bold text-2xl mb-5 sm:text-xl">
         Mes informations personnelles
       </h2>
-      {successMessage && (
-        <div className="mb-4 p-3 font-bold bg-green-100 border border-green-400 text-green-700 rounded text-center">
-          {successMessage}
+      {submitted && (
+        <div
+          className="mb-4 p-3 font-bold bg-green-100 border border-green-400 text-green-700 rounded text-center"
+          role="status"
+          aria-live="polite"
+        >
+          Félicitations pour votre inscription ! Un email de confirmation a été
+          envoyé.
         </div>
       )}
 
@@ -102,7 +117,10 @@ export default function RegisterForm() {
       >
         {/* Affichage des erreurs */}
         {(formError || error) && (
-          <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+          <div
+            id={formErrorId}
+            className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded"
+          >
             {formError || error}
           </div>
         )}
@@ -118,6 +136,12 @@ export default function RegisterForm() {
             <input
               type="text"
               name="firstname"
+              id="register-firstname"
+              ref={firstNameRef}
+              aria-label="Prénom"
+              maxLength={50}
+              aria-invalid={Boolean(formError || error)}
+              aria-describedby={errorId}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
               placeholder="Prénom"
               required
@@ -134,6 +158,11 @@ export default function RegisterForm() {
             <input
               type="text"
               name="lastname"
+              id="register-lastname"
+              aria-label="Nom"
+              maxLength={50}
+              aria-invalid={Boolean(formError || error)}
+              aria-describedby={errorId}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
               placeholder="Nom"
               required
@@ -151,6 +180,11 @@ export default function RegisterForm() {
         <input
           type="email"
           name="email"
+          id="register-email"
+          aria-label="Email"
+          maxLength={254}
+          aria-invalid={Boolean(formError || error)}
+          aria-describedby={errorId}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
           placeholder="monemail@host.com"
           required
@@ -171,6 +205,11 @@ export default function RegisterForm() {
           <input
             type="password"
             name="password"
+            id="register-password"
+            aria-label="Mot de passe"
+            maxLength={128}
+            aria-invalid={Boolean(formError || error)}
+            aria-describedby={errorId}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
             required
             disabled={loading}
@@ -189,6 +228,11 @@ export default function RegisterForm() {
           <input
             type="password"
             name="confirmation"
+            id="register-confirmation"
+            aria-label="Confirmation du mot de passe"
+            maxLength={128}
+            aria-invalid={Boolean(formError || error)}
+            aria-describedby={errorId}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
             required
             disabled={loading}
@@ -204,6 +248,11 @@ export default function RegisterForm() {
         <input
           type="tel"
           name="phone"
+          id="register-phone"
+          aria-label="Téléphone"
+          maxLength={20}
+          aria-invalid={Boolean(formError || error)}
+          aria-describedby={errorId}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
           placeholder="Indicatif + Téléphone"
           disabled={loading}
@@ -217,6 +266,10 @@ export default function RegisterForm() {
         <input
           type="date"
           name="birthday"
+          id="register-birthday"
+          aria-label="Date de naissance"
+          aria-invalid={Boolean(formError || error)}
+          aria-describedby={errorId}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-10"
           required
           disabled={loading}
