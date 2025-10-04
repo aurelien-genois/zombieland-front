@@ -5,13 +5,13 @@ export default function FooterFront() {
         <div className="flex justify-between items-center">
           <div className="flex ml-10 w-40">
             <nav className="text-grey-menu font-bold text-l flex flex-col mt-3 ">
-              <a href="/activities" className="hover:text-dark-blue-buttons">
+              <a href="/contact" className="hover:text-dark-blue-buttons">
                 Contact
               </a>
-              <a href="/checkout" className="hover:text-dark-blue-buttons">
+              <a href="/legal" className="hover:text-dark-blue-buttons">
                 CGV
               </a>
-              <a href="" className="hover:text-dark-blue-buttons">
+              <a href="/privacy" className="hover:text-dark-blue-buttons">
                 Mentions légales
               </a>
             </nav>
@@ -23,7 +23,9 @@ export default function FooterFront() {
             />
           </div>
           <div className="text-center flex flex-col w-40 mr-10">
-            <p className="text-grey-menu font-bold text-l">Nos réseaux sociaux :</p>
+            <p className="text-grey-menu font-bold text-l">
+              Nos réseaux sociaux :
+            </p>
             <div className="flex justify-center mt-2">
               <a className="mr-1" href="">
                 <span
