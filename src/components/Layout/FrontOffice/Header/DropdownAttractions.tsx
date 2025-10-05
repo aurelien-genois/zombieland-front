@@ -32,7 +32,7 @@ export default function DropdownMenu() {
         <div className="py-1">
           <MenuItem>
             <NavLink
-              to={`/activities/jeu`}
+              to={`/activities/jeux`}
               end
               onClick={() => handleCategorySelect("jeu")}
               className={({ isActive }) =>
@@ -74,7 +74,7 @@ export default function DropdownMenu() {
           </MenuItem>
           <MenuItem>
             <NavLink
-              to={`/activities/montagnerusse`}
+              to={`/activities/montagne-russe`}
               end
               onClick={() => handleCategorySelect("montagnerusse")}
               className={({ isActive }) =>
