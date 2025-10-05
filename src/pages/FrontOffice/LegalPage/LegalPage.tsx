@@ -2,8 +2,8 @@ import React from "react";
 
 const LEGAL = {
   siteName: "ZombieLand",
-  domain: "https://exemple.local", 
-  lastUpdated: "02/10/2025", // JJ/MM/AAAA
+  domain: "https://exemple.local",
+  lastUpdated: "02/10/2025",
   editor: {
     company: "ZombieLand Company",
     legalForm: "Projet pédagogique",
@@ -12,48 +12,51 @@ const LEGAL = {
     phone: "01.12.45.78.12",
   },
   host: {
-    name: "À compléter",
-    address: "À compléter",
-    phone: "À compléter",
+    name: "le chef",
+    address: "chez lui",
+    phone: "le sien",
     site: "",
   },
   mediator: {
-    name: " Médiateur de la consommation",
+    name: "Médiateur de la consommation",
     site: "",
   },
   jurisdiction: "Droit français – tribunaux du ressort de votre académie/ville",
 };
 
 const sectionStyle: React.CSSProperties = { marginBottom: 24 };
-const h2Style: React.CSSProperties = { fontSize: 18, fontWeight: 700, margin: "16px 0 8px" };
-const smallStyle: React.CSSProperties = { color: "#fff", fontSize: 12 };
+const h2Style: React.CSSProperties = { fontSize: 18, fontWeight: 700, margin: "16px 0 8px", color: "#000" };
+const smallStyle: React.CSSProperties = { color: "#666", fontSize: 12 };
 const wrapStyle: React.CSSProperties = {
   maxWidth: 880,
   margin: "0 auto",
   padding: "24px 16px",
   lineHeight: 1.6,
+  color: "#000", // <-- texte noir
   fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif",
-  color: "#fff",
+  background: "#fff", // facultatif, pour forcer le fond blanc si besoin
 };
 
 export default function LegalPage() {
   const c = LEGAL;
   return (
-    <main style={wrapStyle}>
-      <style>{`a{color:#fff;text-decoration:underline} ::selection{background:rgba(255,255,255,.2)}`}</style>
+    <main style={wrapStyle} data-static-page="legal">
+      {/* CSS SCOPÉ À CETTE PAGE UNIQUEMENT */}
+      <style>{`
+        [data-static-page="legal"] a { color:#000; text-decoration:underline }
+        [data-static-page="legal"] ::selection { background:rgba(255,255,255,.2) }
+        [data-static-page="legal"] .chip {
+          display:inline-block; border:1px solid rgba(255,255,255,0.18);
+          border-radius:12px; padding:4px 10px; font-size:12px; letter-spacing:.4px; text-transform:uppercase;
+        }
+        [data-static-page="legal"] .divider { border-top:1px solid rgba(255,255,255,0.18); }
+        [data-static-page="legal"] p, [data-static-page="legal"] li, [data-static-page="legal"] strong { color:#090909; }
+        [data-static-page="legal"] strong { color:#000; }
+      `}</style>
+
       <header style={{ textAlign: "center", marginBottom: 24 }}>
-        <div style={{
-          display: "inline-block",
-          border: "1px solid rgba(255,255,255,0.18)",
-          borderRadius: 12,
-          padding: "4px 10px",
-          fontSize: 12,
-          letterSpacing: 0.4,
-          textTransform: "uppercase",
-        }}>
-          Mentions légales
-        </div>
-        <h1 style={{ fontSize: 28, margin: "12px 0 6px" }}>
+        <div className="chip">Mentions légales</div>
+        <h1 style={{ fontSize: 28, margin: "12px 0 6px", color: "#000" }}>
           {c.siteName} — Informations légales
         </h1>
         <div style={smallStyle}>Dernière mise à jour : {c.lastUpdated}</div>
@@ -101,9 +104,7 @@ export default function LegalPage() {
           Conformément au RGPD, vous disposez d’un droit d’accès, de rectification, d’effacement, de limitation, d’opposition et de
           portabilité. Pour exercer vos droits, écrivez-nous à <a href={`mailto:${c.editor.email}`}>{c.editor.email}</a>.
         </p>
-        <p>
-          En cas de difficulté, vous pouvez également saisir la CNIL.
-        </p>
+        <p>En cas de difficulté, vous pouvez également saisir la CNIL.</p>
       </section>
 
       {/* Cookies */}
@@ -111,8 +112,7 @@ export default function LegalPage() {
         <h2 style={h2Style}>Cookies</h2>
         <p>
           Ce site peut utiliser des cookies techniques (fonctionnement, sécurité, session). Des cookies de mesure d’audience ou marketing
-          ne sont activés qu’avec votre consentement (si vous implémentez une bannière). Vous pouvez supprimer les cookies depuis les
-          réglages de votre navigateur.
+          ne sont activés qu’avec votre consentement. Vous pouvez supprimer les cookies depuis les réglages de votre navigateur.
         </p>
       </section>
 
@@ -155,8 +155,8 @@ export default function LegalPage() {
         )}
       </section>
 
-      {/* Contact */}
-      <footer style={{ borderTop: "1px solid rgba(255,255,255,0.18)", paddingTop: 16, marginTop: 24, fontSize: 12, color: "#666" }}>
+      {/* Footer local à la page */}
+      <footer className="divider" style={{ paddingTop: 16, marginTop: 24, fontSize: 12, color: "#090909" }}>
         <div>© {new Date().getFullYear()} {c.editor.company}. Projet scolaire – Tous droits réservés.</div>
         <div>Dernière mise à jour : {c.lastUpdated}</div>
       </footer>

@@ -8,10 +8,10 @@ export default function FooterFront() {
               <a href="/contact" className="hover:text-dark-blue-buttons">
                 Contact
               </a>
-              <a href="/legal" className="hover:text-dark-blue-buttons">
-                CGV
-              </a>
               <a href="/privacy" className="hover:text-dark-blue-buttons">
+                Données personnels
+              </a>
+              <a href="/legal" className="hover:text-dark-blue-buttons">
                 Mentions légales
               </a>
             </nav>
