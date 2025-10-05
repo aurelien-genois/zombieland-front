@@ -53,8 +53,8 @@ export default function ContactPage() {
   const errorId = errorMessage ? formErrorId : undefined;
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-gray-800 rounded shadow mt-30">
-      <h1 className="text-white text-2xl mb-6">Contactez-nous&nbsp;!</h1>
+    <div className="max-w-lg mx-auto p-6 rounded shadow mt-20 text-grey-menu border border-slate-600">
+      <h1 className="text-grey-menu text-2xl font-semibold mb-6">Contactez-nous&nbsp;!</h1>
 
       {/* Message global d'erreur annoncé immédiatement */}
       {errorMessage && (
@@ -82,7 +82,7 @@ export default function ContactPage() {
             </div>
           )}
 
-          <label htmlFor="email" className="text-white">
+          <label htmlFor="email" className="text-grey-menu">
             Email :
           </label>
           <input
@@ -93,19 +93,19 @@ export default function ContactPage() {
             required
             autoComplete="email"
             inputMode="email"
-            className="mt-1 p-2 w-full rounded bg-gray-700 text-white"
+            className="mt-1 p-2 w-full rounded bg-gray-300 text-grey-menu"
             aria-invalid={Boolean(errorMessage)}
             aria-describedby={errorId}
           />
 
-          <label htmlFor="subject" className="text-white">
+          <label htmlFor="subject" className="text-grey-menu">
             Sujet :
           </label>
           <select
             id="subject"
             name="subject"
             required
-            className="mt-1 p-2 w-full rounded bg-gray-700 text-white"
+            className="mt-1 p-2 w-full rounded bg-gray-300 text-grey-menu"
             aria-invalid={Boolean(errorMessage)}
             aria-describedby={errorId}
           >
@@ -116,7 +116,7 @@ export default function ContactPage() {
             <option value="autre">Autre</option>
           </select>
 
-          <label htmlFor="description" className="text-white">
+          <label htmlFor="description" className="text-grey-menu">
             Description :
           </label>
           <textarea
@@ -125,7 +125,7 @@ export default function ContactPage() {
             rows={4}
             maxLength={500}
             required
-            className="mt-1 p-2 w-full rounded bg-gray-700 text-white"
+            className="mt-1 p-2 w-full rounded bg-gray-300 text-grey-menu"
             aria-invalid={Boolean(errorMessage)}
             aria-describedby={errorId}
           />
@@ -133,7 +133,7 @@ export default function ContactPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 disabled:opacity-60"
+            className="bg-dark-blue-buttons text-white py-2 px-4 rounded-xl font-bold hover:bg-blue-700 disabled:opacity-60"
           >
             Envoyer
           </button>

@@ -26,39 +26,19 @@ const LEGAL = {
 
 const sectionStyle: React.CSSProperties = { marginBottom: 24 };
 const h2Style: React.CSSProperties = { fontSize: 18, fontWeight: 700, margin: "16px 0 8px" };
-const smallStyle: React.CSSProperties = { color: "#fff", fontSize: 12 };
 const wrapStyle: React.CSSProperties = {
   maxWidth: 880,
   margin: "0 auto",
   padding: "24px 16px",
   lineHeight: 1.6,
   fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif",
-  color: "#fff",
+  color: "#000",
 };
 
 export default function LegalPage() {
   const c = LEGAL;
   return (
     <main style={wrapStyle}>
-      <style>{`a{color:#fff;text-decoration:underline} ::selection{background:rgba(255,255,255,.2)}`}</style>
-      <header style={{ textAlign: "center", marginBottom: 24 }}>
-        <div style={{
-          display: "inline-block",
-          border: "1px solid rgba(255,255,255,0.18)",
-          borderRadius: 12,
-          padding: "4px 10px",
-          fontSize: 12,
-          letterSpacing: 0.4,
-          textTransform: "uppercase",
-        }}>
-          Mentions légales
-        </div>
-        <h1 style={{ fontSize: 28, margin: "12px 0 6px" }}>
-          {c.siteName} — Informations légales
-        </h1>
-        <div style={smallStyle}>Dernière mise à jour : {c.lastUpdated}</div>
-      </header>
-
       {/* Éditeur */}
       <section style={sectionStyle}>
         <h2 style={h2Style}>Éditeur du site</h2>
@@ -154,12 +134,6 @@ export default function LegalPage() {
           </p>
         )}
       </section>
-
-      {/* Contact */}
-      <footer style={{ borderTop: "1px solid rgba(255,255,255,0.18)", paddingTop: 16, marginTop: 24, fontSize: 12, color: "#666" }}>
-        <div>© {new Date().getFullYear()} {c.editor.company}. Projet scolaire – Tous droits réservés.</div>
-        <div>Dernière mise à jour : {c.lastUpdated}</div>
-      </footer>
     </main>
   );
 }

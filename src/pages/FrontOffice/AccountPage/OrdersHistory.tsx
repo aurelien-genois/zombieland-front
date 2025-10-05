@@ -96,7 +96,7 @@ const OrderHistory: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 pb-15">
+    <div className="space-y-6 mt-10 pb-15">
       <h2 className="text-2xl font-bold mx-auto text-center">Mes commandes</h2>
 
       {upcomingOrders.length > 0 && (

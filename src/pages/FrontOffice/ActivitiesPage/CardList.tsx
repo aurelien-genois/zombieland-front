@@ -23,7 +23,7 @@ export default function CardList({
 }: ICardListProps) {
   return (
     <>
-      <div className="relative max-w-sm">
+      <div className="relative justify-center items-center">
         <img
           className="rounded-xl relative h-80 w-full object-cover"
           src={image_url?.length ? image_url : activity}

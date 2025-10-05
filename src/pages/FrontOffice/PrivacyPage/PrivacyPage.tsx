@@ -33,7 +33,7 @@ const wrapStyle: React.CSSProperties = {
   margin: "0 auto",
   padding: "24px 16px",
   lineHeight: 1.6,
-  color: "#fff", // texte blanc pour fond sombre
+  color: "#000", // texte blanc pour fond sombre
   fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif",
 };
 
@@ -41,25 +41,6 @@ export default function PrivacyPage() {
   const c = CONF;
   return (
     <main style={wrapStyle}>
-      <style>{`a{color:#fff;text-decoration:underline} ::selection{background:rgba(255,255,255,.2)} .divider{border-top:1px solid rgba(255,255,255,0.18)}`}</style>
-
-      <header style={{ textAlign: "center", marginBottom: 24 }}>
-        <div style={{
-          display: "inline-block",
-          border: "1px solid rgba(255,255,255,0.18)",
-          borderRadius: 12,
-          padding: "4px 10px",
-          fontSize: 12,
-          letterSpacing: 0.4,
-          textTransform: "uppercase",
-        }}>
-          Politique de confidentialité
-        </div>
-        <h1 style={{ fontSize: 28, margin: "12px 0 6px" }}>
-          {c.siteName} — Protection des données
-        </h1>
-        <div style={smallStyle}>Dernière mise à jour : {c.lastUpdated}</div>
-      </header>
 
       {/* 1. Qui est responsable ? */}
       <section style={sectionStyle}>
@@ -192,12 +173,6 @@ export default function PrivacyPage() {
           en haut de page fait foi. En cas de changement important, une information pourra être affichée sur la page d’accueil.
         </p>
       </section>
-
-      {/* Footer */}
-      <footer style={{ borderTop: "1px solid rgba(255,255,255,0.18)", paddingTop: 16, marginTop: 24, fontSize: 12, color: "#fff" }}>
-        <div>© {new Date().getFullYear()} {c.controller.name}. Projet scolaire.</div>
-        <div>Dernière mise à jour : {c.lastUpdated}</div>
-      </footer>
     </main>
   );
 }

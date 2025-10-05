@@ -1,19 +1,12 @@
-import { NavLink, useLocation } from "react-router";
+import { NavLink } from "react-router";
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
-import { useState } from 'react';
 
 export default function DropdownMenu() {
-  const location = useLocation();
-  const isAnyCategoryActive = ['/activities/boutique', '/activities/restaurant'].includes(location.pathname);
 
   return (
     <Menu as="div" className="relative inline-block text-lg font-bold">
       <MenuButton
-        className={({ isActive }) =>
-          isAnyCategoryActive
-            ? "text-dark-blue-buttons font-extrabold"
-            : "hover:font-bold block"
-        }
+        className="text-grey-menu text-lg font-bold hover:font-bold block hover:text-dark-blue-buttons"
       >
         Attractions
       </MenuButton>
@@ -27,7 +20,6 @@ export default function DropdownMenu() {
             <NavLink
               to={`/activities/jeu`}
               end
-              onClick={() => handleCategorySelect('jeu')} 
               className={({ isActive }) =>
                 isActive ? "text-dark-blue-buttons block font-extrabold px-4 py-2" : "hover:text-dark-blue-buttons hover:font-bold block px-4 py-2"
               }
@@ -39,7 +31,6 @@ export default function DropdownMenu() {
             <NavLink
               to={`/activities/spectacle`}
               end
-              onClick={() => handleCategorySelect('spectacle')}
               className={({ isActive }) =>
                 isActive ? "text-dark-blue-buttons block font-extrabold px-4 py-2" : "hover:text-dark-blue-buttons hover:font-bold block px-4 py-2"
               }
@@ -51,7 +42,6 @@ export default function DropdownMenu() {
             <NavLink
               to={`/activities/manege`}
               end
-              onClick={() => handleCategorySelect('manege')}
               className={({ isActive }) =>
                 isActive ? "text-grey-menu block font-extrabold px-4 py-2" : "hover:text-dark-blue-buttons hover:font-bold block px-4 py-2"
               }
@@ -63,7 +53,6 @@ export default function DropdownMenu() {
             <NavLink
               to={`/activities/montagnerusse`}
               end
-              onClick={() => handleCategorySelect('montagnerusse')}
               className={({ isActive }) =>
                 isActive ? "text-grey-menu block font-extrabold px-4 py-2" : "hover:text-dark-blue-buttons hover:font-bold block px-4 py-2"
               }
