@@ -1,0 +1,241 @@
+import TableData from "@/components/UI/BackOffice/Table/TableData";
+import TableRow from "@/components/UI/BackOffice/Table/TableRow";
+import Pagination from "@/components/UI/Pagination";
+import DeleteCategoryModal from "@/components/Modals/DeleteCategoryModal";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { useEffect, useState } from "react";
+import Button from "@/components/UI/BackOffice/Button";
+import {
+  createCategory,
+  fetchCategories,
+  updateCategory,
+} from "@/store/reducers/categoriesReducer";
+import type { ICategory } from "@/@types";
+
+export default function CategoriesManagement() {
+  const dispatch = useAppDispatch();
+  const { categories, page, perPage, total, loading, error } = useAppSelector(
+    (state) => state.categoriesStore
+  );
+
+  const [formError, setFormError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  const [isEditingMode, setEditingMode] = useState(false);
+  const [categoryToEdit, setCategoryToEdit] = useState<ICategory | null>(null);
+  const [isCreatingMode, setCreatingMode] = useState(false);
+  const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
+  const [categoryToDelete, setCategoryToDelete] = useState<ICategory | null>(
+    null
+  );
+
+  const [currentPage, setCurrentPage] = useState(page);
+
+  useEffect(() => {
+    dispatch(fetchCategories({ page: currentPage, perPage: 20 }));
+  }, [dispatch, currentPage]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+
+    const {
+      // name = "",
+      // color = "",
+      category_id = "",
+    } = Object.fromEntries(formData) as {
+      name?: string;
+      color?: string;
+      category_id?: number;
+    };
+
+    setFormError(null);
+
+    // TODO validation
+
+    if (category_id && Number(category_id) > 0) {
+      await dispatch(
+        updateCategory({
+          formData,
+          id: category_id,
+        })
+      );
+      setSuccessMessage("La catégorie a bien été mise à jour.");
+    } else {
+      await dispatch(
+        createCategory({
+          formData,
+        })
+      );
+      setSuccessMessage("La catégorie a bien été créée.");
+    }
+    setEditingMode(false);
+    setCreatingMode(false);
+    setCategoryToEdit(null);
+    // pour rafraîchir la liste après succès :
+    dispatch(fetchCategories({ page: currentPage, perPage: 20 }));
+  };
+
+  const displayCategoriesList = categories?.map((category) => (
+    <TableRow key={category.id}>
+      {/* Colonne Nom */}
+      <TableData nowrap={false}>{category.name}</TableData>
+
+      {/* Colonne Couleur */}
+      <TableData nowrap={false}>{category.color}</TableData>
+      {/* Colonne Actions */}
+      <TableData nowrap={false}>
+        <Button
+          onClick={() => {
+            setEditingMode(true);
+            setCategoryToEdit(category);
+          }}
+        >
+          Modifier
+        </Button>
+        <Button
+          color="red"
+          onClick={() => {
+            setIsModalDeleteOpen(true);
+            setCategoryToDelete(category);
+            setCategoryToEdit(null);
+            setEditingMode(false);
+            setCreatingMode(false);
+          }}
+        >
+          Supprimer
+        </Button>
+      </TableData>
+    </TableRow>
+  ));
+
+  return (
+    <div className="max-w-7xl min-w-full mx-auto p-6">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          Categories Management
+        </h1>
+        <p className="text-gray-600">Manage your categories here...</p>
+        <div className="mt-4 inline-flex items-center px-4 py-2 bg-blue-50 rounded-lg">
+          <span className="text-blue-800 font-medium">
+            📊 Total Categories: {total}
+          </span>
+        </div>
+      </div>
+
+      <Button
+        onClick={() => {
+          setCreatingMode(true);
+          setCategoryToEdit(null);
+        }}
+      >
+        Créer une catégorie
+      </Button>
+
+      {successMessage && (
+        <div className="mb-4 p-3 bg-red-100 border border-green-400 text-green-700 rounded">
+          {successMessage}
+        </div>
+      )}
+
+      {isCreatingMode || (isEditingMode && categoryToEdit != null) ? (
+        <form
+          onSubmit={handleSubmit}
+          className="mx-auto px-5 md:max-w-200 sm:max-w-150 flex gap-4 items-center"
+        >
+          <p className="font-bold text-lg whitespace-nowrap">
+            {isEditingMode && categoryToEdit != null
+              ? `Édition (id ${categoryToEdit.id})`
+              : "Création"}
+          </p>
+          {formError && (
+            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+              {formError}
+            </div>
+          )}
+
+          <input
+            type="text"
+            name="name"
+            minLength={3}
+            defaultValue={categoryToEdit ? categoryToEdit.name : ""}
+            required
+          />
+          <input
+            type="text"
+            name="color"
+            placeholder="#05AB45"
+            maxLength={7}
+            defaultValue={categoryToEdit ? categoryToEdit.color : ""}
+            pattern="^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{3})$"
+            required
+          />
+          {categoryToEdit && (
+            <input type="hidden" name="category_id" value={categoryToEdit.id} />
+          )}
+
+          <Button type="submit" color="green" name="save" disabled={loading}>
+            {loading ? "Enregistrement..." : "Enregistrer"}
+          </Button>
+        </form>
+      ) : null}
+
+      {loading ? (
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading categories...</p>
+          </div>
+        </div>
+      ) : error || !categories ? (
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Error loading categories...</p>
+          </div>
+        </div>
+      ) : categories.length ? (
+        <>
+          <table className="mt-8 bg-white shadow overflow-hidden sm:rounded-lg min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50 w-[10%]">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Nom
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Couleur
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {displayCategoriesList}
+            </tbody>
+          </table>
+
+          <Pagination
+            setCurrentPage={setCurrentPage}
+            currentPage={currentPage}
+            totalItems={total}
+            itemsPerPage={perPage}
+          />
+
+          {isModalDeleteOpen && categoryToDelete != null && (
+            <DeleteCategoryModal
+              setIsModalOpen={setIsModalDeleteOpen}
+              setCategoryToDelete={setCategoryToDelete}
+              category={categoryToDelete}
+              queries={{
+                currentPage,
+              }}
+            />
+          )}
+        </>
+      ) : (
+        <p className="text-center">Aucune catégorie trouvée</p>
+      )}
+    </div>
+  );
+}

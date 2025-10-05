@@ -151,7 +151,7 @@
     "title_position": "start"
   },
   "commit_title": {
-    "max_size": 70
+    "max_size": 150
   },
   "commit_body": {
     "enable": true,
