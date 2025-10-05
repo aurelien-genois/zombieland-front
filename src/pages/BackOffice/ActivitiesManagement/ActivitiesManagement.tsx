@@ -116,7 +116,6 @@ export default function ActivitiesManagement() {
   const handleReset = () => {
     setLimit(10);
     setOrderQuery("");
-    setQuery("");
     setAgeGroupQuery(undefined);
     setDisabledAccessQuery(undefined);
     setHighIntensityQuery(undefined);
