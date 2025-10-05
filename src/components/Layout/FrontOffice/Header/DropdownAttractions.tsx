@@ -18,8 +18,8 @@ export default function DropdownMenu() {
       <MenuButton
         className={() =>
           isAnyCategoryActive
-            ? "text-dark-blue-buttons font-extrabold"
-            : "hover:font-bold block"
+            ? "cursor-pointer text-dark-blue-buttons font-extrabold"
+            : "cursor-pointer hover:font-bold block"
         }
       >
         Attractions

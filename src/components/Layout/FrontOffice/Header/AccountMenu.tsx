@@ -40,7 +40,7 @@ export default function AccountMenu() {
         aria-haspopup="menu"
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
-        className=" w-40 mb-0 bg-dark-blue-buttons rounded-xl py-1 px-3 text-white font-bold text-center text-xs sm:text-lg"
+        className="cursor-pointer w-40 mb-0 bg-dark-blue-buttons rounded-xl py-1 px-3 text-white font-bold text-center text-xs sm:text-lg"
       >
         Mon compte
       </button>
@@ -102,7 +102,7 @@ export default function AccountMenu() {
                   await dispatch(logout());
                   setOpen(false);
                 }}
-                className="w-full text-left flex items-center gap-3 px-3 py-2.5 text-sm
+                className="cursor-pointer w-full text-left flex items-center gap-3 px-3 py-2.5 text-sm
                       text-red-400 hover:bg-red-500/10 focus:bg-red-500/10 outline-none"
               >
                 Déconnexion

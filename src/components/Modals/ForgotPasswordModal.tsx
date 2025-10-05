@@ -3,6 +3,7 @@ import ModalContainer from "./ContainerModal";
 import { forgotPassword } from "@/store/reducers/userReducer";
 import { useState, useRef, useEffect } from "react";
 import Button from "@/components/UI/BackOffice/Button";
+import { useLocation } from "react-router";
 
 interface ForgotPasswordModalProps {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,9 +13,10 @@ function ForgotPasswordModal({ setIsModalOpen }: ForgotPasswordModalProps) {
   const dispatch = useAppDispatch();
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const emailRef = useRef<HTMLInputElement | null>(null);
+  const location = useLocation();
   useEffect(() => {
     emailRef.current?.focus();
-  }, []);
+  }, [location.pathname]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

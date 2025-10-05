@@ -3,6 +3,7 @@ import ModalContainer from "./ContainerModal";
 import { resendEmailConfirmation } from "@/store/reducers/userReducer";
 import { useState, useRef, useEffect } from "react";
 import Button from "@/components/UI/BackOffice/Button";
+import { useLocation } from "react-router";
 
 interface EmailConfirmationModalProps {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,10 +14,11 @@ function EmailConfirmationModal({
 }: EmailConfirmationModalProps) {
   const dispatch = useAppDispatch();
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const location = useLocation();
   const emailRef = useRef<HTMLInputElement | null>(null);
   useEffect(() => {
     emailRef.current?.focus();
-  }, []);
+  }, [location.pathname]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

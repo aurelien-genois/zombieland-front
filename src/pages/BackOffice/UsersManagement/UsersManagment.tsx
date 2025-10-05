@@ -4,10 +4,11 @@ import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import ChangeUserRoleModal from "@/components/Modals/ChangeUserRoleModal";
 import DeleteUserModal from "@/components/Modals/DeleteUserModal";
 import { getAllUsers } from "@/store/reducers/adminReducer";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Pagination from "@/components/UI/Pagination";
 import Button from "@/components/UI/BackOffice/Button";
 import type { IRole } from "@/@types";
+import { useLocation } from "react-router";
 
 export default function UsersManagement() {
   const dispatch = useAppDispatch();
@@ -18,6 +19,12 @@ export default function UsersManagement() {
   const [limit, setLimit] = useState(10);
   const [showAllTable, setShowAllTable] = useState(false);
 
+  const location = useLocation();
+
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [location.pathname]);
   useEffect(() => {
     dispatch(
       getAllUsers({
@@ -159,6 +166,7 @@ export default function UsersManagement() {
               id="search"
               value={searchQuery}
               onChange={handleSearchChange}
+              ref={inputRef}
               placeholder="Prénom, nom ou email..."
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
             />

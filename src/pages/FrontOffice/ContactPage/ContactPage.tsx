@@ -1,5 +1,6 @@
 import { axiosInstance } from "@/api/axiosInstance";
 import { useState, useRef, useEffect, type FormEvent } from "react";
+import { useLocation } from "react-router";
 
 export default function ContactPage() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -8,9 +9,10 @@ export default function ContactPage() {
 
   // focus automatique sur le champ email
   const emailRef = useRef<HTMLInputElement | null>(null);
+  const location = useLocation();
   useEffect(() => {
     emailRef.current?.focus();
-  }, []);
+  }, [location.pathname]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

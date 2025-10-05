@@ -1,4 +1,4 @@
-import { useNavigate, Link } from "react-router";
+import { useNavigate, Link, useLocation } from "react-router";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { useState, useRef, useEffect, type FormEvent } from "react";
 import { login } from "@/store/reducers/userReducer";
@@ -15,9 +15,10 @@ export default function LoginPage() {
 
   // focus automatique sur le champ email
   const emailRef = useRef<HTMLInputElement | null>(null);
+  const location = useLocation();
   useEffect(() => {
     emailRef.current?.focus();
-  }, []);
+  }, [location.pathname]);
 
   const formErrorId = "login-form-error-id";
   const errorId = formError || error ? formErrorId : undefined;

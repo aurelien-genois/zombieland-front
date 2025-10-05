@@ -4,6 +4,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { changePassword } from "@/store/reducers/userReducer";
+import { useLocation } from "react-router";
 
 export default function PasswordUpdate() {
   const dispatch = useAppDispatch();
@@ -14,9 +15,10 @@ export default function PasswordUpdate() {
   const errorId = formError || error ? formErrorId : undefined;
 
   const passwordRef = useRef<HTMLInputElement | null>(null);
+  const location = useLocation();
   useEffect(() => {
     passwordRef.current?.focus();
-  }, []);
+  }, [location.pathname]);
 
   // Regex pour validation du mot de passe
   const passwordRegex =
@@ -149,12 +151,18 @@ export default function PasswordUpdate() {
           </div>
 
           {formError && (
-            <div id={formErrorId} className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded text-center">
+            <div
+              id={formErrorId}
+              className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded text-center"
+            >
               <strong>Erreur :</strong> {formError}
             </div>
           )}
           {error && !formError && (
-            <div id={formErrorId} className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded text-center">
+            <div
+              id={formErrorId}
+              className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded text-center"
+            >
               <strong>Erreur :</strong> {error}
             </div>
           )}
