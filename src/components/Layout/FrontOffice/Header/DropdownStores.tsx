@@ -14,8 +14,8 @@ export default function DropdownStores() {
         className={() =>
           // Appliquer la classe "font-extrabold" si une catégorie est active
           isAnyCategoryActive
-            ? "text-dark-blue-buttons font-extrabold"
-            : "hover:font-bold block"
+            ? "cursor-pointer text-dark-blue-buttons font-extrabold"
+            : "cursor-pointer hover:font-bold block"
         }
       >
         Magasins

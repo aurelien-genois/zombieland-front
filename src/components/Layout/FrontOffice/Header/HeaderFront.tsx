@@ -79,19 +79,19 @@ export default function HeaderFront() {
         className={`${open ? "block" : "hidden"} md:hidden`}
       >
         <div className="px-4 pb-4 space-y-2 text-white">
-          <NavLink to={`/`} end className={"block py-2"}>
+          <NavLink to={`/`} end className="block py-2 cursor-pointer">
             Accueil
           </NavLink>
 
-          <NavLink to={`/activities`} end className={"block py-2"}>
+          <NavLink to={`/activities`} end className="block py-2 cursor-pointer">
             Attractions
           </NavLink>
 
-          <NavLink to={`/`} end className={"block py-2"}>
+          <NavLink to={`/`} end className="block py-2 cursor-pointer">
             Boutiques
           </NavLink>
 
-          <NavLink to={`/checkout`} end className={"block py-2"}>
+          <NavLink to={`/checkout`} end className="block py-2 cursor-pointer">
             Réservation
           </NavLink>
         </div>

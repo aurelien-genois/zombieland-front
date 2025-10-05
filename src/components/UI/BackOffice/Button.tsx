@@ -43,13 +43,15 @@ const Button = forwardRef<HTMLButtonElement, IButtonProps>(
         return (
           <Link
             to={to}
-            className={baseStyle + " " + colorStyles[color] + " " + additionalClasses}
+            className={
+              baseStyle + " " + colorStyles[color] + " " + additionalClasses
+            }
           >
             {children}
           </Link>
         );
       } else {
-        return "Error: missing \"to\" for React-router Link";
+        return 'Error: missing "to" for React-router Link';
       }
     } else {
       return (
@@ -58,7 +60,9 @@ const Button = forwardRef<HTMLButtonElement, IButtonProps>(
           type={type}
           name={name}
           disabled={disabled}
-          className={baseStyle + " " + colorStyles[color] + " " + additionalClasses}
+          className={
+            baseStyle + " " + colorStyles[color] + " " + additionalClasses
+          }
           onClick={onClick}
         >
           {children}
