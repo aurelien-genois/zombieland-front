@@ -3,7 +3,7 @@ import TableRow from "@/components/UI/BackOffice/Table/TableRow";
 import { useAllActivities } from "@/hooks/activities";
 import Pagination from "@/components/UI/Pagination";
 import Button from "@/components/UI/BackOffice/Button";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAppDispatch } from "@/hooks/redux";
 import DeleteActivityModal from "@/components/Modals/DeleteActivityModal";
 import {
@@ -12,6 +12,7 @@ import {
 } from "@/store/reducers/activitiesReducer";
 import { useCategories } from "@/hooks/categories";
 import type { IActivity } from "@/@types";
+import { useLocation } from "react-router";
 
 export default function ActivitiesManagement() {
   const dispatch = useAppDispatch();
@@ -21,6 +22,7 @@ export default function ActivitiesManagement() {
   const [activityToDelete, setActivityToDelete] = useState<IActivity | null>(
     null
   );
+  const location = useLocation();
 
   const [currentPage, setCurrentPage] = useState(page);
   const [limit, setLimit] = useState(10);
@@ -41,6 +43,11 @@ export default function ActivitiesManagement() {
   const [highIntensityQuery, setHighIntensityQuery] = useState<
     string | undefined
   >(undefined);
+
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [location.pathname]);
 
   const { categories } = useCategories();
 
@@ -109,7 +116,7 @@ export default function ActivitiesManagement() {
   const handleReset = () => {
     setLimit(10);
     setOrderQuery("");
-    setSearchQuery("");
+    setQuery("");
     setAgeGroupQuery(undefined);
     setDisabledAccessQuery(undefined);
     setHighIntensityQuery(undefined);
@@ -218,6 +225,7 @@ export default function ActivitiesManagement() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.currentTarget.value)}
             placeholder="Recherche"
+            ref={inputRef}
             className="w-full rounded border border-gray-300 px-3 py-2 min-w-28 "
           />
         </div>

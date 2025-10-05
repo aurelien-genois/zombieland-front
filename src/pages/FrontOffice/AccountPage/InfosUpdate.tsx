@@ -4,6 +4,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { updateUserProfile } from "@/store/reducers/userReducer";
+import { useLocation } from "react-router";
 
 export default function InfosUpdate() {
   const { userInfo } = useAppSelector((store) => store.userStore);
@@ -15,9 +16,10 @@ export default function InfosUpdate() {
   const errorId = formError || error ? formErrorId : undefined;
 
   const firstnameRef = useRef<HTMLInputElement | null>(null);
+  const location = useLocation();
   useEffect(() => {
     firstnameRef.current?.focus();
-  }, []);
+  }, [location.pathname]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

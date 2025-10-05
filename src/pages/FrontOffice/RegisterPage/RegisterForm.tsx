@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { register } from "@/store/reducers/userReducer"; // ✅ Import correct
 import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 
 export default function RegisterForm() {
   const dispatch = useAppDispatch();
@@ -14,9 +14,10 @@ export default function RegisterForm() {
 
   // focus du premier champ (prénom) à l'affichage du formulaire
   const firstNameRef = useRef<HTMLInputElement | null>(null);
+  const location = useLocation();
   useEffect(() => {
     firstNameRef.current?.focus();
-  }, []);
+  }, [location.pathname]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
