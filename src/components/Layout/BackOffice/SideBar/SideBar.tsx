@@ -1,10 +1,10 @@
 import logo from "@/assets/icon/logo.svg";
 import home from "@/assets/icon/home.svg";
 import user from "@/assets/icon/user.svg";
-import cart from "@/assets/icon/cart.svg";
+import cart from "@/assets/icon/cart-shopping.svg";
 import activity from "@/assets/icon/activity.svg";
-import category from "@/assets/icon/activity.svg";
-import dashboard from "@/assets/icon/dashboard.svg";
+import category from "@/assets/icon/category.svg";
+import ticket from "@/assets/icon/ticket-3.svg";
 import NavLink from "@/components/UI/BackOffice/NavLink";
 
 export default function SideBar() {
@@ -13,12 +13,6 @@ export default function SideBar() {
       <img src={logo} alt="My App Logo" className="pb-10" />
       <div className="flex flex-col justify-between ">
         <nav className="flex flex-col">
-          <NavLink
-            iconAlt="Dashboard"
-            iconSrc={dashboard}
-            to="/admin/dashboard"
-            label="Tableau de bord"
-          />
           <NavLink
             iconAlt="Activity"
             iconSrc={activity}
@@ -45,7 +39,7 @@ export default function SideBar() {
           />
           <NavLink
             iconAlt="Product"
-            iconSrc={cart}
+            iconSrc={ticket}
             to="/admin/management/products"
             label="Produits"
           />
