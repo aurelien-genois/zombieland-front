@@ -105,7 +105,7 @@ export default function CheckoutPage() {
     <h1 className="text-3xl sm:text-4xl font-bebas font-extrabold text-dark-blue-buttons mb-6">
       RÉSERVEZ VOS BILLETS
     </h1>
-    <div className="rounded-2xl ring-1 ring-white/10 bg-black/10 p-5 sm:p-6">
+    <div className="rounded-2xl ring-1 ring-white/10 bg-black/10 p-5 sm:p-6 text-xl sm:text-base">
       <h2 className="text-xl sm:text-2xl font-extrabold tracking-wide text-brand">
         Choisissez vos billets
       </h2>

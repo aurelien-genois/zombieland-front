@@ -32,6 +32,7 @@ export default function AccountMenu() {
   console.log("user info: ", userInfo);
   console.log("isAuth: ", isAuth);
 
+  const admin = userInfo?.role.name;
   return (
     <div className="relative z-50">
       <button
@@ -40,7 +41,7 @@ export default function AccountMenu() {
         aria-haspopup="menu"
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
-        className="cursor-pointer w-40 mb-0 bg-dark-blue-buttons rounded-xl py-1 px-3 text-white font-bold text-center text-xs sm:text-lg"
+        className="cursor-pointer w-40 mb-0 bg-dark-blue-buttons rounded-xl py-1 px-3 text-white font-bold text-center text-xs sm:text-lg md:block hidden"
       >
         Mon compte
       </button>
@@ -51,20 +52,20 @@ export default function AccountMenu() {
           role="menu"
           aria-label="Menu compte"
           className="absolute left-1/2 -translate-x-1/2 mt-2 w-46 rounded-xl overflow-hidden
-                     bg-black/95 backdrop-blur-sm ring-1 ring-white/10 shadow-xl"
+                     bg-white-bg/90 backdrop-blur-sm ring-1 ring-white/10 shadow-xl font-bold"
         >
           <div className="py-1">
             {!isAuth ? (
               <>
                 <Link
                   to="/login"
-                  className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10"
+                  className="flex items-center gap-3 px-3 py-2.5 text-lg text-dark-blue-buttons hover:bg-white/10 focus:bg-white/10"
                 >
                   Se connecter
                 </Link>
                 <Link
                   to="/register"
-                  className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10"
+                  className="flex items-center gap-3 px-3 py-2.5 text-lg text-dark-blue-buttons hover:bg-white/10 focus:bg-white/10"
                 >
                   Créer un compte
                 </Link>
@@ -73,23 +74,25 @@ export default function AccountMenu() {
               <>
                 <Link
                   to="/account/"
-                  className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10 outline-none"
+                  className="flex items-center gap-3 px-3 py-2.5 text-lg text-dark-blue-buttons hover:bg-white/10 focus:bg-white/10 outline-none"
                 >
                   Mon profil
                 </Link>
                 <Link
                   to="/account/"
-                  className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10 outline-none"
+                  className="flex items-center gap-3 px-3 py-2.5 text-lg text-dark-blue-buttons hover:bg-white/10 focus:bg-white/10 outline-none"
                 >
                   Mes réservations
                 </Link>
-                <Link
-                  to="/admin/dashboard"
-                  className="flex items-center gap-3 px-3 py-2.5 text-sm text-white/90 hover:bg-white/10 focus:bg-white/10 outline-none"
-                >
-                  Backoffice
-                </Link>
               </>
+            )}
+            {admin === "admin" && (
+              <Link
+                to="/admin/management/activities"
+                className="flex items-center gap-3 px-3 py-2.5 text-lg text-dark-blue-buttons hover:bg-white/10 focus:bg-white/10 outline-none"
+              >
+                Backoffice
+              </Link>
             )}
           </div>
 
@@ -102,8 +105,7 @@ export default function AccountMenu() {
                   await dispatch(logout());
                   setOpen(false);
                 }}
-                className="cursor-pointer w-full text-left flex items-center gap-3 px-3 py-2.5 text-sm
-                      text-red-400 hover:bg-red-500/10 focus:bg-red-500/10 outline-none"
+                className="w-full text-left flex items-center gap-3 px-3 py-2.5 text-lg cursor-pointer text-red-400 hover:bg-red-500/10 focus:bg-red-500/10 outline-none"
               >
                 Déconnexion
               </button>

@@ -60,11 +60,11 @@ export default function HeaderFront() {
           </div>
           <button
             onClick={() => setOpen((v) => !v)}
-            className="md:hidden text-white p-2"
+            className="md:hidden text-grey-menu p-2"
             aria-expanded={open}
             aria-controls="mobile-menu"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
               <path
                 d="M4 6h16M4 12h16M4 18h16"
                 stroke="currentColor"
@@ -78,8 +78,8 @@ export default function HeaderFront() {
         id="mobile-menu"
         className={`${open ? "block" : "hidden"} md:hidden`}
       >
-        <div className="px-4 pb-4 space-y-2 text-white">
-          <NavLink to={`/`} end className="block py-2 cursor-pointer">
+        <div className="px-4 pb-4 space-y-1 text-3xl text-center font-bold text-grey-menu">
+          <NavLink to={`/`} end className={"block py-2 cursor-pointer"}>
             Accueil
           </NavLink>
 
@@ -87,12 +87,16 @@ export default function HeaderFront() {
             Attractions
           </NavLink>
 
-          <NavLink to={`/`} end className="block py-2 cursor-pointer">
+          <NavLink to={`/boutique`} end className={"block py-2 cursor-pointer"}>
             Boutiques
           </NavLink>
 
           <NavLink to={`/checkout`} end className="block py-2 cursor-pointer">
             Réservation
+          </NavLink>
+
+          <NavLink to={`/account`} end className={"block py-2"}>
+            Mon compte
           </NavLink>
         </div>
       </div>

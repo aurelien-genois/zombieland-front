@@ -61,11 +61,8 @@ export default function ContactPage() {
   const errorId = errorMessage ? formErrorId : undefined;
 
   return (
-    <div className="bg-zinc-00 p-8 rounded shadow-md w-full max-w-md text-center border border-slate-600 mx-auto mt-8">
-      <h1 className="text-2xl font-bold mb-6 underline">
-        Contactez-nous&nbsp;!
-      </h1>
-
+    <div className="max-w-lg mx-auto p-6 rounded shadow mt-20 text-grey-menu border border-slate-600">
+      <h1 className="text-grey-menu text-2xl font-semibold mb-6">Contactez-nous&nbsp;!</h1>
       {/* Message global d'erreur annoncé immédiatement */}
       {errorMessage && (
         <p
@@ -100,7 +97,7 @@ export default function ContactPage() {
             </div>
           )}
 
-          <label htmlFor="email" className="text-left">
+          <label htmlFor="email" className="text-grey-menu text-left">
             Email :
           </label>
           <input
@@ -111,20 +108,20 @@ export default function ContactPage() {
             required
             autoComplete="email"
             inputMode="email"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
+            className="bg-gray-300 border border-gray-500 text-grey-menu text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2 mt-1 mb-1.5"
             ref={emailRef}
             aria-invalid={Boolean(errorMessage)}
             aria-describedby={errorId}
           />
 
-          <label htmlFor="subject" className="text-left">
+          <label htmlFor="subject" className="text-grey-menu text-left">
             Sujet :
           </label>
           <select
             id="subject"
             name="subject"
             required
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
+            className="bg-gray-300 border border-gray-500 text-grey-menu text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2 mt-1 mb-1.5"
             aria-invalid={Boolean(errorMessage)}
             aria-describedby={errorId}
           >
@@ -135,7 +132,7 @@ export default function ContactPage() {
             <option value="autre">Autre</option>
           </select>
 
-          <label htmlFor="description" className="text-white">
+          <label htmlFor="description" className="text-grey-menu">
             Description :
           </label>
           <textarea
@@ -144,7 +141,7 @@ export default function ContactPage() {
             rows={4}
             maxLength={500}
             required
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-base md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
+            className="bg-gray-300 border border-gray-500 text-grey-menu text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2 mt-1 mb-1.5"
             aria-invalid={Boolean(errorMessage)}
             aria-describedby={errorId}
           />
@@ -152,7 +149,7 @@ export default function ContactPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className={`font-bold text-white w-50 rounded-xl py-1 px-3 text-2xl sm:text-lg text-center block mx-auto ${
+            className={`font-bold text-white w-50 rounded-xl py-2 px-4 text-2xl sm:text-lg text-center block mx-auto ${
               isLoading
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-dark-blue-buttons hover:bg-blue-700"

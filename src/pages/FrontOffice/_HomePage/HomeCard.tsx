@@ -46,7 +46,7 @@ export default function HomeCard({
         </div>
 
         <div
-          className={`w-38 mb-3 text-lg bg-white-bg-main hover:bg-dark-blue-buttons hover:text-white-bg-main rounded-xl py-1 text-dark-blue-buttons font-bold m-auto`}
+          className={`w-38 mb-3 font-bebas font-bold text-xl bg-white-bg-main hover:bg-dark-blue-buttons hover:text-white-bg-main rounded-2xl py-1 text-dark-blue-buttons m-auto`}
         >
           <Link to={`/activity/${slug}`}>Découvrir...</Link>
         </div>

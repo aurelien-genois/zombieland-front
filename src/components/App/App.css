@@ -34,31 +34,17 @@
   --color-green-static: #f2fcf0;
   --color-grey-menu: #171717;
 
-
-  --color-green-text: #72e399;
-
-  --color-red-bg-btn: #d90e0e;
-  --color-green-bg-btn: #326f29;
-  --color-grey-border-btn: #282828;
-
   --color-grey-bg-search: #212121;
   --color-grey-border-search: #494949;
 
   --color-grey-bg-filter: #080e0d;
   --color-grey-border-filter: #203a2f;
 
-  
-
   --color-black-500: #000000;
   
-
   --color-white-bg-main: #F9F9F6;
 
   --color-black-bg-carousel: #020202;
 
   --color-grey-text-footer: #999999;
-
-  --color-red-border-filter-focus: #d90e0e;
-  --color-green-bg-filter: #080e0d;
-  --color-green-border-filter: #203a2f;
 }
