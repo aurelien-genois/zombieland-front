@@ -1,12 +1,24 @@
-import { NavLink } from "react-router";
+import { NavLink, useLocation } from "react-router";
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 
 export default function DropdownMenu() {
+  const location = useLocation();
+  const isAnyCategoryActive = [
+    "/activities/jeux",
+    "/activities/spectacle",
+    "/activities/manege",
+    "/activities/montagne-russe",
+  ].includes(location.pathname);
 
   return (
     <Menu as="div" className="relative inline-block text-lg font-bold">
       <MenuButton
-        className="cursor-pointer text-grey-menu text-lg font-bold hover:font-bold block hover:text-dark-blue-buttons"
+        className={() =>
+          // Appliquer la classe "font-extrabold" si une catégorie est active
+          isAnyCategoryActive
+            ? "cursor-pointer text-dark-blue-buttons font-extrabold"
+            : "cursor-pointer hover:font-bold block"
+        }
       >
         Attractions
       </MenuButton>
