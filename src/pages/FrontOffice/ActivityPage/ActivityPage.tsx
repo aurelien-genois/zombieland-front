@@ -2,6 +2,8 @@ import { useParams } from "react-router";
 import ActivityCarousel from "./ActivityCarousel";
 import ActivityDetails from "./ActivityDetails";
 import { usePublishedActivity } from "@/hooks/activities";
+import imageCarousel1 from "@/assets/img/activities/zombie4d-interior.png";
+import imageCarousel2 from "@/assets/img/activities/zombie4d-cover.png";
 
 export default function ActivityPage() {
   const params = useParams();
@@ -22,8 +24,8 @@ export default function ActivityPage() {
       <ActivityCarousel
         images={[
           currentActivity.image_url ||
-            "/src/assets/img/activities/zombie4d-interior.png",
-          "/src/assets/img/activities/zombie4d-cover.png",
+            imageCarousel1,
+          imageCarousel2,
         ]}
       />
       <ActivityDetails
