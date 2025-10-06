@@ -25,6 +25,7 @@ const LEGAL = {
 };
 
 const sectionStyle: React.CSSProperties = { marginBottom: 24 };
+
 const h2Style: React.CSSProperties = { fontSize: 18, fontWeight: 700, margin: "16px 0 8px", color: "#000" };
 const smallStyle: React.CSSProperties = { color: "#666", fontSize: 12 };
 const wrapStyle: React.CSSProperties = {
@@ -34,34 +35,14 @@ const wrapStyle: React.CSSProperties = {
   lineHeight: 1.6,
   color: "#000", // <-- texte noir
   fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif",
+  color: "#000",
   background: "#fff", // facultatif, pour forcer le fond blanc si besoin
 };
 
 export default function LegalPage() {
   const c = LEGAL;
   return (
-    <main style={wrapStyle} data-static-page="legal">
-      {/* CSS SCOPÉ À CETTE PAGE UNIQUEMENT */}
-      <style>{`
-        [data-static-page="legal"] a { color:#000; text-decoration:underline }
-        [data-static-page="legal"] ::selection { background:rgba(255,255,255,.2) }
-        [data-static-page="legal"] .chip {
-          display:inline-block; border:1px solid rgba(255,255,255,0.18);
-          border-radius:12px; padding:4px 10px; font-size:12px; letter-spacing:.4px; text-transform:uppercase;
-        }
-        [data-static-page="legal"] .divider { border-top:1px solid rgba(255,255,255,0.18); }
-        [data-static-page="legal"] p, [data-static-page="legal"] li, [data-static-page="legal"] strong { color:#090909; }
-        [data-static-page="legal"] strong { color:#000; }
-      `}</style>
-
-      <header style={{ textAlign: "center", marginBottom: 24 }}>
-        <div className="chip">Mentions légales</div>
-        <h1 style={{ fontSize: 28, margin: "12px 0 6px", color: "#000" }}>
-          {c.siteName} — Informations légales
-        </h1>
-        <div style={smallStyle}>Dernière mise à jour : {c.lastUpdated}</div>
-      </header>
-
+    <main style={wrapStyle}>
       {/* Éditeur */}
       <section style={sectionStyle}>
         <h2 style={h2Style}>Éditeur du site</h2>
@@ -154,12 +135,6 @@ export default function LegalPage() {
           </p>
         )}
       </section>
-
-      {/* Footer local à la page */}
-      <footer className="divider" style={{ paddingTop: 16, marginTop: 24, fontSize: 12, color: "#090909" }}>
-        <div>© {new Date().getFullYear()} {c.editor.company}. Projet scolaire – Tous droits réservés.</div>
-        <div>Dernière mise à jour : {c.lastUpdated}</div>
-      </footer>
     </main>
   );
 }

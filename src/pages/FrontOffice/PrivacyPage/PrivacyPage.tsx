@@ -32,7 +32,8 @@ const wrapStyle: React.CSSProperties = {
   margin: "0 auto",
   padding: "24px 16px",
   lineHeight: 1.6,
-  color: "#000", // <-- texte noir
+
+  color: "#000", // texte blanc pour fond sombre
   fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif",
   background: "#fff", // facultatif, pour forcer le fond blanc si besoin
 };
@@ -40,28 +41,7 @@ const wrapStyle: React.CSSProperties = {
 export default function PrivacyPage() {
   const c = CONF;
   return (
-    <main style={wrapStyle} data-static-page="privacy">
-      {/* CSS SCOPÉ À CETTE PAGE UNIQUEMENT */}
-      <style>{`
-        [data-static-page="privacy"] a { color:#090909; text-decoration:underline }
-        [data-static-page="privacy"] ::selection { background:rgba(255,255,255,.2) }
-        [data-static-page="privacy"] .chip {
-          display:inline-block; border:1px solid rgba(255,255,255,0.18);
-          border-radius:12px; padding:4px 10px; font-size:12px; letter-spacing:.4px; text-transform:uppercase;
-        }
-        [data-static-page="privacy"] .divider { border-top:1px solid rgba(255,255,255,0.18); }
-        [data-static-page="privacy"] p, [data-static-page="privacy"] li, [data-static-page="privacy"] strong { color:#000; }
-        [data-static-page="privacy"] strong { color:#090909; }
-      `}</style>
-
-      <header style={{ textAlign: "center", marginBottom: 24 }}>
-        <div className="chip">Politique de confidentialité</div>
-        <h1 style={{ fontSize: 28, margin: "12px 0 6px", color: "#090909" }}>
-          {c.siteName} — Protection des données
-        </h1>
-        <div style={smallStyle}>Dernière mise à jour : {c.lastUpdated}</div>
-      </header>
-
+    <main style={wrapStyle}>
       <section style={sectionStyle}>
         <h2 style={h2Style}>1. Responsable du traitement</h2>
         <p>
@@ -167,12 +147,6 @@ export default function PrivacyPage() {
           être affichée sur l’accueil.
         </p>
       </section>
-
-      {/* Footer local à la page */}
-      <footer className="divider" style={{ paddingTop: 16, marginTop: 24, fontSize: 12, color: "#bbb" }}>
-        <div>© {new Date().getFullYear()} {c.controller.name}. Projet scolaire.</div>
-        <div>Dernière mise à jour : {c.lastUpdated}</div>
-      </footer>
     </main>
   );
 }

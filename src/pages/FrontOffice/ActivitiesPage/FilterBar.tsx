@@ -39,7 +39,7 @@ export default function FilterBar({
 
   return (
     <>
-      <form onSubmit={handleSearchSubmit} className="flex items-center gap-2">
+      <form onSubmit={handleSearchSubmit} className="flex flex-wrap md:flex-row items-center gap-2">
         <label htmlFor="age_group" className="relative">
           <select
             name="age_group"
@@ -55,7 +55,7 @@ export default function FilterBar({
                     hover:border-blue-400 transition outline-none
                     focus-visible:ring-blue-300"
           >
-            <option value="">- Niveau de frousse</option>
+            <option value="">- Niveau de frousse -</option>
             <option value="0">0 Très léger</option>
             <option value="1">1 Léger</option>
             <option value="2">2 Tendu</option>
@@ -151,9 +151,9 @@ export default function FilterBar({
         <button
           type="button"
           onClick={handleReset}
-          className="px-3 py-1.5 rounded-xl bg-red-bg-btn hover:brightness-110 font-semibold cursor-pointer"
+          className="px-3 py-1.5 rounded-xl text-white-bg bg-red-400 hover:brightness-110 font-semibold cursor-pointer"
         >
-          RÉINITIALISER
+          Réinitialiser
         </button>
       </form>
     </>

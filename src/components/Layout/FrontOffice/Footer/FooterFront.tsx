@@ -3,13 +3,13 @@ export default function FooterFront() {
     <>
       <div className="bg-black-bg-header/90 border-t-0 shadow-blue-border-banner/80 shadow-[0px_-2px_5px_0px_rgba(0,_0,_0,_0.05)]">
         <div className="flex justify-between items-center">
-          <div className="flex ml-10 w-40">
+          <div className="flex sm:ml-10 ml-2 w-40">
             <nav className="text-grey-menu font-bold text-l flex flex-col mt-3 ">
               <a href="/contact" className="hover:text-dark-blue-buttons">
                 Contact
               </a>
               <a href="/privacy" className="hover:text-dark-blue-buttons">
-                Données personnels
+                Confidentialité
               </a>
               <a href="/legal" className="hover:text-dark-blue-buttons">
                 Mentions légales
@@ -22,9 +22,9 @@ export default function FooterFront() {
               className="bg-grey-menu font-bold [mask:url(@/assets/icon/logo.svg)_no-repeat_center/contain] block w-50"
             />
           </div>
-          <div className="text-center flex flex-col w-40 mr-10">
+          <div className="text-center flex flex-col w-40 sm:mr-10 mr-2">
             <p className="text-grey-menu font-bold text-l">
-              Nos réseaux sociaux :
+              Nos réseaux sociaux
             </p>
             <div className="flex justify-center mt-2">
               <a className="mr-1" href="">
