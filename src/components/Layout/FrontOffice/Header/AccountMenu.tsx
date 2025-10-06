@@ -32,6 +32,7 @@ export default function AccountMenu() {
   console.log("user info: ", userInfo);
   console.log("isAuth: ", isAuth);
 
+
   const admin = userInfo?.role.name;
   return (
     <div className="relative z-50">
