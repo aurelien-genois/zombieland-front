@@ -1,3 +1,7 @@
+import iconCrane from "@/assets/icon/crane_zombie_bleu.svg";
+import iconHeart from "@/assets/icon/heart_blue.svg";
+import iconDisabled from "@/assets/icon/disabled-blue.svg";
+
 interface IActivityDetailsProps {
   name: string;
   categoryName: string;
@@ -57,7 +61,7 @@ export default function ActivityDetails({
               <img
                 key={index}
                 className="max-w-9"
-                src="/src/assets/icon/crane_zombie_bleu.svg"
+                src={iconCrane}
                 alt="Crane de niveau"
               />
             ))}
@@ -66,14 +70,14 @@ export default function ActivityDetails({
             {high_intensity && (
               <img
                 className="max-w-10"
-                src="/src/assets/icon/heart_blue.svg"
+                src={iconHeart}
                 alt="Déconseillée aux personnes souffrant de troubles cardiaques"
               />
             )}
             {disabled_access && (
               <img
                 className="max-w-10"
-                src="/src/assets/icon/disabled-blue.svg"
+                src={iconHeart}
                 alt="Accessible aux personnes à mobilité réduite"
               />
             )}
