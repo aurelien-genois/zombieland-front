@@ -1,3 +1,6 @@
+import { useRef, useEffect } from "react";
+import { useLocation } from "react-router";
+
 interface ISearchFormProps {
   searchQuery: string;
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
@@ -9,6 +12,12 @@ export default function SearchForm({
   setSearchQuery,
   handleSearchSubmit,
 }: ISearchFormProps) {
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const location = useLocation();
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [location.pathname]);
+
   return (
     <form
       onSubmit={handleSearchSubmit}
@@ -25,6 +34,9 @@ export default function SearchForm({
         onChange={(e) => setSearchQuery(e.currentTarget.value)}
         placeholder="Rechercher une attraction"
         className="w-full pl-10 pr-3 py-2 text-grey-menu rounded-xl bg-white border border-dark-blue-buttons outline-none placeholder:text-dark-blue-buttons hover:border-blue-border-filter-focus focus:ring-blue-400"
+        id="activities-search"
+        ref={inputRef}
+        aria-label="Rechercher une attraction"
       />
     </form>
   );

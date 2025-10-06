@@ -1,6 +1,6 @@
-import { useNavigate, Link } from "react-router";
+import { useNavigate, Link, useLocation } from "react-router";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { useState, type FormEvent } from "react";
+import { useState, useRef, useEffect, type FormEvent } from "react";
 import { login } from "@/store/reducers/userReducer";
 import EmailConfirmationModal from "@/components/Modals/EmailConfirmationModal";
 import ForgotPasswordModal from "@/components/Modals/ForgotPasswordModal";
@@ -12,6 +12,16 @@ export default function LoginPage() {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
+
+  // focus automatique sur le champ email
+  const emailRef = useRef<HTMLInputElement | null>(null);
+  const location = useLocation();
+  useEffect(() => {
+    emailRef.current?.focus();
+  }, [location.pathname]);
+
+  const formErrorId = "login-form-error-id";
+  const errorId = formError || error ? formErrorId : undefined;
 
   console.log("LOADING:", loading);
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -67,30 +77,47 @@ export default function LoginPage() {
         >
           <div className="text-left">
             <input
+              id="login-email"
               type="email"
               name="email"
               placeholder="Email"
+              maxLength={254}
+              aria-label="Email"
+              aria-invalid={Boolean(formError || error)}
+              aria-describedby={errorId}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
+              ref={emailRef}
               disabled={loading}
             />
           </div>
 
           <div className="text-left">
             <input
+              id="login-password"
               type="password"
               name="password"
-              placeholder="Password"
+              placeholder="Mot de passe"
+              maxLength={128}
+              aria-label="Mot de passe"
+              aria-invalid={Boolean(formError || error)}
+              aria-describedby={errorId}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
               disabled={loading}
             />
           </div>
           {formError && (
-            <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded text-left">
+            <div
+              id={formErrorId}
+              className="p-3 bg-red-100 border border-red-400 text-red-700 rounded text-left"
+            >
               <strong>Erreur :</strong> {formError}
             </div>
           )}
-          {error && (
-            <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded text-left">
+          {error && !formError && (
+            <div
+              id={formErrorId}
+              className="p-3 bg-red-100 border border-red-400 text-red-700 rounded text-left"
+            >
               <strong>Erreur :</strong> {error}
             </div>
           )}
@@ -132,7 +159,10 @@ export default function LoginPage() {
           </Link>
         </div>
         <div className="mt-2">
-          <Link to="/register" className="text-dark-blue-buttons hover:underline">
+          <Link
+            to="/register"
+            className="text-dark-blue-buttons hover:underline"
+          >
             S'inscrire !
           </Link>
         </div>

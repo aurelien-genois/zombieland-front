@@ -22,36 +22,41 @@ export default function ActivitiesManagementSingle() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const submitEvent = e.nativeEvent as SubmitEvent;
+    const submitEvent = e.nativeEvent as SubmitEvent & {
+      submitter: HTMLElement & { name?: "draft" | "publish" | undefined };
+    };
     const formData = new FormData(e.currentTarget);
 
-    const {
-      name = "",
-      slogan = "",
-      description = "",
-      age_group = "",
-      duration = "",
-      disabled_access = "",
-      high_intensity = "",
-      image_url = "",
-      category_id = "",
-      saved = false,
-    } = Object.fromEntries(formData) as {
-      name?: string;
-      slogan?: string;
-      description?: string;
-      age_group?: number;
-      duration?: string;
-      disabled_access?: boolean;
-      high_intensity?: boolean;
-      image_url?: string;
-      category_id?: number;
-      saved?: boolean;
-    };
+    // const {
+    //   name = "",
+    //   slogan = "",
+    //   description = "",
+    //   age_group = "",
+    //   duration = "",
+    //   disabled_access = "",
+    //   high_intensity = "",
+    //   image_url = "",
+    //   category_id = "",
+    //   saved = false,
+    // } = Object.fromEntries(formData) as {
+    //   name?: string;
+    //   slogan?: string;
+    //   description?: string;
+    //   age_group?: number;
+    //   duration?: string;
+    //   disabled_access?: boolean;
+    //   high_intensity?: boolean;
+    //   image_url?: string;
+    //   category_id?: number;
+    //   saved?: boolean;
+    // };
 
     setFormError(null);
 
-    // TODO validation
+    if (!currentActivity) {
+      setFormError("Activité non chargée.");
+      return;
+    }
 
     await dispatch(
       updateActivity({

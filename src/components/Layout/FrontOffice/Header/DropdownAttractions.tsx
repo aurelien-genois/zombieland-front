@@ -6,7 +6,7 @@ export default function DropdownMenu() {
   return (
     <Menu as="div" className="relative inline-block text-lg font-bold">
       <MenuButton
-        className="text-grey-menu text-lg font-bold hover:font-bold block hover:text-dark-blue-buttons"
+        className="cursor-pointer text-grey-menu text-lg font-bold hover:font-bold block hover:text-dark-blue-buttons"
       >
         Attractions
       </MenuButton>
@@ -18,10 +18,12 @@ export default function DropdownMenu() {
         <div className="py-1">
           <MenuItem>
             <NavLink
-              to={`/activities/jeu`}
+              to={`/activities/jeux`}
               end
               className={({ isActive }) =>
-                isActive ? "text-dark-blue-buttons block font-extrabold px-4 py-2" : "hover:text-dark-blue-buttons hover:font-bold block px-4 py-2"
+                isActive
+                  ? "text-dark-blue-buttons block font-extrabold px-4 py-2"
+                  : "hover:text-dark-blue-buttons hover:font-bold block px-4 py-2"
               }
             >
               Jeux
@@ -32,7 +34,9 @@ export default function DropdownMenu() {
               to={`/activities/spectacle`}
               end
               className={({ isActive }) =>
-                isActive ? "text-dark-blue-buttons block font-extrabold px-4 py-2" : "hover:text-dark-blue-buttons hover:font-bold block px-4 py-2"
+                isActive
+                  ? "text-dark-blue-buttons block font-extrabold px-4 py-2"
+                  : "hover:text-dark-blue-buttons hover:font-bold block px-4 py-2"
               }
             >
               Spectacles
@@ -43,7 +47,9 @@ export default function DropdownMenu() {
               to={`/activities/manege`}
               end
               className={({ isActive }) =>
-                isActive ? "text-grey-menu block font-extrabold px-4 py-2" : "hover:text-dark-blue-buttons hover:font-bold block px-4 py-2"
+                isActive
+                  ? "text-grey-menu block font-extrabold px-4 py-2"
+                  : "hover:text-dark-blue-buttons hover:font-bold block px-4 py-2"
               }
             >
               Manèges
@@ -51,10 +57,12 @@ export default function DropdownMenu() {
           </MenuItem>
           <MenuItem>
             <NavLink
-              to={`/activities/montagnerusse`}
+              to={`/activities/montagne-russe`}
               end
               className={({ isActive }) =>
-                isActive ? "text-grey-menu block font-extrabold px-4 py-2" : "hover:text-dark-blue-buttons hover:font-bold block px-4 py-2"
+                isActive
+                  ? "text-grey-menu block font-extrabold px-4 py-2"
+                  : "hover:text-dark-blue-buttons hover:font-bold block px-4 py-2"
               }
             >
               Montagnes Russes

@@ -1,14 +1,24 @@
 // Récupérer les données de l'utilisateur et les afficher dans le formulaire pour permettre les modifications
 // Gérer l'affichage de cet élément en fonction du clic sur le tab
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { changePassword } from "@/store/reducers/userReducer";
+import { useLocation } from "react-router";
 
 export default function PasswordUpdate() {
   const dispatch = useAppDispatch();
   const { loading, error } = useAppSelector((state) => state.userStore);
   const [formError, setFormError] = useState<string | null>(null);
+
+  const formErrorId = "password-form-error-id";
+  const errorId = formError || error ? formErrorId : undefined;
+
+  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const location = useLocation();
+  useEffect(() => {
+    passwordRef.current?.focus();
+  }, [location.pathname]);
 
   // Regex pour validation du mot de passe
   const passwordRegex =
@@ -84,8 +94,14 @@ export default function PasswordUpdate() {
                 <span className="text-red-500 font-normal">*</span>
               </label>
               <input
+                id="oldPassword"
                 type="password"
                 name="oldPassword"
+                ref={passwordRef}
+                aria-label="Ancien mot de passe"
+                maxLength={128}
+                aria-invalid={Boolean(formError || error)}
+                aria-describedby={errorId}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
                 required
               />
@@ -102,8 +118,13 @@ export default function PasswordUpdate() {
                 <span className="text-red-500 font-normal">*</span>
               </label>
               <input
+                id="newPassword"
                 type="password"
                 name="newPassword"
+                aria-label="Nouveau mot de passe"
+                maxLength={128}
+                aria-invalid={Boolean(formError || error)}
+                aria-describedby={errorId}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5 mb-1.5"
                 required
               />
@@ -116,8 +137,13 @@ export default function PasswordUpdate() {
                 <span className="text-red-500 font-normal">*</span>
               </label>
               <input
+                id="confirmation"
                 type="password"
                 name="confirmation"
+                aria-label="Confirmation du nouveau mot de passe"
+                maxLength={128}
+                aria-invalid={Boolean(formError || error)}
+                aria-describedby={errorId}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5 pb-10"
                 required
               />
@@ -125,12 +151,18 @@ export default function PasswordUpdate() {
           </div>
 
           {formError && (
-            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded text-center">
+            <div
+              id={formErrorId}
+              className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded text-center"
+            >
               <strong>Erreur :</strong> {formError}
             </div>
           )}
-          {error && (
-            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded text-center">
+          {error && !formError && (
+            <div
+              id={formErrorId}
+              className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded text-center"
+            >
               <strong>Erreur :</strong> {error}
             </div>
           )}

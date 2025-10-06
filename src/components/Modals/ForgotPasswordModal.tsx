@@ -1,8 +1,9 @@
 import { useAppDispatch } from "@/hooks/redux";
 import ModalContainer from "./ContainerModal";
 import { forgotPassword } from "@/store/reducers/userReducer";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Button from "@/components/UI/BackOffice/Button";
+import { useLocation } from "react-router";
 
 interface ForgotPasswordModalProps {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -11,6 +12,11 @@ interface ForgotPasswordModalProps {
 function ForgotPasswordModal({ setIsModalOpen }: ForgotPasswordModalProps) {
   const dispatch = useAppDispatch();
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const emailRef = useRef<HTMLInputElement | null>(null);
+  const location = useLocation();
+  useEffect(() => {
+    emailRef.current?.focus();
+  }, [location.pathname]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -42,12 +48,21 @@ function ForgotPasswordModal({ setIsModalOpen }: ForgotPasswordModalProps) {
         </div>
 
         <input
+          id="forgot-password-email"
+          ref={emailRef}
           type="email"
           name="email"
           placeholder="Entrez votre email"
+          maxLength={254}
+          autoComplete="email"
+          aria-label="Adresse email pour réinitialisation"
           className="w-full border border-gray-300 rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
-        {successMessage && <div className="mb-4 text-sm">{successMessage}</div>}
+        {successMessage && (
+          <div className="mb-4 text-sm" role="status" aria-live="polite">
+            {successMessage}
+          </div>
+        )}
         <div className="flex justify-end gap-2">
           <Button color="gray" onClick={() => setIsModalOpen(false)}>
             Annuler

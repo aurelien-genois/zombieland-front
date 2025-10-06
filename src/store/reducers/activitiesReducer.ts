@@ -159,7 +159,7 @@ export const fetchOneActivity = createAsyncThunk(
 export const createActivity = createAsyncThunk(
   "activities/create",
   async (
-    params: { formData: FormData; action: "draft" | "publish" },
+    params: { formData: FormData; action: "draft" | "publish" | undefined },
     { rejectWithValue }
   ) => {
     try {
@@ -193,7 +193,7 @@ export const createActivity = createAsyncThunk(
 export const updateActivity = createAsyncThunk(
   "activities/update",
   async (
-    params: { formData: FormData; action: "draft" | "publish"; id: number },
+    params: { formData: FormData; action: "draft" | "publish" | undefined; id: number },
     { rejectWithValue }
   ) => {
     try {

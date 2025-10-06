@@ -1,10 +1,13 @@
 import { Link, useParams } from "react-router";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import React, { useEffect, useState } from "react";
-import { fetchOneOrder } from "@/store/reducers/ordersReducer";
+import { useEffect, useState } from "react";
+import { fetchOneOrder, updateOrderStatus } from "@/store/reducers/ordersReducer";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import OrderPDF from "./OrderPDF";
 import QRCode from "qrcode";
+import { ConfirmModal } from "@/components/Modals/ConfirmModal";
+import type { OrderStatus } from "@/@types";
+
 
 const mapPaymentMethod = (method: string) => {
   const paymentMethods: { [key: string]: string } = {
@@ -12,7 +15,7 @@ const mapPaymentMethod = (method: string) => {
     paypal: "PayPal",
     bank_transfer: "Virement bancaire",
   };
-  return paymentMethods[method] || method; // Retourne la valeur mappée ou la valeur brute
+  return paymentMethods[method] || method || "-";
 };
 
 const mapOrderStatus = (method: string) => {
@@ -44,11 +47,13 @@ const getStatusClass = (status: string) => {
   return statusClasses[status] || "text-orange-500 font-bold";
 };
 
+
 export default function OrderPage() {
   const params = useParams();
   const orderId = Number(params.id);
   const dispatch = useAppDispatch();
   const [qrDataUrl, setQrDataUrl] = useState<string>("");
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   const { order, loadingOrder, orderError } = useAppSelector(
     (state) => state.ordersStore
@@ -88,6 +93,8 @@ export default function OrderPage() {
     return <div className="text-grey-menu bg-gray-300">Order not found</div>;
   }
 
+  
+
     const cancelOrder = (visitDateString: string) => {
     const today = new Date();
     const visitDate = new Date(visitDateString);
@@ -95,6 +102,20 @@ export default function OrderPage() {
     const diffDays = diffDate / (1000 * 60 * 60 * 24);
     return diffDays >= 10;
   };
+  function changeStatus(s: OrderStatus) {
+    if (!order || order.status === s) return;
+    dispatch(updateOrderStatus({ id: order.id, status: s }));
+    dispatch(fetchOneOrder(order.id));
+    }
+
+  const handleOpenCancelModal = () => setConfirmOpen(true);
+  const handleCloseCancelModal = () => setConfirmOpen(false);
+
+  const handleConfirmCancel = async () => {
+    changeStatus("canceled")
+    setConfirmOpen(false);
+  };
+  const isCancelDisabled = order.status === "canceled" || order.status === "refund";
 
   return (
     <>
@@ -136,11 +157,11 @@ export default function OrderPage() {
             <p>
               Méthode de paiement :{" "}
               <span className="font-bold">
-                {mapPaymentMethod(order.payment_method)}
+                {order.payment_method ? (mapPaymentMethod(order.payment_method)): null}  
               </span>
             </p>
             <p>
-              Code Ticket :{" "}
+              Code Ticket :
               <span className="font-bold">{order.ticket_code}</span>
             </p>
           </div>
@@ -167,7 +188,7 @@ export default function OrderPage() {
             <tbody>
               {order.order_lines.map((line) => (
                 <tr key={line.id}>
-                  <td className="py-2 px-4">{line.product.name}</td>{""}
+                  <td className="py-2 px-4">{line.product?.name ?? "—"}</td>{""}
                   <td className="py-2 px-4">{line.unit_price} €</td>
                   <td className="py-2 px-4">{line.quantity}</td>
                   <td className="py-2 px-4">
@@ -204,12 +225,21 @@ export default function OrderPage() {
                 Retour
               </Link>
               {cancelOrder(order.visit_date) && (
-                <Link
-                  to="#"
-                  className="w-65 justify-center gap-2 px-4 py-3 rounded-xl font-extrabold text-white bg-red-600 hover:bg-red-500"
+                <button
+                  type="button"
+                  onClick={handleOpenCancelModal}
+                  disabled={isCancelDisabled}
+                  title={isCancelDisabled ? "Commande déjà annulée" : "Annuler la réservation"}
+                  className={[
+                    "w-65 justify-center gap-2 px-4 py-3 rounded-xl font-extrabold text-white",
+                    "bg-red-600 hover:bg-red-500",
+                    // états disabled
+                    "disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none",
+                  ].join(" ")}
+                  aria-disabled={isCancelDisabled}
                 >
                   Annuler la réservation
-              </Link>
+                </button>
               )}
               {order && (
                 <PDFDownloadLink
@@ -230,6 +260,17 @@ export default function OrderPage() {
             </div>
         </div>
       </div>
+
+      {/* Modale de confirmation */}
+      <ConfirmModal
+        open={confirmOpen}
+        onClose={handleCloseCancelModal}
+        onConfirm={handleConfirmCancel}
+        title="Confirmer l’annulation"
+        message={`Tu es sur le point d’annuler la réservation n°${order.id} du ${formatDateToFrench(order.visit_date)}.`}
+        confirmLabel="Oui, annuler"
+        cancelLabel="Non, revenir"
+      />
     </>
   );
 }

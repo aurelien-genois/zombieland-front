@@ -150,7 +150,7 @@ export default function OrderPDF({ order }: OrderPDFProps): JSX.Element {
 
           {order.order_lines.map((line) => (
             <View key={line.id} style={styles.tableRow}>
-              <Text style={styles.tableCell}>{line.product.name}</Text>
+              <Text style={styles.tableCell}>{line.product?.name ?? "—"}</Text>
               <Text style={styles.tableCell}>{line.unit_price} €</Text>
               <Text style={styles.tableCell}>{line.quantity}</Text>
               <Text style={styles.tableCell}>

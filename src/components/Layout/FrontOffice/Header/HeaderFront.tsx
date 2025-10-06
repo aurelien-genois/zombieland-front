@@ -24,7 +24,11 @@ export default function HeaderFront() {
                 to={`/`}
                 end
                 className={({ isActive }) =>
-                  `text-lg font-bold ${isActive ? 'text-dark-blue-buttons' : 'hover:text-dark-blue-buttons hover:shadow-text-md'} transition-all duration-200 ease-in-out`
+                  `text-lg font-bold ${
+                    isActive
+                      ? "text-dark-blue-buttons"
+                      : "hover:text-dark-blue-buttons hover:shadow-text-md"
+                  } transition-all duration-200 ease-in-out`
                 }
               >
                 Accueil
@@ -38,7 +42,11 @@ export default function HeaderFront() {
                 to={`/checkout`}
                 end
                 className={({ isActive }) =>
-                  `text-lg font-bold ${isActive ? 'text-dark-blue-buttons' : 'hover:text-dark-blue-buttons hover:shadow-text-md'} transition-all duration-200 ease-in-out`
+                  `text-lg font-bold ${
+                    isActive
+                      ? "text-dark-blue-buttons"
+                      : "hover:text-dark-blue-buttons hover:shadow-text-md"
+                  } transition-all duration-200 ease-in-out`
                 }
               >
                 Réservation
@@ -71,19 +79,19 @@ export default function HeaderFront() {
         className={`${open ? "block" : "hidden"} md:hidden`}
       >
         <div className="px-4 pb-4 space-y-1 text-3xl text-center font-bold text-grey-menu">
-          <NavLink to={`/`} end className={"block py-2"}>
+          <NavLink to={`/`} end className={"block py-2 cursor-pointer"}>
             Accueil
           </NavLink>
 
-          <NavLink to={`/activities`} end className={"block py-2"}>
+          <NavLink to={`/activities`} end className="block py-2 cursor-pointer">
             Attractions
           </NavLink>
 
-          <NavLink to={`/boutique`} end className={"block py-2"}>
+          <NavLink to={`/boutique`} end className={"block py-2 cursor-pointer"}>
             Boutiques
           </NavLink>
 
-          <NavLink to={`/checkout`} end className={"block py-2"}>
+          <NavLink to={`/checkout`} end className="block py-2 cursor-pointer">
             Réservation
           </NavLink>
 

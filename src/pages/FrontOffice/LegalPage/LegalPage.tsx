@@ -2,8 +2,8 @@ import React from "react";
 
 const LEGAL = {
   siteName: "ZombieLand",
-  domain: "https://exemple.local", 
-  lastUpdated: "02/10/2025", // JJ/MM/AAAA
+  domain: "https://exemple.local",
+  lastUpdated: "02/10/2025",
   editor: {
     company: "ZombieLand Company",
     legalForm: "Projet pédagogique",
@@ -12,27 +12,31 @@ const LEGAL = {
     phone: "01.12.45.78.12",
   },
   host: {
-    name: "À compléter",
-    address: "À compléter",
-    phone: "À compléter",
+    name: "le chef",
+    address: "chez lui",
+    phone: "le sien",
     site: "",
   },
   mediator: {
-    name: " Médiateur de la consommation",
+    name: "Médiateur de la consommation",
     site: "",
   },
   jurisdiction: "Droit français – tribunaux du ressort de votre académie/ville",
 };
 
 const sectionStyle: React.CSSProperties = { marginBottom: 24 };
-const h2Style: React.CSSProperties = { fontSize: 18, fontWeight: 700, margin: "16px 0 8px" };
+
+const h2Style: React.CSSProperties = { fontSize: 18, fontWeight: 700, margin: "16px 0 8px", color: "#000" };
+const smallStyle: React.CSSProperties = { color: "#666", fontSize: 12 };
 const wrapStyle: React.CSSProperties = {
   maxWidth: 880,
   margin: "0 auto",
   padding: "24px 16px",
   lineHeight: 1.6,
+  color: "#000", // <-- texte noir
   fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif",
   color: "#000",
+  background: "#fff", // facultatif, pour forcer le fond blanc si besoin
 };
 
 export default function LegalPage() {
@@ -81,9 +85,7 @@ export default function LegalPage() {
           Conformément au RGPD, vous disposez d’un droit d’accès, de rectification, d’effacement, de limitation, d’opposition et de
           portabilité. Pour exercer vos droits, écrivez-nous à <a href={`mailto:${c.editor.email}`}>{c.editor.email}</a>.
         </p>
-        <p>
-          En cas de difficulté, vous pouvez également saisir la CNIL.
-        </p>
+        <p>En cas de difficulté, vous pouvez également saisir la CNIL.</p>
       </section>
 
       {/* Cookies */}
@@ -91,8 +93,7 @@ export default function LegalPage() {
         <h2 style={h2Style}>Cookies</h2>
         <p>
           Ce site peut utiliser des cookies techniques (fonctionnement, sécurité, session). Des cookies de mesure d’audience ou marketing
-          ne sont activés qu’avec votre consentement (si vous implémentez une bannière). Vous pouvez supprimer les cookies depuis les
-          réglages de votre navigateur.
+          ne sont activés qu’avec votre consentement. Vous pouvez supprimer les cookies depuis les réglages de votre navigateur.
         </p>
       </section>
 

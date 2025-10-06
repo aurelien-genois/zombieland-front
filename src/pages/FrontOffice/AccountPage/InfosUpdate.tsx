@@ -1,15 +1,25 @@
 // Récupérer les données de l'utilisateur et les afficher dans le formulaire pour permettre les modifications
 // Gérer l'affichage de cet élément en fonction du clic sur le tab
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { updateUserProfile } from "@/store/reducers/userReducer";
+import { useLocation } from "react-router";
 
 export default function InfosUpdate() {
   const { userInfo } = useAppSelector((store) => store.userStore);
   const { loading, error } = useAppSelector((state) => state.userStore);
   const [formError, setFormError] = useState<string | null>(null);
   const dispatch = useAppDispatch();
+
+  const formErrorId = "infos-form-error-id";
+  const errorId = formError || error ? formErrorId : undefined;
+
+  const firstnameRef = useRef<HTMLInputElement | null>(null);
+  const location = useLocation();
+  useEffect(() => {
+    firstnameRef.current?.focus();
+  }, [location.pathname]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -85,12 +95,18 @@ export default function InfosUpdate() {
                 Prénom<span className="text-red-500 font-normal">*</span>
               </label>
               <input
+                id="firstname"
                 type="text"
                 name="firstname"
+                aria-label="Prénom"
+                maxLength={50}
+                aria-invalid={Boolean(formError || error)}
+                aria-describedby={errorId}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5"
                 defaultValue={userInfo?.firstname || ""}
                 placeholder="Prénom"
                 disabled={loading}
+                ref={firstnameRef}
                 required
               />
             </div>
@@ -102,8 +118,13 @@ export default function InfosUpdate() {
                 Nom <span className="text-red-500 font-normal">*</span>
               </label>
               <input
+                id="lastname"
                 type="text"
                 name="lastname"
+                aria-label="Nom"
+                maxLength={50}
+                aria-invalid={Boolean(formError || error)}
+                aria-describedby={errorId}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5"
                 defaultValue={userInfo?.lastname || ""}
                 placeholder="Nom"
@@ -120,8 +141,13 @@ export default function InfosUpdate() {
             E-mail <span className="text-red-500 font-normal">*</span>
           </label>
           <input
+            id="email"
             type="email"
             name="email"
+            aria-label="Email"
+            maxLength={254}
+            aria-invalid={Boolean(formError || error)}
+            aria-describedby={errorId}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5"
             defaultValue={userInfo?.email || ""}
             placeholder="monemail@host.com"
@@ -139,8 +165,13 @@ export default function InfosUpdate() {
             Téléphone
           </label>
           <input
+            id="telephone"
             type="tel"
             name="telephone"
+            aria-label="Téléphone"
+            maxLength={20}
+            aria-invalid={Boolean(formError || error)}
+            aria-describedby={errorId}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
             defaultValue={userInfo?.phone || ""}
             placeholder="Indicatif + Téléphone"
@@ -155,9 +186,13 @@ export default function InfosUpdate() {
             <span className="text-red-500 font-normal">*</span>
           </label>
           <input
+            id="birthdate"
             type="date"
             lang="fr"
             name="birthdate"
+            aria-label="Date de naissance"
+            aria-invalid={Boolean(formError || error)}
+            aria-describedby={errorId}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-10"
             defaultValue={
               userInfo?.birthday
@@ -169,12 +204,18 @@ export default function InfosUpdate() {
           />
 
           {formError && (
-            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded text-center">
+            <div
+              id={formErrorId}
+              className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded text-center"
+            >
               <strong>Erreur :</strong> {formError}
             </div>
           )}
-          {error && (
-            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded text-center">
+          {error && !formError && (
+            <div
+              id={formErrorId}
+              className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded text-center"
+            >
               <strong>Erreur :</strong> {error}
             </div>
           )}

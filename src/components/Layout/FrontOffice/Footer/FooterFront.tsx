@@ -23,7 +23,9 @@ export default function FooterFront() {
             />
           </div>
           <div className="text-center flex flex-col w-40 sm:mr-10 mr-2">
-            <p className="text-grey-menu font-bold text-l">Nos réseaux sociaux :</p>
+            <p className="text-grey-menu font-bold text-l">
+              Nos réseaux sociaux
+            </p>
             <div className="flex justify-center mt-2">
               <a className="mr-1" href="">
                 <span
