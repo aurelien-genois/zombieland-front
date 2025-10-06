@@ -27,13 +27,11 @@ const LEGAL = {
 const sectionStyle: React.CSSProperties = { marginBottom: 24 };
 
 const h2Style: React.CSSProperties = { fontSize: 18, fontWeight: 700, margin: "16px 0 8px", color: "#000" };
-const smallStyle: React.CSSProperties = { color: "#666", fontSize: 12 };
 const wrapStyle: React.CSSProperties = {
   maxWidth: 880,
   margin: "0 auto",
   padding: "24px 16px",
   lineHeight: 1.6,
-  color: "#000", // <-- texte noir
   fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif",
   color: "#000",
   background: "#fff", // facultatif, pour forcer le fond blanc si besoin

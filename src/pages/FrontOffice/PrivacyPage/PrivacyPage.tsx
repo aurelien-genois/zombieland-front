@@ -26,7 +26,6 @@ const CONF = {
 
 const sectionStyle: React.CSSProperties = { marginBottom: 24 };
 const h2Style: React.CSSProperties = { fontSize: 18, fontWeight: 700, margin: "16px 0 8px", color: "#000" };
-const smallStyle: React.CSSProperties = { color: "#666", fontSize: 12 };
 const wrapStyle: React.CSSProperties = {
   maxWidth: 880,
   margin: "0 auto",
