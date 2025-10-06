@@ -32,6 +32,7 @@ export default function AccountMenu() {
   console.log("user info: ", userInfo);
   console.log("isAuth: ", isAuth);
 
+  const admin = userInfo?.role.name;
   return (
     <div className="relative z-50">
       <button
@@ -83,13 +84,15 @@ export default function AccountMenu() {
                 >
                   Mes réservations
                 </Link>
-                <Link
-                  to="/admin/dashboard"
-                  className="flex items-center gap-3 px-3 py-2.5 text-lg text-dark-blue-buttons hover:bg-white/10 focus:bg-white/10 outline-none"
-                >
-                  Backoffice
-                </Link>
               </>
+            )}
+            {admin === "admin" && (
+              <Link
+                to="/admin/management/activities"
+                className="flex items-center gap-3 px-3 py-2.5 text-lg text-dark-blue-buttons hover:bg-white/10 focus:bg-white/10 outline-none"
+              >
+                Backoffice
+              </Link>
             )}
           </div>
 
