@@ -77,7 +77,7 @@ export default function ActivityDetails({
             {disabled_access && (
               <img
                 className="max-w-10"
-                src={iconHeart}
+                src={iconDisabled}
                 alt="Accessible aux personnes à mobilité réduite"
               />
             )}
