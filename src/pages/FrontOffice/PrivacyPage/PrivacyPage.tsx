@@ -41,6 +41,7 @@ export default function PrivacyPage() {
   const c = CONF;
   return (
     <main style={wrapStyle}>
+      <h2 className="font-bebas text-4xl text-center">Politique de confidentialité</h2>
       <section style={sectionStyle}>
         <h2 style={h2Style}>1. Responsable du traitement</h2>
         <p>
