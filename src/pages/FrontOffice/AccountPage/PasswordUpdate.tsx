@@ -102,7 +102,7 @@ export default function PasswordUpdate() {
                 maxLength={128}
                 aria-invalid={Boolean(formError || error)}
                 aria-describedby={errorId}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5"
                 required
               />
               <p className="mb-1.5 text-lg md:text-sm ml-2 text-gray-700">
@@ -125,7 +125,7 @@ export default function PasswordUpdate() {
                 maxLength={128}
                 aria-invalid={Boolean(formError || error)}
                 aria-describedby={errorId}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5 mb-1.5"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 mb-1.5"
                 required
               />
 
@@ -144,7 +144,7 @@ export default function PasswordUpdate() {
                 maxLength={128}
                 aria-invalid={Boolean(formError || error)}
                 aria-describedby={errorId}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-red-300 focus:border-red-300 block w-full p-2.5 pb-10"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-xl md:text-base rounded-lg focus:ring-blue-300 focus:border-blue-300 block w-full p-2.5 pb-10"
                 required
               />
             </div>
