@@ -60,8 +60,8 @@ export default function OrderPage() {
   );
 
   useEffect(() => {
-    if (order?.ticket_code) {
-      QRCode.toDataURL(order.ticket_code, {
+    if (order?.qr_code) {
+      QRCode.toDataURL(order.qr_code, {
         color: {
           dark: "#171717",
           light: "#FFFFFF"
@@ -73,7 +73,7 @@ export default function OrderPage() {
         .then(setQrDataUrl)
         .catch(console.error);
     }
-  }, [order?.ticket_code]);
+  }, [order?.qr_code]);
 
   useEffect(() => {
     if (orderId) {
@@ -117,6 +117,8 @@ export default function OrderPage() {
   };
   const isCancelDisabled = order.status === "canceled" || order.status === "refund";
 
+    console.log(order.ticket_code);
+    console.log(order.qr_code);
   return (
     <>
       <div className="mx-auto px-4 text-grey-menu text-center max-w-250">

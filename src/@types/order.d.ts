@@ -65,6 +65,7 @@ export interface IOrder {
   payment_method?: string | null;
 
   ticket_code: string;
+  qr_code: string;
 
   user_id: number;
   user: IUser;       
