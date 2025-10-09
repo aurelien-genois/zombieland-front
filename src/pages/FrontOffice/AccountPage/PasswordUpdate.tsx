@@ -20,9 +20,7 @@ export default function PasswordUpdate() {
     passwordRef.current?.focus();
   }, [location.pathname]);
 
-  // Regex pour validation du mot de passe
-  const passwordRegex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-])[A-Za-z\d@$!%*?&-]{10,}$/;
+  const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,}$/;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,18 +46,19 @@ export default function PasswordUpdate() {
       setFormError("Nouveau mot de passe requis");
       return;
     }
+
+    if (!regexPassword.test(newPassword)) {
+      setFormError(
+        "Le mot de passe doit contenir au moins 12 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial"
+      );
+      return;
+    }
     if (!confirmation) {
       setFormError("Confirmation du mot de passe requise");
       return;
     }
     if (newPassword !== confirmation) {
       setFormError("Les mots de passe ne correspondent pas");
-      return;
-    }
-    if (!passwordRegex.test(newPassword)) {
-      setFormError(
-        "Le nouveau mot de passe doit contenir au moins 10 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial"
-      );
       return;
     }
 

@@ -19,6 +19,9 @@ export default function RegisterForm() {
     firstNameRef.current?.focus();
   }, [location.pathname]);
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,}$/;
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -64,6 +67,13 @@ export default function RegisterForm() {
       setFormError("Le mot de passe est requis");
       return;
     }
+
+    if (!regexPassword.test(password)) {
+      setFormError(
+        "Le mot de passe doit contenir au moins 12 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial"
+      );
+      return;
+    }
     if (!confirmation) {
       setFormError("La confirmation du mot de passe est requise");
       return;
@@ -73,20 +83,8 @@ export default function RegisterForm() {
       return;
     }
 
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setFormError("Format d'email invalide");
-      return;
-    }
-
-    // Password validation
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-])[A-Za-z\d@$!%*?&-]{10,}$/;
-    if (!passwordRegex.test(password)) {
-      setFormError(
-        "Le mot de passe doit contenir au moins 10 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial."
-      );
       return;
     }
 
