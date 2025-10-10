@@ -193,7 +193,11 @@ export const createActivity = createAsyncThunk(
 export const updateActivity = createAsyncThunk(
   "activities/update",
   async (
-    params: { formData: FormData; action: "draft" | "publish" | undefined; id: number },
+    params: {
+      formData: FormData;
+      action: "draft" | "publish" | undefined;
+      id: number;
+    },
     { rejectWithValue }
   ) => {
     try {
@@ -229,9 +233,11 @@ export const updateActivity = createAsyncThunk(
 
 export const publishActivity = createAsyncThunk(
   "activities/publish",
-  async (id: number, { rejectWithValue }) => {
+  async (params: { id: number; saved: boolean }, { rejectWithValue }) => {
     try {
-      const { data } = await axiosInstance.patch(`/activities/${id}/publish`);
+      const { data } = await axiosInstance.patch(`/activities/${params.id}`, {
+        saved: params.saved,
+      });
       console.log("data: Publish ACTIVITY:", data);
 
       // TODO Axios errors
