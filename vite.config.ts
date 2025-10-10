@@ -11,4 +11,12 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src"),
     },
   },
+  build: {
+    target: 'node',
+  },
+  server: {
+    watch: {
+      usePolling: true,
+    },
+  },
 });

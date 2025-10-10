@@ -17,6 +17,7 @@
     "@reduxjs/toolkit": "^2.9.0",
     "@tailwindcss/vite": "^4.1.13",
     "axios": "^1.12.2",
+    "debug": "^4.4.3",
     "preline": "^3.2.3",
     "qrcode": "^1.5.4",
     "react": "^19.1.1",
@@ -44,5 +45,8 @@
     "typescript-eslint": "^8.39.1",
     "vite": "^7.1.2",
     "vitest": "^3.2.4"
+  },
+  "prettier": {
+    "singleQuote": false
   }
 }

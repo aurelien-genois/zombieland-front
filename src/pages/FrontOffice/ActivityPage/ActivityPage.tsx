@@ -22,11 +22,7 @@ export default function ActivityPage() {
     <>
       {/* // ! Only one image per activity actually ! */}
       <ActivityCarousel
-        images={[
-          currentActivity.image_url ||
-            imageCarousel1,
-          imageCarousel2,
-        ]}
+        images={[currentActivity.image_url || imageCarousel1, imageCarousel2]}
       />
       <ActivityDetails
         name={currentActivity.name}
@@ -36,6 +32,7 @@ export default function ActivityPage() {
         minimum_age={currentActivity.minimum_age}
         high_intensity={currentActivity.high_intensity}
         disabled_access={currentActivity.disabled_access}
+        userRateActivities={currentActivity.userRateActivities}
       />
     </>
   );

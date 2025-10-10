@@ -108,9 +108,13 @@ export default function ActivitiesManagement() {
     );
   };
 
-  const handlePublish = async (activityId: number) => {
-    await dispatch(publishActivity(activityId));
-    setSuccessMessage(`L'activité a bien été publiée.`);
+  const handleNewStatus = async (activityId: number, saved: boolean) => {
+    await dispatch(publishActivity({ id: activityId, saved: saved }));
+    setSuccessMessage(
+      saved
+        ? `L'activité a bien été publiée.`
+        : `L'activité est bien passée en brouillon.`
+    );
   };
 
   const handleReset = () => {
@@ -164,16 +168,18 @@ export default function ActivitiesManagement() {
 
       {/* Colonne statut */}
       <TableData nowrap={false}>
-        {activity.status === "published" ? (
-          activity.status
-        ) : (
-          <>
-            {activity.status}
-            <Button color="blue" onClick={() => handlePublish(activity.id)}>
-              Publier
-            </Button>
-          </>
-        )}
+        {activity.status}&nbsp;
+        <Button
+          color="blue"
+          onClick={() =>
+            handleNewStatus(
+              activity.id,
+              activity.status === "published" ? false : true
+            )
+          }
+        >
+          {activity.status === "published" ? "Passer en brouillon" : "Publier"}
+        </Button>
       </TableData>
 
       {/* Colonne Updated at */}
