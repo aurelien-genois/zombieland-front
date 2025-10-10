@@ -10,6 +10,8 @@ interface IActivityDetailsProps {
   minimum_age: number;
   high_intensity: boolean;
   disabled_access: boolean;
+  averageGrade: number;
+  nbGrades: number;
 }
 
 export default function ActivityDetails({
@@ -20,6 +22,8 @@ export default function ActivityDetails({
   minimum_age,
   high_intensity,
   disabled_access,
+  averageGrade,
+  nbGrades,
 }: IActivityDetailsProps) {
   return (
     <>
@@ -33,28 +37,17 @@ export default function ActivityDetails({
           <p className="max-w-200 mx-auto text-lg mt-7">{description}</p>
         </div>
         <div className="flex justify-center my-8">
-          <div className="flex mx-auto w-40 justify-center gap-1.5">
-            {/* // TODO evaluation form 1 to 5 */}
-            <span
-              aria-hidden
-              className="h-8 w-6 bg-dark-blue-buttons text-dark-blue-buttons [mask:url(/src/assets/icon/star-full.svg)_no-repeat_center/contain]"
-            />
-            <span
-              aria-hidden
-              className="h-8 w-6 bg-dark-blue-buttons text-dark-blue-buttons [mask:url(/src/assets/icon/star-full.svg)_no-repeat_center/contain]"
-            />
-            <span
-              aria-hidden
-              className="h-8 w-6 bg-dark-blue-buttons text-dark-blue-buttons [mask:url(/src/assets/icon/star-full.svg)_no-repeat_center/contain]"
-            />
-            <span
-              aria-hidden
-              className="h-8 w-6 bg-dark-blue-buttons text-dark-blue-buttons [mask:url(/src/assets/icon/star-full.svg)_no-repeat_center/contain]"
-            />
-            <span
-              aria-hidden
-              className="h-8 w-6 bg-dark-blue-buttons text-dark-blue-buttons [mask:url(/src/assets/icon/star-full.svg)_no-repeat_center/contain]"
-            />
+          <div className="flex items-center mx-auto">
+            <div className="relative w-[120px]">
+              <div
+                className="h-6 bg-dark-blue-buttons [mask:url(/src/assets/icon/star-full.svg)_repeat-x_left/contain]"
+                style={{
+                  width: `calc(${averageGrade}*100%/5)`,
+                }}
+              ></div>
+              <div className="h-6 bg-gray-200 w-full absolute left-0 top-0 -z-10 [mask:url(/src/assets/icon/star-full.svg)_repeat-x_left/contain]"></div>
+            </div>
+            <p>&nbsp;({nbGrades ? nbGrades + " votes" : nbGrades + " vote"})</p>
           </div>
           <div className="flex mx-auto  w-40 justify-center">
             {[...Array(minimum_age)].map((_, index) => (
