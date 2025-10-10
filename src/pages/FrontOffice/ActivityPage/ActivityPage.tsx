@@ -18,19 +18,6 @@ export default function ActivityPage() {
     return <div className="text-grey-menu">Error: {error}</div>;
   }
 
-  let averageGrade = 0;
-  if (
-    currentActivity.userRateActivities !== undefined &&
-    currentActivity.userRateActivities.length
-  ) {
-    // calculate average or all
-    averageGrade =
-      currentActivity.userRateActivities.reduce(
-        (total, rate) => total + rate.grade,
-        0
-      ) / currentActivity.userRateActivities.length;
-  }
-
   return (
     <>
       {/* // ! Only one image per activity actually ! */}
@@ -45,8 +32,7 @@ export default function ActivityPage() {
         minimum_age={currentActivity.minimum_age}
         high_intensity={currentActivity.high_intensity}
         disabled_access={currentActivity.disabled_access}
-        averageGrade={averageGrade}
-        nbGrades={currentActivity.userRateActivities.length}
+        userRateActivities={currentActivity.userRateActivities}
       />
     </>
   );

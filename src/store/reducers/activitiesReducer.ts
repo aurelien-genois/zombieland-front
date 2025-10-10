@@ -267,6 +267,34 @@ export const deleteActivity = createAsyncThunk(
   }
 );
 
+export const evaluateActivity = createAsyncThunk(
+  "activities/evaluate",
+  async (params: { id: number; formData: FormData }, { rejectWithValue }) => {
+    try {
+      logger("PARAMS ::>>>>", params);
+      const objData = Object.fromEntries(params.formData);
+      logger("objData ::>>>>", objData);
+
+      const { data } = await axiosInstance.post(
+        `/activities/${params.id}/evaluate`,
+        {
+          grade: Number(objData.grade),
+          ...(objData.comment && { comment: objData.comment }),
+        }
+      );
+
+      logger("data: EVALUATE ACTIVITY", data);
+
+      return data as IActivity;
+    } catch (error) {
+      // if 404 "Activity not found"
+      // if 409 "User already rates this activity"
+      console.log("ERROR ERROR", error);
+      return rejectWithValue("failed to evaluate activity");
+    }
+  }
+);
+
 // **********************************************************************************
 // ** Reducer & Associated Cases
 // **********************************************************************************
@@ -397,6 +425,21 @@ const activitiesReducer = createReducer(initialState, (builder) => {
     .addCase(deleteActivity.rejected, (state, action) => {
       state.loading = false;
       state.error = (action.payload as string) || "Deletion failed";
+    });
+
+  builder
+    .addCase(evaluateActivity.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(evaluateActivity.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.currentActivity = action.payload;
+    })
+    .addCase(evaluateActivity.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || "Evaluation failed";
     });
 });
 
