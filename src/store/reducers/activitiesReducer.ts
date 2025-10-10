@@ -1,6 +1,10 @@
 import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
 import type { IActivity } from "@/@types";
 import { axiosInstance } from "@/api/axiosInstance";
+import debug from "debug";
+
+const logger = new debug("app:redux");
+
 // import type { AxiosError } from "axios";
 
 // **********************************************************************************
@@ -73,7 +77,7 @@ export const fetchPublishedActivities = createAsyncThunk(
           ...(params.search && { search: params.search }),
         },
       });
-      console.log("DATA FROM FETCH ACTIVITIES: ", data);
+      logger("DATA FROM FETCH ACTIVITIES: ", data);
       // TODO Axios errors
       return {
         ...data,
@@ -111,7 +115,7 @@ export const fetchAllActivities = createAsyncThunk(
           ...(params.search && { search: params.search }),
         },
       });
-      console.log("DATA FROM FETCH ACTIVITIES: ", data);
+      logger("DATA FROM FETCH ACTIVITIES: ", data);
       // TODO Axios errors
       return {
         ...data,
@@ -131,7 +135,7 @@ export const fetchOnePublishedActivity = createAsyncThunk(
       const { data } = await axiosInstance.get(`/activities/${slug}`, {
         params: {},
       });
-      console.log("DATA FROM FETCH ONE PUBLISHED ACTIVITY: ", data);
+      logger("DATA FROM FETCH ONE PUBLISHED ACTIVITY: ", data);
       // TODO Axios errors
       return data as IActivity;
     } catch {
@@ -147,7 +151,7 @@ export const fetchOneActivity = createAsyncThunk(
       const { data } = await axiosInstance.get(`/activities/all/${slug}`, {
         params: {},
       });
-      console.log("DATA FROM FETCH ONE ACTIVITY: ", data);
+      logger("DATA FROM FETCH ONE ACTIVITY: ", data);
       // TODO Axios errors
       return data as IActivity;
     } catch {
@@ -164,7 +168,7 @@ export const createActivity = createAsyncThunk(
   ) => {
     try {
       const objData = Object.fromEntries(params.formData);
-      console.log("objData ::>>>>", objData);
+      logger("objData ::>>>>", objData);
 
       const body = {
         name: objData.name,
@@ -180,7 +184,7 @@ export const createActivity = createAsyncThunk(
       };
 
       const { data } = await axiosInstance.post("/activities", body);
-      console.log("data: CREATE ACTIVITY:", data);
+      logger("data: CREATE ACTIVITY:", data);
 
       // TODO Axios errors
       return data as IActivity;
@@ -202,7 +206,7 @@ export const updateActivity = createAsyncThunk(
   ) => {
     try {
       const objData = Object.fromEntries(params.formData);
-      console.log("objData ::>>>>", objData);
+      logger("objData ::>>>>", objData);
 
       const body = {
         name: objData.name,
@@ -221,7 +225,7 @@ export const updateActivity = createAsyncThunk(
         `/activities/${params.id}`,
         body
       );
-      console.log("data: UPDATE ACTIVITY:", data);
+      logger("data: UPDATE ACTIVITY:", data);
 
       // TODO Axios errors
       return data as IActivity;
@@ -238,7 +242,7 @@ export const publishActivity = createAsyncThunk(
       const { data } = await axiosInstance.patch(`/activities/${params.id}`, {
         saved: params.saved,
       });
-      console.log("data: Publish ACTIVITY:", data);
+      logger("data: New status ACTIVITY:", data);
 
       // TODO Axios errors
       return data as IActivity;
@@ -253,7 +257,7 @@ export const deleteActivity = createAsyncThunk(
   async (id: number, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.delete(`/activities/${id}`);
-      console.log("data: DELETE ACTIVITY:", data);
+      logger("data: DELETE ACTIVITY:", data);
 
       // TODO Axios errors
       return data as IActivity;
