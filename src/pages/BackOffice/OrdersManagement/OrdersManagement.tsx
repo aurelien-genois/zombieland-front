@@ -144,7 +144,10 @@ export default function OrdersManagement() {
             <label className="sr-only">Recherche</label>
             <input
               value={q}
-              onChange={(e) => setQ(e.target.value)}
+              onChange={(e) => {
+                setQ(e.target.value);
+                setCurrentPage(1);
+              }}
               ref={inputRef}
               placeholder="Recherche (email, nom, moyen de paiement...)"
               className="w-full rounded border border-gray-300 px-3 py-2"
@@ -153,9 +156,10 @@ export default function OrdersManagement() {
 
           <select
             value={statusFilter}
-            onChange={(e) =>
-              setStatusFilter(e.target.value as OrderStatus | "all")
-            }
+            onChange={(e) => {
+              setStatusFilter(e.target.value as OrderStatus | "all");
+              setCurrentPage(1);
+            }}
             className="rounded border border-gray-300 px-2 py-2"
           >
             <option value="all">Tous les statuts</option>
@@ -167,7 +171,10 @@ export default function OrdersManagement() {
 
           <select
             value={sort}
-            onChange={(e) => setSort(e.target.value as OrdersSort)}
+            onChange={(e) => {
+              setSort(e.target.value as OrdersSort);
+              setCurrentPage(1);
+            }}
             className="no-arrow rounded border border-gray-300 py-2 pl-2 pr-8 bg-white focus:outline-none"
           >
             <option value="order_date:desc">Order date</option>

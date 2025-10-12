@@ -59,6 +59,7 @@ export default function ActivitiesPage() {
   const [categoryQuery, setCategoryQuery] = useState<number | undefined>(
     undefined
   );
+
   useEffect(() => {
     // if current page url for a category, set filter (that will fetch activities)
     setCategoryQuery(categoryIdToFilter);
@@ -75,7 +76,40 @@ export default function ActivitiesPage() {
     string | undefined
   >(undefined);
 
+  const [prevFilters, setPrevFilters] = useState({
+    limit,
+    searchQuery,
+    categoryQuery,
+    ageGroupQuery,
+    disabledAccessQuery,
+    highIntensityQuery,
+    orderQuery,
+  });
+
   useEffect(() => {
+    const filtersChanged =
+      prevFilters.limit !== limit ||
+      prevFilters.searchQuery !== searchQuery ||
+      prevFilters.categoryQuery !== categoryQuery ||
+      prevFilters.ageGroupQuery !== ageGroupQuery ||
+      prevFilters.disabledAccessQuery !== disabledAccessQuery ||
+      prevFilters.highIntensityQuery !== highIntensityQuery ||
+      prevFilters.orderQuery !== orderQuery;
+
+    if (filtersChanged && currentPage !== 1) {
+      setCurrentPage(1);
+    }
+
+    setPrevFilters({
+      limit,
+      searchQuery,
+      categoryQuery,
+      ageGroupQuery,
+      disabledAccessQuery,
+      highIntensityQuery,
+      orderQuery,
+    });
+
     dispatch(
       fetchPublishedActivities({
         perPage: limit,
@@ -104,10 +138,18 @@ export default function ActivitiesPage() {
     disabledAccessQuery,
     highIntensityQuery,
     orderQuery,
+    prevFilters.limit,
+    prevFilters.searchQuery,
+    prevFilters.categoryQuery,
+    prevFilters.ageGroupQuery,
+    prevFilters.disabledAccessQuery,
+    prevFilters.highIntensityQuery,
+    prevFilters.orderQuery,
   ]);
 
   const handleSearchSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setCurrentPage(1);
     dispatch(
       fetchPublishedActivities({
         perPage: limit,
@@ -130,6 +172,7 @@ export default function ActivitiesPage() {
 
   const handleReset = async () => {
     setLimit(9);
+    setCurrentPage(1);
     setOrderQuery("");
     setSearchQuery("");
     setAgeGroupQuery(undefined);
@@ -177,7 +220,9 @@ export default function ActivitiesPage() {
                 </div>
               </div>
             </div>
-            <p className="text-dark-blue-buttons text-lg text-center font-bold my-3">{total} résultats</p>
+            <p className="text-dark-blue-buttons text-lg text-center font-bold my-3">
+              {total} résultats
+            </p>
             {loading ? (
               <div className="text-grey-menu">Loading...</div>
             ) : error || !activities ? (
