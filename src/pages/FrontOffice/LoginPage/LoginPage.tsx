@@ -13,7 +13,6 @@ export default function LoginPage() {
   const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
-  // focus automatique sur le champ email
   const emailRef = useRef<HTMLInputElement | null>(null);
   const location = useLocation();
   useEffect(() => {
@@ -22,8 +21,8 @@ export default function LoginPage() {
 
   const formErrorId = "login-form-error-id";
   const errorId = formError || error ? formErrorId : undefined;
+  const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,}$/;
 
-  console.log("LOADING:", loading);
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formEl = event.currentTarget;
@@ -37,25 +36,25 @@ export default function LoginPage() {
     setFormError(null);
 
     if (!email.trim()) {
-      setFormError("Email requis");
+      setFormError("Email ou Mot de passe invalide");
       return;
     }
     if (!email.includes("@")) {
-      setFormError("Format d'email invalide");
+      setFormError("Email ou Mot de passe invalide");
       return;
     }
     if (!password) {
-      setFormError("Mot de passe requis");
+      setFormError("Email ou Mot de passe invalide");
       return;
     }
-    if (password.length < 10) {
-      setFormError("Le mot de passe doit contenir au moins 10 caractères");
+    if (!regexPassword.test(password)) {
+      setFormError("Email ou Mot de passe invalide");
       return;
     }
 
     const result = await dispatch(login(formData));
     if (login.fulfilled.match(result)) {
-      navigate("/"); // TODO: remplacer par la page d'accueil
+      navigate("/");
     }
   };
 

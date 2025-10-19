@@ -104,13 +104,13 @@ export default function OrderPDF({ order }: OrderPDFProps): JSX.Element {
 
   React.useEffect(() => {
     if (order?.ticket_code) {
-      QRCode.toDataURL(order.ticket_code, {
+      QRCode.toDataURL(order.qr_code, {
         margin: 2,
         errorCorrectionLevel: "H",
         color: { dark: "#000000", light: "#FFFFFF" },
       }).then(setQrDataUrl);
     }
-  }, [order?.ticket_code]);
+  }, [order?.qr_code]);
 
   return (
     <Document>

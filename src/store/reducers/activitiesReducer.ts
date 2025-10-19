@@ -1,6 +1,10 @@
 import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
 import type { IActivity } from "@/@types";
 import { axiosInstance } from "@/api/axiosInstance";
+import debug from "debug";
+
+const logger = new debug("app:redux");
+
 // import type { AxiosError } from "axios";
 
 // **********************************************************************************
@@ -73,7 +77,7 @@ export const fetchPublishedActivities = createAsyncThunk(
           ...(params.search && { search: params.search }),
         },
       });
-      console.log("DATA FROM FETCH ACTIVITIES: ", data);
+      logger("DATA FROM FETCH ACTIVITIES: ", data);
       // TODO Axios errors
       return {
         ...data,
@@ -111,7 +115,7 @@ export const fetchAllActivities = createAsyncThunk(
           ...(params.search && { search: params.search }),
         },
       });
-      console.log("DATA FROM FETCH ACTIVITIES: ", data);
+      logger("DATA FROM FETCH ACTIVITIES: ", data);
       // TODO Axios errors
       return {
         ...data,
@@ -131,7 +135,7 @@ export const fetchOnePublishedActivity = createAsyncThunk(
       const { data } = await axiosInstance.get(`/activities/${slug}`, {
         params: {},
       });
-      console.log("DATA FROM FETCH ONE PUBLISHED ACTIVITY: ", data);
+      logger("DATA FROM FETCH ONE PUBLISHED ACTIVITY: ", data);
       // TODO Axios errors
       return data as IActivity;
     } catch {
@@ -147,7 +151,7 @@ export const fetchOneActivity = createAsyncThunk(
       const { data } = await axiosInstance.get(`/activities/all/${slug}`, {
         params: {},
       });
-      console.log("DATA FROM FETCH ONE ACTIVITY: ", data);
+      logger("DATA FROM FETCH ONE ACTIVITY: ", data);
       // TODO Axios errors
       return data as IActivity;
     } catch {
@@ -164,7 +168,7 @@ export const createActivity = createAsyncThunk(
   ) => {
     try {
       const objData = Object.fromEntries(params.formData);
-      console.log("objData ::>>>>", objData);
+      logger("objData ::>>>>", objData);
 
       const body = {
         name: objData.name,
@@ -180,7 +184,7 @@ export const createActivity = createAsyncThunk(
       };
 
       const { data } = await axiosInstance.post("/activities", body);
-      console.log("data: CREATE ACTIVITY:", data);
+      logger("data: CREATE ACTIVITY:", data);
 
       // TODO Axios errors
       return data as IActivity;
@@ -193,12 +197,16 @@ export const createActivity = createAsyncThunk(
 export const updateActivity = createAsyncThunk(
   "activities/update",
   async (
-    params: { formData: FormData; action: "draft" | "publish" | undefined; id: number },
+    params: {
+      formData: FormData;
+      action: "draft" | "publish" | undefined;
+      id: number;
+    },
     { rejectWithValue }
   ) => {
     try {
       const objData = Object.fromEntries(params.formData);
-      console.log("objData ::>>>>", objData);
+      logger("objData ::>>>>", objData);
 
       const body = {
         name: objData.name,
@@ -217,7 +225,7 @@ export const updateActivity = createAsyncThunk(
         `/activities/${params.id}`,
         body
       );
-      console.log("data: UPDATE ACTIVITY:", data);
+      logger("data: UPDATE ACTIVITY:", data);
 
       // TODO Axios errors
       return data as IActivity;
@@ -229,10 +237,12 @@ export const updateActivity = createAsyncThunk(
 
 export const publishActivity = createAsyncThunk(
   "activities/publish",
-  async (id: number, { rejectWithValue }) => {
+  async (params: { id: number; saved: boolean }, { rejectWithValue }) => {
     try {
-      const { data } = await axiosInstance.patch(`/activities/${id}/publish`);
-      console.log("data: Publish ACTIVITY:", data);
+      const { data } = await axiosInstance.patch(`/activities/${params.id}`, {
+        saved: params.saved,
+      });
+      logger("data: New status ACTIVITY:", data);
 
       // TODO Axios errors
       return data as IActivity;
@@ -247,12 +257,40 @@ export const deleteActivity = createAsyncThunk(
   async (id: number, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.delete(`/activities/${id}`);
-      console.log("data: DELETE ACTIVITY:", data);
+      logger("data: DELETE ACTIVITY:", data);
 
       // TODO Axios errors
       return data as IActivity;
     } catch {
       return rejectWithValue("Failed to fetch delete activity");
+    }
+  }
+);
+
+export const evaluateActivity = createAsyncThunk(
+  "activities/evaluate",
+  async (params: { id: number; formData: FormData }, { rejectWithValue }) => {
+    try {
+      logger("PARAMS ::>>>>", params);
+      const objData = Object.fromEntries(params.formData);
+      logger("objData ::>>>>", objData);
+
+      const { data } = await axiosInstance.post(
+        `/activities/${params.id}/evaluate`,
+        {
+          grade: Number(objData.grade),
+          ...(objData.comment && { comment: objData.comment }),
+        }
+      );
+
+      logger("data: EVALUATE ACTIVITY", data);
+
+      return data as IActivity;
+    } catch (error) {
+      // if 404 "Activity not found"
+      // if 409 "User already rates this activity"
+      console.log("ERROR ERROR", error);
+      return rejectWithValue("failed to evaluate activity");
     }
   }
 );
@@ -387,6 +425,21 @@ const activitiesReducer = createReducer(initialState, (builder) => {
     .addCase(deleteActivity.rejected, (state, action) => {
       state.loading = false;
       state.error = (action.payload as string) || "Deletion failed";
+    });
+
+  builder
+    .addCase(evaluateActivity.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(evaluateActivity.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.currentActivity = action.payload;
+    })
+    .addCase(evaluateActivity.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || "Evaluation failed";
     });
 });
 

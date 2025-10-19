@@ -4,6 +4,14 @@
 @plugin "@tailwindcss/forms";
 
 @font-face {
+  font-family: 'Halloweek';
+  src: url('../../assets/fonts/halloweek.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'BebasNeue';
   src: url('../../assets/fonts/BebasNeue-Regular.woff2') format('woff2'),
        url('../../assets/fonts/BebasNeue-Regular.woff') format('woff');
@@ -21,6 +29,9 @@
   font-display: swap;
 }
 
+.font-halloweek {
+  font-family: 'Halloweek', sans-serif;
+}
 
 .font-bebas {
   font-family: 'BebasNeue', sans-serif;

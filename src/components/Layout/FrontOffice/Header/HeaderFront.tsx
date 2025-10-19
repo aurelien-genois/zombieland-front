@@ -10,11 +10,8 @@ export default function HeaderFront() {
     <header className="fixed top-0 inset-x-0 z-50 bg-white-bg/50 border-b-0 shadow-md shadow-blue-border-banner backdrop-blur">
       <div className="max-w-7xl mx-auto h-16 sm:h-20 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         <div className="w-120 flex justify-start mx-auto">
-          <a href="/" className="shrink-0 w-60 h-16 flex justify-center">
-            <span
-              aria-hidden
-              className="bg-grey-menu [mask:url(@/assets/icon/logo.svg)_no-repeat_center/contain] inline-block w-full h-full"
-            />
+          <a href="/" className="shrink-0 w-60 h-16 flex items-center justify-center">
+            <h1 className="font-halloweek text-4xl sm:text-4xl md:text-4xl lg-7xl">ZombieLand</h1>
           </a>
         </div>
         <div className="flex w-200 justify-center mx-auto">

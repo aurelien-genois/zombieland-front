@@ -41,6 +41,7 @@ export default function LegalPage() {
   const c = LEGAL;
   return (
     <main style={wrapStyle}>
+      <h2 className="font-bebas text-4xl text-center">Mentions légales</h2>
       {/* Éditeur */}
       <section style={sectionStyle}>
         <h2 style={h2Style}>Éditeur du site</h2>

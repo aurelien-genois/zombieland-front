@@ -16,4 +16,14 @@ export interface IActivity {
   created_at: string;
   updated_at: string;
   category: ICategory;
+  userRateActivities: IUserRateActivity[];
+}
+
+export interface IUserRateActivity {
+  grade: number;
+  comment: string;
+  user_id: number;
+  activity_id: number;
+  created_at: string;
+  updated_at: string;
 }

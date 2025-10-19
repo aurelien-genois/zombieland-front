@@ -45,6 +45,18 @@ export default function ActivitiesManagement() {
   >(undefined);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const [prevFilters, setPrevFilters] = useState({
+    limit,
+    searchQuery,
+    statusQuery,
+    categoryQuery,
+    ageGroupQuery,
+    disabledAccessQuery,
+    highIntensityQuery,
+    orderQuery,
+  });
+
   useEffect(() => {
     inputRef.current?.focus();
   }, [location.pathname]);
@@ -52,6 +64,31 @@ export default function ActivitiesManagement() {
   const { categories } = useCategories();
 
   useEffect(() => {
+    const filtersChanged =
+      prevFilters.limit !== limit ||
+      prevFilters.searchQuery !== searchQuery ||
+      prevFilters.statusQuery !== statusQuery ||
+      prevFilters.categoryQuery !== categoryQuery ||
+      prevFilters.ageGroupQuery !== ageGroupQuery ||
+      prevFilters.disabledAccessQuery !== disabledAccessQuery ||
+      prevFilters.highIntensityQuery !== highIntensityQuery ||
+      prevFilters.orderQuery !== orderQuery;
+
+    if (filtersChanged && currentPage !== 1) {
+      setCurrentPage(1);
+    }
+
+    setPrevFilters({
+      limit,
+      searchQuery,
+      statusQuery,
+      categoryQuery,
+      ageGroupQuery,
+      disabledAccessQuery,
+      highIntensityQuery,
+      orderQuery,
+    });
+
     dispatch(
       fetchAllActivities({
         perPage: limit,
@@ -83,10 +120,19 @@ export default function ActivitiesManagement() {
     highIntensityQuery,
     orderQuery,
     successMessage,
+    prevFilters.limit,
+    prevFilters.searchQuery,
+    prevFilters.statusQuery,
+    prevFilters.categoryQuery,
+    prevFilters.ageGroupQuery,
+    prevFilters.disabledAccessQuery,
+    prevFilters.highIntensityQuery,
+    prevFilters.orderQuery,
   ]);
 
   const handleSearchSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setCurrentPage(1);
     await dispatch(
       fetchAllActivities({
         perPage: limit,
@@ -108,13 +154,18 @@ export default function ActivitiesManagement() {
     );
   };
 
-  const handlePublish = async (activityId: number) => {
-    await dispatch(publishActivity(activityId));
-    setSuccessMessage(`L'activité a bien été publiée.`);
+  const handleNewStatus = async (activityId: number, saved: boolean) => {
+    await dispatch(publishActivity({ id: activityId, saved: saved }));
+    setSuccessMessage(
+      saved
+        ? `L'activité a bien été publiée.`
+        : `L'activité est bien passée en brouillon.`
+    );
   };
 
   const handleReset = () => {
     setLimit(10);
+    setCurrentPage(1);
     setOrderQuery("");
     setAgeGroupQuery(undefined);
     setDisabledAccessQuery(undefined);
@@ -164,16 +215,18 @@ export default function ActivitiesManagement() {
 
       {/* Colonne statut */}
       <TableData nowrap={false}>
-        {activity.status === "published" ? (
-          activity.status
-        ) : (
-          <>
-            {activity.status}
-            <Button color="blue" onClick={() => handlePublish(activity.id)}>
-              Publier
-            </Button>
-          </>
-        )}
+        {activity.status}&nbsp;
+        <Button
+          color="blue"
+          onClick={() =>
+            handleNewStatus(
+              activity.id,
+              activity.status === "published" ? false : true
+            )
+          }
+        >
+          {activity.status === "published" ? "Passer en brouillon" : "Publier"}
+        </Button>
       </TableData>
 
       {/* Colonne Updated at */}
