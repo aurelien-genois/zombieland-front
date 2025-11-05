@@ -12,7 +12,7 @@ export default defineConfig({
     },
   },
   build: {
-    target: 'node',
+    target: "es2020", // or "modules" for widest browser support
   },
   server: {
     watch: {
