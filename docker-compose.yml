@@ -1,0 +1,26 @@
+services:
+  zombieland-client:
+    container_name: zombieland-client
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_BASE_URL=${VITE_API_BASE_URL}
+    ports:
+      - ${CLIENT_LOCAL_PORT:-8081}:80
+    restart: unless-stopped
+    depends_on:
+      zombieland-api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/index.html"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    networks:
+      - proxy_default
+
+networks:
+  proxy_default:
+    external: true
