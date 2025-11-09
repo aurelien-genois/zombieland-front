@@ -9,9 +9,9 @@ services:
     ports:
       - ${CLIENT_LOCAL_PORT:-8081}:80
     restart: unless-stopped
-    depends_on:
-      zombieland-api:
-        condition: service_healthy
+    # depends_on:
+    #   zombieland-api:
+    #     condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost/index.html"]
       interval: 10s
