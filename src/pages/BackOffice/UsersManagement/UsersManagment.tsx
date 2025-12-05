@@ -143,7 +143,7 @@ export default function UsersManagement() {
   }
 
   return (
-    <div className="max-w-full mx-auto p-6 overflow-x-auto">
+    <div className="mx-auto p-6 overflow-x-auto w-full lg:w-4xl xl:w-5xl">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
           Users Management

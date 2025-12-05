@@ -3,7 +3,7 @@ import type { IActivity } from "@/@types";
 import { axiosInstance } from "@/api/axiosInstance";
 import debug from "debug";
 
-const logger = new debug("app:redux");
+const logger = debug("app:redux");
 
 // import type { AxiosError } from "axios";
 
