@@ -71,12 +71,12 @@ export default function Carousel() {
 
   return (
     <div ref={carouselRef} className="relative hs-carousel">
-      <div className="hs-carousel w-full overflow-hidden bg-blue-carousel rounded-lg dark:bg-neutral-900 px-8 shadow-[0px_15px_7px_-8px_rgba(0,_0,_0,_0.1)]">
+      <div className="hs-carousel w-full overflow-hidden bg-blue-carousel rounded-lg px-8 shadow-[0px_15px_7px_-8px_rgba(0,_0,_0,_0.1)]">
         <div className="relative min-h-110 -mx-1">
           <div className="hs-carousel-body absolute top-0 bottom-0 start-0 flex flex-nowrap opacity-0 transition-transform duration-700">
             {activities.map((activity) => (
               <div key={activity.id} className="hs-carousel-slide px-1">
-                <div className="flex justify-center h-full bg-blue-carousel p-6 dark:bg-black-bg-carousel">
+                <div className="flex justify-center h-full bg-blue-carousel p-6 ">
                   <HomeCard
                     key={activity.id}
                     name={activity.name}
@@ -96,9 +96,9 @@ export default function Carousel() {
 
       <button
         type="button"
-        className="hs-carousel-prev cursor-pointer hs-carousel-disabled:opacity-50 hs-carousel-disabled:pointer-events-none absolute inset-y-0 start-0 inline-flex justify-center items-center w-11.5 h-full text-gray-800 bg-blue-carousel focus:outline-hidden rounded-s-lg dark:text-white"
+        className="hs-carousel-prev cursor-pointer hs-carousel-disabled:opacity-50 hs-carousel-disabled:pointer-events-none absolute inset-y-0 start-0 inline-flex justify-center items-center w-11.5 h-full text-gray-800 bg-blue-carousel focus:outline-hidden rounded-s-lg dark:text-grey-text-footer"
       >
-        <span className="text-2xl" aria-hidden="true">
+        <span className="text-2xl " aria-hidden="true">
           <svg
             className="shrink-0 size-10"
             xmlns="http://www.w3.org/2000/svg"
@@ -118,7 +118,7 @@ export default function Carousel() {
       </button>
       <button
         type="button"
-        className="hs-carousel-next cursor-pointer hs-carousel-disabled:opacity-50 hs-carousel-disabled:pointer-events-none absolute inset-y-0 end-0 inline-flex justify-center items-center w-11.5 h-full text-gray-800 bg-blue-carousel focus:outline-hidden rounded-s-lg dark:text-white"
+        className="hs-carousel-next cursor-pointer hs-carousel-disabled:opacity-50 hs-carousel-disabled:pointer-events-none absolute inset-y-0 end-0 inline-flex justify-center items-center w-11.5 h-full text-gray-800 bg-blue-carousel focus:outline-hidden rounded-s-lg dark:text-grey-text-footer"
       >
         <span className="sr-only">Next</span>
         <span className="text-2xl" aria-hidden="true">
