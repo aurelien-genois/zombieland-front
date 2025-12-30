@@ -10,6 +10,11 @@ The **ZombieLand** application modernizes amusement park management by offering 
 It provides an attractive presentation of the park to appeal to young audiences and families while strengthening its national reputation.
 Finally, it centralizes ticketing and simplifies online booking, reducing the staff’s workload.
 
+## TODO
+
+- ajouter les validations aux formulaires
+- finaliser évaluation (affichage commentaire, éditer une évaluation)
+
 ## ⚙️ Technologies
 
 - Vite v7.1.2
